@@ -10,6 +10,7 @@ import { fetchAllPosts } from "../../Redux Toolkit/slice/PostSlice";
 import { RootState, AppDispatch } from "../../Redux Toolkit/Store";
 import { deletePostData } from "../../services/PostServices";
 import { searchPostData } from "../../services/SearchDataService";
+import conf from "../../config/Conf";
 
 interface Post {
   _id: string;
@@ -89,7 +90,7 @@ const AllPostDataTable = () => {
         <img
           src={
             row.image
-              ? `http://localhost:5000/uploads/${row.image}`
+              ? `${conf.BaseURL}${conf.ImageUploadUrl}/${row.image}`
               : "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-image-182145777.jpg"
           }
           alt={row.name}

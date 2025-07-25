@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../Redux Toolkit/Store";
 import { fetchAllPosts } from "../Redux Toolkit/slice/PostSlice";
 import { Link } from "react-router-dom";
+import conf from "../config/Conf";
 
 const CategoryResults = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -43,7 +44,7 @@ const CategoryResults = () => {
                         transition-transform duration-300 ease-in-out hover:scale-110 rounded"
                     src={
                       post.image
-                        ? `http://localhost:5000/uploads/${post.image}`
+                        ? `${conf.BaseURL}${conf.ImageUploadUrl}/${post.image}`
                         : ""
                     }
                     alt={post.title}

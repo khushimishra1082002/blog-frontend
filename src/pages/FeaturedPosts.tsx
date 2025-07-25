@@ -1,6 +1,8 @@
 import React, { useState,useEffect } from "react";
 import axios from "axios"
 import { Link } from "react-router-dom";
+import conf from "../config/Conf";
+import { getFeaturedPostData } from "../services/PostServices";
 
 const FeaturedPosts = () => {
   const [featuredPost,setFeaturedPost] = useState<any>([])
@@ -8,11 +10,10 @@ const FeaturedPosts = () => {
 
    useEffect(() => {
       const fetchPopularPosts = async () => {
-        try {
-          const { data } = await axios.get("http://localhost:5000/api/blog-posts/fetaturedPosts");
-          console.log(data);
+        try { 
+          const res = await getFeaturedPostData()
           
-          setFeaturedPost(data);
+          setFeaturedPost(res);
         } catch (error) {
           console.log("Error fetching featured posts:", error);
         }
@@ -37,7 +38,7 @@ const FeaturedPosts = () => {
                         transition-transform duration-300 ease-in-out mix-blend-overlay"
                       src={
                         featuredPost[0]?.image
-                          ? `http://localhost:5000/uploads/${featuredPost[0].image}`
+                          ? `${conf.BaseURL}${conf.ImageUploadUrl}/${featuredPost[0].image}`
                           : ""
                       }
                      
@@ -61,7 +62,7 @@ const FeaturedPosts = () => {
                         transition-transform duration-300 ease-in-out mix-blend-overlay"
                       src={
                         post?.image
-                          ? `http://localhost:5000/uploads/${post.image}`
+                          ? `${conf.BaseURL}${conf.ImageUploadUrl}/${post.image}`
                           : ""
                       }
                      

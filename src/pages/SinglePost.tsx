@@ -41,7 +41,7 @@ const SinglePost = () => {
                         transition-transform duration-300 ease-in-out hover:scale-110 rounded"
             src={
               singlePosts?.image
-                ? `http://localhost:5000/uploads/${singlePosts.image}`
+                ? `${conf.BaseURL}${conf.ImageUploadUrl}/${singlePosts.image}`
                 : ""
             }
             alt={singlePosts?.title}
@@ -70,7 +70,7 @@ const SinglePost = () => {
                         transition-transform duration-300 ease-in-out hover:scale-110 rounded"
                          src={
                           singlePosts?.author.image
-                            ? `http://localhost:5000/uploads/${singlePosts?.author.image}`
+                            ? `${conf.BaseURL}${conf.ImageUploadUrl}/${singlePosts?.author.image}`
                             : ""
                         }
                         alt={singlePosts?.author.title}

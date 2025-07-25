@@ -2,6 +2,7 @@ import React from "react";
 import { LuFileSpreadsheet } from "react-icons/lu";
 import { FaThumbsUp, FaThumbsDown } from "react-icons/fa6";
 import { LuMessageCircleMore } from "react-icons/lu";
+import conf from "../config/Conf";
 
 const PostCardThree = ({ post }) => {
   return (
@@ -15,7 +16,7 @@ const PostCardThree = ({ post }) => {
             className="w-full h-full shadow-lg object-cover
                         transition-transform duration-300 ease-in-out hover:scale-110 rounded"
             src={
-              post.image ? `http://localhost:5000/uploads/${post.image}` : ""
+              post.image ? `${conf.BaseURL}${conf.ImageUploadUrl}/${post.image}` : ""
             }
             alt={post.title}
           />

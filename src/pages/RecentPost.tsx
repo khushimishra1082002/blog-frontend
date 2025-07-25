@@ -3,6 +3,7 @@ import PostCardTwo from "../components/PostCardTwo";
 import PostCardThree from "../components/PostCardThree";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { getRecentPostData } from "../services/PostServices";
 
 const RecentPost = () => {
   const [recentPosts, setRecentPosts] = useState<any>([]);
@@ -11,11 +12,8 @@ const RecentPost = () => {
   useEffect(() => {
     const fetchRecentPosts = async () => {
       try {
-        const { data } = await axios.get(
-          "http://localhost:5000/api/blog-posts/recentPost"
-        );
-        console.log(data);
-        setRecentPosts(data);
+       const res = await getRecentPostData()
+        setRecentPosts(res);
       } catch (error) {
         console.log("Error fetching popular posts:", error);
       }

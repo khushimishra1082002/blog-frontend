@@ -5,6 +5,8 @@ import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Link } from "react-router-dom";
+import conf from "../config/Conf";
+import { getTopPostData } from "../services/PostServices";
 
 const TopPosts = () => {
   const [topPost, setTopPost] = useState<any>([]);
@@ -12,10 +14,8 @@ const TopPosts = () => {
   useEffect(() => {
     const fetchTopPosts = async () => {
       try {
-        const { data } = await axios.get(
-          "http://localhost:5000/api/blog-posts/topPosts"
-        );
-        setTopPost(data);
+       const res  = await getTopPostData()
+        setTopPost(res);
       } catch (error) {
         console.log("Error fetching top posts:", error);
       }
@@ -58,7 +58,7 @@ const TopPosts = () => {
                             className=" w-full h-full rounded-full"
                             src={
                               item.author.image
-                                ? `http://localhost:5000/uploads/${item.author.image}`
+                                ? `${conf.BaseURL}${conf.ImageUploadUrl}/${item.author.image}`
                                 : ""
                             }
                           />
@@ -81,7 +81,7 @@ const TopPosts = () => {
                    transition-transform  ease-in-out "
                     src={
                       item?.image
-                        ? `http://localhost:5000/uploads/${item.image}`
+                        ? `${conf.BaseURL}${conf.ImageUploadUrl}/${item.image}`
                         : ""
                     }
                   />

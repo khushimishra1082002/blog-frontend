@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import PostCardFive from "../components/PostCardFive";
 import { Link } from "react-router-dom";
+import { getRecommendedPostData } from "../services/PostServices";
 
 const RecommendedPost = () => {
   const [recommendedPost, setRecommendedPost] = useState<any>([]);
@@ -9,10 +10,8 @@ const RecommendedPost = () => {
   useEffect(() => {
     const fetchRecommendedPosts = async () => {
       try {
-        const { data } = await axios.get(
-          "http://localhost:5000/api/blog-posts/recommendedPost"
-        );
-        setRecommendedPost(data);
+        const res  = await getRecommendedPostData()
+        setRecommendedPost(res);
       } catch (error) {
         console.log("Error fetching recommended posts:", error);
       }

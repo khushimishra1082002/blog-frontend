@@ -1,4 +1,5 @@
 import React from "react";
+import conf from "../config/Conf";
 
 const PostCardTwo = ({ post }) => {
   return (
@@ -10,7 +11,7 @@ const PostCardTwo = ({ post }) => {
               className="w-full h-full shadow-lg object-cover
                         transition-transform duration-300 ease-in-out hover:scale-110 rounded"
               src={
-                post.image ? `http://localhost:5000/uploads/${post.image}` : ""
+                post.image ? `${conf.BaseURL}${conf.ImageUploadUrl}/${post.image}` : ""
               }
               alt={post.title}
             />

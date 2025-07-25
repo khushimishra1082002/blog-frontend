@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 import Searchbar from "./Searchbar";
 import axios from "axios";
 import SocialIcon from "./SocialIcon";
+import conf from "../config/Conf";
 
 interface Post {
   _id: string;
@@ -26,7 +27,7 @@ interface Post {
 const Header = () => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userImage, setUserImage] = useState("default-avatar.png");
+  const [userImage, setUserImage] = useState("https://cdn-icons-png.flaticon.com/256/12225/12225935.png");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -45,7 +46,7 @@ const Header = () => {
 
     if (token && user) {
       setIsLoggedIn(true);
-      setUserImage(user.image || "default-avatar.png");
+      setUserImage(user.image || "https://cdn-icons-png.flaticon.com/256/12225/12225935.png");
     }
   }, []);
 
@@ -198,8 +199,8 @@ const Header = () => {
                     className="w-10 h-10 rounded-full"
                     src={
                       userImage
-                        ? `http://localhost:5000/uploads/${userImage}`
-                        : ""
+                        ? `${conf.BaseURL}${conf.ImageUploadUrl}/${userImage}`
+                        : "https://cdn-icons-png.flaticon.com/256/12225/12225935.png"
                     }
                     alt="User"
                   />

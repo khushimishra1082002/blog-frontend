@@ -1,6 +1,7 @@
 import React from "react";
 import { FaThumbsUp } from "react-icons/fa6";
 import { LuMessageCircleMore } from "react-icons/lu";
+import conf from "../config/Conf";
 
 const PostCardFive = ({ post }) => {
   return (
@@ -9,7 +10,7 @@ const PostCardFive = ({ post }) => {
         <img
           className="w-full h-full shadow-lg object-cover
                         transition-transform duration-300 ease-in-out hover:scale-110 rounded"
-          src={post.image ? `http://localhost:5000/uploads/${post.image}` : ""}
+          src={post.image ? `${conf.BaseURL}${conf.ImageUploadUrl}/${post.image}` : ""}
           alt={post.title}
         />
       </div>

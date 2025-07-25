@@ -9,6 +9,8 @@ import { FaThumbsUp, FaThumbsDown } from "react-icons/fa6";
 import { LuMessageCircleMore } from "react-icons/lu";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { getPopularPostData } from "../services/PostServices";
+import conf from "../config/Conf";
 
 const PopularPost = () => {
   const [popularPosts, setPopularPosts] = useState<any>([]);
@@ -18,12 +20,10 @@ const PopularPost = () => {
   useEffect(() => {
     const fetchPopularPosts = async () => {
       try {
-        const { data } = await axios.get(
-          "http://localhost:5000/api/blog-posts/popular-posts"
-        );
-        console.log(data);
+        const res = await getPopularPostData()
+        console.log(res);
 
-        setPopularPosts(data);
+        setPopularPosts(res);
       } catch (error) {
         console.log("Error fetching popular posts:", error);
       }
@@ -84,7 +84,7 @@ const PopularPost = () => {
                          transition-transform duration-300 ease-in-out rounded shadow"
                         src={
                           post?.image
-                            ? `http://localhost:5000/uploads/${post.image}`
+                            ? `${conf.BaseURL}${conf.ImageUploadUrl}/${post.image}`
                             : ""
                         }
                         alt={post?.title}

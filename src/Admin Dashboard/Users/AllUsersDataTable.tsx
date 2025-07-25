@@ -11,7 +11,7 @@ import { fetchAllUsers } from "../../Redux Toolkit/slice/UserSlice";
 import axios from "axios";
 import { deleteUserData } from "../../services/UserServices";
 import { searchUserData } from "../../services/SearchDataService";
-
+import conf from "../../config/Conf";
 
 interface User {
   _id: string;
@@ -81,7 +81,7 @@ const AllUsersDataTable = () => {
         <img
         src={
           row.image
-            ? `http://localhost:5000/uploads/${row.image}`
+            ? `${conf.BaseURL}${conf.ImageUploadUrl}${row.image}`
             : "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-image-182145777.jpg"
         }
         alt={row.name}

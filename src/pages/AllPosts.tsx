@@ -80,7 +80,7 @@ const AllPosts = () => {
                         transition-transform duration-300 ease-in-out hover:scale-110 rounded"
                         src={
                           post.image
-                            ? `${conf.ImageUploadUrl}/${post.image}`
+                            ? `${conf.BaseURL}${conf.ImageUploadUrl}/${post.image}`
                             : ""
                         }
                         alt={post.title}

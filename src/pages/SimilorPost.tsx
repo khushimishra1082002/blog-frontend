@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import PostCardFive from "../components/PostCardFive";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { getSimilorPostData } from "../services/PostServices";
 
 const SimilorPost = ({ id }) => {
   const [similorPosts, setSimilorPosts] = useState<any>([]);
@@ -11,12 +12,8 @@ const SimilorPost = ({ id }) => {
   useEffect(() => {
     const fetchSimilorsPosts = async () => {
       try {
-        const { data } = await axios.get(
-          `http://localhost:5000/api/blog-posts/similorPost/${id}`
-        );
-        console.log(data);
-
-        setSimilorPosts(data);
+       const res = await getSimilorPostData(id)
+        setSimilorPosts(res);
       } catch (error) {
         console.log("Error fetching popular posts:", error);
       }

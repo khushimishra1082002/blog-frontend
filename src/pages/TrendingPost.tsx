@@ -7,6 +7,8 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import conf from "../config/Conf";
+import { getTreandingPostData } from "../services/PostServices";
 
 const TrendingPost = () => {
   const [trendingPosts, setTrendingPosts] = useState<any>([]);
@@ -14,8 +16,8 @@ const TrendingPost = () => {
   useEffect(() => {
     const fetchTrendingPosts = async () => {
       try {
-        const { data } = await axios.get("http://localhost:5000/api/blog-posts/trendingPost");
-        setTrendingPosts(data);
+        const res = await getTreandingPostData()
+        setTrendingPosts(res);
       } catch (error) {
         console.log("Error fetching trending posts:", error);
       }
@@ -57,7 +59,7 @@ const TrendingPost = () => {
                         transition-transform duration-300 ease-in-out hover:scale-110 rounded"
                          src={
                           post.image
-                            ? `http://localhost:5000/uploads/${post.image}`
+                            ? `${conf.BaseURL}${conf.ImageUploadUrl}/${post.image}`
                             : ""
                         }
                         alt={post.title}
