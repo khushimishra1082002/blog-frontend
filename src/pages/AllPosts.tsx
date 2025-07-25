@@ -5,6 +5,7 @@ import { fetchAllPosts } from "../Redux Toolkit/slice/PostSlice";
 import { Link } from "react-router-dom";
 import LikeDislikeComment from "./LikeDislikeComment";
 import { getDecodedToken } from "../utils/tokenUtils";
+import conf from "../config/Conf";
 
 const AllPosts = () => {
   
@@ -79,7 +80,7 @@ const AllPosts = () => {
                         transition-transform duration-300 ease-in-out hover:scale-110 rounded"
                         src={
                           post.image
-                            ? `http://localhost:5000/uploads/${post.image}`
+                            ? `${conf.ImageUploadUrl}/${post.image}`
                             : ""
                         }
                         alt={post.title}

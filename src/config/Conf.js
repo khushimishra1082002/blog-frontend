@@ -21,7 +21,8 @@ const conf = {
   SearchCategoryUrl:"/search/searchCategory",
   SearchUserUrl:"/search/searchUser",
   ChangePasswordUrl:"/users/changePassword",
-  SubsribeUrl:"/subscribe/subscribeEmail"
+  SubsribeUrl:"/subscribe/subscribeEmail",
+  ImageUploadUrl:"/uploads"
 };
 
 export default conf;
