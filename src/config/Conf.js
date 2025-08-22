@@ -29,7 +29,13 @@ const conf = {
   getrecommendedPostUrl:"/blog-posts/recommendedPost",
   gettrendingPostUrl:"/blog-posts/trendingPost",
   recentPostUrl:"blog-posts/recentPost",
-  getsimilorPost:"/blog-posts/similorPost"
+  getsimilorPost:"/blog-posts/similorPost",
+  addCommentUrl:"/comments/addComment",
+  getCommentByPostUrl:"/comments/getCommentByPost",
+  unlikePostUrl:"/likes/unlikePost",
+  likePostUrl:"/likes/likePost",
+  disLikePostUrl:"/dislikes/disLikePost",
+  unDislikePostUrl:"/dislikes/unDislikePost"
 };
 
 export default conf;

@@ -29,7 +29,11 @@ const Contact: React.FC<valueProps> = ({ setIsLoggedIn }) => {
   const onSubmit = async (
     values: values,
     onSubmitProps: FormikHelpers<values>
-  ) => {};
+  ) => {
+    console.log(values);
+    alert("Details fill successfully")
+    navigate("/")
+  };
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Name is required"),

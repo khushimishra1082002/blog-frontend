@@ -7,8 +7,17 @@ import {
 } from "react-icons/ai";
 import { LuMessageCircleMore } from "react-icons/lu";
 import axios from "axios";
+import { likePostData, unlikePostData } from "../services/LikeUnlikePostService";
+import { disLikePost } from "../../../Backend/controllers/dislikeController";
+import { dislikePostData, undislikePostData } from "../services/dislikeUndislikeService";
 
-const LikeDislikeComment = ({ postId, likes, dislikes, currentUserId,comments }) => {
+const LikeDislikeComment = ({
+  postId,
+  likes,
+  dislikes,
+  currentUserId,
+  comments,
+}) => {
   console.log("postId", postId);
   console.log("likes", likes);
   console.log("currentUserId", currentUserId);
@@ -34,25 +43,23 @@ const LikeDislikeComment = ({ postId, likes, dislikes, currentUserId,comments })
       setLikeStatus(null);
     }
   }, [likes, dislikes, currentUserId]);
-  
 
   const handleLike = async () => {
     try {
       if (likeStatus === "like") {
-        await axios.delete(
-          `http://localhost:5000/api/likes/unlikePost/${postId}`,
-          {
-            data: { author: currentUserId },
-          }
-        );
+        await unlikePostData(postId, {
+          author: currentUserId,
+        });
+
         setLikeStatus(null);
         setTotalLikes((prev) => prev - 1);
         alert("Post unlike succefull");
       } else {
-        await axios.post(`http://localhost:5000/api/likes/likePost`, {
-          post: postId,
+        const data = {
+           post: postId,
           author: currentUserId,
-        });
+        }
+        await likePostData(data)
         setLikeStatus("like");
         setTotalLikes((prev) => prev + 1);
         alert("Post like succefull");
@@ -65,32 +72,28 @@ const LikeDislikeComment = ({ postId, likes, dislikes, currentUserId,comments })
   const handleDislike = async () => {
     try {
       if (likeStatus === "dislike") {
-        await axios.delete(
-          `http://localhost:5000/api/dislikes/unDislikePost/${postId}`,
-          {
-            data: { author: currentUserId },
-          }
-        );
+         await undislikePostData(postId, {
+          author: currentUserId,
+        });
+
         setLikeStatus(null);
         setTotalDislikes((prev) => prev - 1);
         alert("Post undislike successful");
       } else {
         // if already liked, remove like first
         if (likeStatus === "like") {
-          await axios.delete(
-            `http://localhost:5000/api/likes/unlikePost/${postId}`,
-            {
-              data: { author: currentUserId },
-            }
-          );
-          setTotalLikes((prev) => prev - 1);
-        }
-  
-        await axios.post(`http://localhost:5000/api/dislikes/disLikePost`, {
-          post: postId,
+         await unlikePostData(postId, {
           author: currentUserId,
         });
-  
+          setTotalLikes((prev) => prev - 1);
+        }
+
+        const data = {
+           post: postId,
+          author: currentUserId,
+        }
+        await dislikePostData(data)
+
         setLikeStatus("dislike");
         setTotalDislikes((prev) => prev + 1);
         alert("Post dislike successful");
@@ -99,7 +102,6 @@ const LikeDislikeComment = ({ postId, likes, dislikes, currentUserId,comments })
       console.log(error.response.data.message);
     }
   };
-  
 
   return (
     <>
@@ -111,12 +113,12 @@ const LikeDislikeComment = ({ postId, likes, dislikes, currentUserId,comments })
             likeStatus === "like" ? "text-red-500" : "text-gray-500"
           }`}
         >
-         <div className="flex gap-1 items-center">
-         <span>
-            {likeStatus === "like" ? <AiFillLike /> : <AiOutlineLike />}
-          </span>
-          <span>{totalLikes}</span>
-         </div>
+          <div className="flex gap-1 items-center">
+            <span className="cursor-pointer">
+              {likeStatus === "like" ? <AiFillLike /> : <AiOutlineLike />}
+            </span>
+            <span>{totalLikes}</span>
+          </div>
         </div>
 
         {/* Dislike */}
@@ -126,10 +128,14 @@ const LikeDislikeComment = ({ postId, likes, dislikes, currentUserId,comments })
             likeStatus === "dislike" ? "text-blue-500" : "text-gray-500"
           }`}
         >
-        <div className="flex items-center gap-1">
-        {likeStatus === "dislike" ? <AiFillDislike /> : <AiOutlineDislike />}
-        <span>{totalDislikes}</span>
-        </div>
+          <div className="flex items-center gap-1">
+            {likeStatus === "dislike" ? (
+              <AiFillDislike />
+            ) : (
+              <AiOutlineDislike />
+            )}
+            <span>{totalDislikes}</span>
+          </div>
         </div>
 
         {/* Comment */}

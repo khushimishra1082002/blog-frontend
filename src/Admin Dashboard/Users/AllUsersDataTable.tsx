@@ -81,11 +81,11 @@ const AllUsersDataTable = () => {
         <img
         src={
           row.image
-            ? `${conf.BaseURL}${conf.ImageUploadUrl}${row.image}`
-            : "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-image-182145777.jpg"
+            ? `${conf.BaseURL}${conf.ImageUploadUrl}/${row.image}`
+            : ""
         }
         alt={row.name}
-        className="w-10 h-10 object-cover rounded-md"
+        className="w-8 object-cover rounded-md"
       />
       
       ),

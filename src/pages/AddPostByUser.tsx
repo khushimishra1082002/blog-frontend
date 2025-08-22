@@ -14,9 +14,12 @@ import ErrorMessages from "./ErrorMessages";
 import { AiOutlineEdit } from "react-icons/ai";
 import { AppDispatch } from "../Redux Toolkit/Store";
 import { fetchAllPosts } from "../Redux Toolkit/slice/PostSlice";
-import { useDispatch } from "react-redux";
 import { addNewPostData } from "../services/PostServices";
 import { getDecodedToken } from "../utils/tokenUtils";
+import { RootState } from "../Redux Toolkit/Store";
+import { UseSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllCategory } from "../Redux Toolkit/slice/CategorySlice";
 
 interface PostValues {
   title: string;
@@ -33,19 +36,14 @@ interface PostValues {
 const AddPostByUser: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const [allCategory, setAllCategory] = useState<any>([]);
+  const { category, loading, error } = useSelector(
+    (state: RootState) => state.categoryData
+  );
+  console.log(category);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/category/allCategory")
-      .then((res) => {
-        console.log(res);
-        setAllCategory(res.data); 
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    dispatch(fetchAllCategory());
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(fetchAllPosts());
@@ -193,7 +191,7 @@ const AddPostByUser: React.FC = () => {
                     Select Category
                   </option>
 
-                  {allCategory.map((category: any) => (
+                  {category.map((category: any) => (
                     <option key={category._id} value={category._id}>
                       {" "}
                       {/* Send _id here */}

@@ -3,6 +3,7 @@ import { FaCamera } from "react-icons/fa";
 import EditProfile from "./EditProfile";
 import ChangePassword from "./ChangePassword";
 import { Link } from "react-router-dom";
+import conf from "../../config/Conf";
 
 const ProfileDetails = () => {
   const storedUser = localStorage.getItem("user");
@@ -22,7 +23,7 @@ const ProfileDetails = () => {
             <img
               className="w-full h-full object-cover"
               src={
-                user.image ? `http://localhost:5000/uploads/${user.image}` : ""
+                user.image ? `${conf.BaseURL}${conf.ImageUploadUrl}/${user.image}` : ""
               }
             />
           </div>

@@ -9,6 +9,7 @@ import { jwtDecode } from "jwt-decode";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { FaTrash } from "react-icons/fa6";
+import conf from "../config/Conf";
 
 interface DecodedTokenType {
   id: string;
@@ -111,11 +112,11 @@ const Profile = () => {
           src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D"
           alt="Profile background"
         />
-        <div className="w-16 h-16 rounded-full absolute -bottom-7 left-14">
+        <div className="w-20 h-20 rounded-full absolute -bottom-7 left-14">
           <img
             className="w-full h-full rounded-full"
             src={
-              user?.image ? `http://localhost:5000/uploads/${user.image}` : ""
+              user?.image ? `${conf.BaseURL}${conf.ImageUploadUrl}/${user.image}` : ""
             }
             alt={user?.name}
           />
@@ -205,16 +206,22 @@ const Profile = () => {
                     <img
                       className="w-full h-full shadow-lg object-cover
                        transition-transform duration-300 ease-in-out rounded"
-                      src={`http://localhost:5000/uploads/${post.image}`}
+                      src={`${conf.BaseURL}${conf.ImageUploadUrl}/${post.image}`}
                       alt={post.title}
                     />
+                    
                   </div>
+                <div>
+                    <p>{post.title}</p>
+                  <p className="text-xs line-clamp-2 font-Poppins font-light">{post.content}</p>
+                  </div>
+
                   <div className="grid grid-cols-2 justify-between">
                     <div className="flex gap-2 items-center">
                       <div className="w-6 h-6 rounded-full">
                         <img
                           className="w-full h-full rounded-full"
-                          src={`http://localhost:5000/uploads/${post.author.image}`}
+                          src={`${conf.BaseURL}${conf.ImageUploadUrl}/${post.author.image}`}
                           alt={post.author.name}
                         />
                       </div>

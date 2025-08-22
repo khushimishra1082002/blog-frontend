@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { FaRegThumbsUp, FaRegThumbsDown, FaReplyAll } from "react-icons/fa6";
-
+import { addCommentData, getCommentByPostData } from "../services/CommentService";
+import conf from "../config/Conf";
 const Comment = ({ postId, singlePosts }) => {
   const [comment, setComment] = useState("");
   const [allComment, setAllComments] = useState<any>(null);
@@ -29,9 +30,9 @@ const Comment = ({ postId, singlePosts }) => {
 
   const fetchAllComment = async () => {
     try {
-      const { data } = await axios.get(
-        `http://localhost:5000/api/comments/getCommentByPost/${postId}`
-      );
+      const data = await getCommentByPostData(postId)
+      console.log("data",data);
+      
       setAllComments(data);
     } catch (error) {
       console.log("Error fetching comments:", error);
@@ -45,20 +46,14 @@ const Comment = ({ postId, singlePosts }) => {
   const handleAddComment = async (e) => {
     e.preventDefault();
 
+    const data = {
+      content: comment,
+      post: postId,
+      user: userId,
+    };
+
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/comments/addComment",
-        {
-          content: comment,
-          post: postId,
-          user: userId,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await addCommentData(data);
 
       console.log("response", response);
 
@@ -77,30 +72,41 @@ const Comment = ({ postId, singlePosts }) => {
     <div className="bg-white p-6 space-y-4">
       <h1 className="text-xl font-semibold font-Roboto">Comments</h1>
 
-      {/* Add Comment Form */}
-      <div className="bg-white rounded-md border border-black/15 space-y-8 p-5">
-        <div className="h-auto bg-gray-100 shadow rounded-xl p-4">
-          <h3 className="text-base font-medium mb-3 font-Inter">Add Comment</h3>
-          <form onSubmit={handleAddComment} className="flex flex-col gap-4">
-            <textarea
-              placeholder="Write your comment..."
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              className="border-none px-3 py-2 rounded-md focus:outline-none font-Inter text-sm shadow"
-              required
-            ></textarea>
+     {/* Add Comment Form */}
+<div className="bg-white rounded-md border border-black/15 space-y-8 p-5">
+  {token ? (
+    <div className="h-auto bg-gray-100 shadow rounded-xl p-4">
+      <h3 className="text-base font-medium mb-3 font-Inter">Add Comment</h3>
+      <form onSubmit={handleAddComment} className="flex flex-col gap-4">
+        <textarea
+          placeholder="Write your comment..."
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          className="border-none px-3 py-2 rounded-md focus:outline-none font-Inter text-sm shadow"
+          required
+        ></textarea>
 
-            <div className="flex justify-end">
-              <button
-                type="submit"
-                className="bg-orange-500 text-white font-Inter hover:scale-105 duration-500 text-sm px-4 py-2 rounded-md font-medium"
-              >
-                Submit
-              </button>
-            </div>
-          </form>
+        <div className="flex justify-end">
+          <button
+            type="submit"
+            className="bg-orange-500 text-white font-Inter hover:scale-105 duration-500 text-sm px-4 py-2 rounded-md font-medium"
+          >
+            Submit
+          </button>
         </div>
-      </div>
+      </form>
+    </div>
+  ) : (
+    <p className="text-gray-600 text-sm font-Inter">
+      Please{" "}
+      <a href="/login" className="text-orange-500 underline">
+        login
+      </a>{" "}
+      to add a comment.
+    </p>
+  )}
+</div>
+
 
       {/* All Comments Section */}
       <div className="space-y-5">
@@ -112,12 +118,13 @@ const Comment = ({ postId, singlePosts }) => {
                 <div>
                   {comment?.user?.image ? (
                     <img
-                      className=" w-12 h-12 rounded-full"
-                      src={`http://localhost:5000/uploads/${comment.user.image}`}
+                      className=" w-10 h-10 rounded-full"
+                      src={`${conf.BaseURL}${conf.ImageUploadUrl}/${comment.user.image}`}
                       alt={comment?.user?.name}
                     />
                   ) : (
-                    <span>Image not available</span>
+                    <img className="w-10"
+                     src="https://cdn-icons-png.flaticon.com/512/8792/8792047.png"/>
                   )}
                 </div>
                 <div className="flex flex-col gap-[2px]">

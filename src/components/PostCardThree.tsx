@@ -23,7 +23,7 @@ const PostCardThree = ({ post }) => {
         </div>
         <div className=" flex flex-col gap-3">
           <span className=" text-cyan-500 font-semibold text-[12px] font-Inter tracking-wider">
-            {post.category.name}
+            {post.category?.name}
           </span>
           <h3 className=" text-base font-RobotoFlex hover:underline">
             {post.title}

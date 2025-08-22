@@ -37,7 +37,7 @@ const PostCardFive = ({ post }) => {
                          className=" w-full h-full rounded-full"
                          src={
                            post.author.image
-                             ? `http://localhost:5000/uploads/${post.author.image}`
+                             ? `${conf.BaseURL}${conf.ImageUploadUrl}/${post.author.image}`
                              : ""
                          }
                        />

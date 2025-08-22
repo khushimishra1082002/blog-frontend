@@ -11,6 +11,7 @@ import { RootState, AppDispatch } from "../../Redux Toolkit/Store";
 import { editPostData, getSinglePostData } from "../../services/PostServices";
 import { getDecodedToken } from "../../utils/tokenUtils";
 import { fetchAllCategory } from "../../Redux Toolkit/slice/CategorySlice";
+import conf from "../../config/Conf";
 
 interface EditPostFormValues {
   title: string;
@@ -32,7 +33,7 @@ const EditPost: React.FC = () => {
   const { category, loading, error } = useSelector(
     (state: RootState) => state.categoryData
   );
-  console.log(category);
+  console.log("category",category);
 
   useEffect(() => {
     dispatch(fetchAllCategory());
@@ -143,7 +144,7 @@ const EditPost: React.FC = () => {
                 />
                 {singlePosts.image && typeof singlePosts.image === "string" && (
                   <img
-                    src={`http://localhost:5000/uploads/${singlePosts.image}`}
+                    src={`${conf.BaseURL}/${conf.ImageUploadUrl}/${singlePosts.image}`}
                     alt="Preview"
                     className="w-20 h-20 object-cover mt-2 rounded"
                   />
