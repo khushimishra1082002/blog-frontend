@@ -4,7 +4,7 @@ const Articles = () => {
   return (
     <>
       <div className=' space-y-4'>
-      <h2 className='font-Roboto text-xl font-medium'>Recent Articles</h2>
+      <h2 className='font-Roboto text-xl font-lg'>Recent Articles</h2>
       <div className='grid grid-cols-1 gap-4'>
        <div className=' grid grid-cols-3 gap-4'>
         <img className='w-full h-40 object-cover rounded-sm shadow-lg'
