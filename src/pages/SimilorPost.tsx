@@ -23,19 +23,20 @@ const SimilorPost = ({ id }) => {
   }, []);
 
   return (
-    <>
-      <div className="p-5 bg-gray-50 space-y-3">
-        <h1 className="text-xl font-semibold font-Roboto">Similor Posts</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-          
-          {similorPosts.map((post, index) => (
-            <PostCardFive key={index} post={post} />
-          ))}
-          </div>
-        
+  <div className="p-5 bg-gray-50 space-y-3">
+    <h1 className="text-xl font-semibold font-Roboto">Similar Posts</h1>
+    {similorPosts.length > 0 ? (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+        {similorPosts.map((post, index) => (
+          <PostCardFive key={index} post={post} />
+        ))}
       </div>
-    </>
-  );
+    ) : (
+      <p className="text-gray-500">No similar posts found.</p>
+    )}
+  </div>
+);
+
 };
 
 export default SimilorPost;

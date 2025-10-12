@@ -50,6 +50,8 @@ const App = () => {
           <Route path="LoggedInPage" element={<LoggedInPage />} />
           <Route path="profilePage" element={<Profile />} />
           <Route path="singleBlogPage/:id" element={<SinglePost />} />
+          <Route path="singleBlogPage/:id" element={<SinglePost />} />
+          <Route path="allPosts/singleBlogPage/:id" element={<SinglePost />} />
           <Route path="CategoryResults" element={<CategoryResults />} />
           <Route path="addPost" element={<AddPostByUser />} />
           <Route path="searchResults" element={<SearchResults />} />
@@ -60,9 +62,9 @@ const App = () => {
         <Route
           path="dashboard"
           element={
-            <ProtectedRoute isAllowed={role === "admin"}>
+            // <ProtectedRoute isAllowed={role === "admin"}>
               <Dashboard />
-            </ProtectedRoute>
+            // </ProtectedRoute>
           }
         >
           <Route path="dashboardHeader" element={<DashboardHeader />} />

@@ -51,8 +51,9 @@ const Register: React.FC<RegisterProps> = ({ setIsLoggedIn }) => {
 
       if (response.success) {
         alert("Registered Successfully");
-        setIsLoggedIn(true);
+        setIsLoggedIn(false);
         onSubmitProps.resetForm();
+        navigate("/LoggedInPage?type=login");
       } else {
         alert(response.message);
       }

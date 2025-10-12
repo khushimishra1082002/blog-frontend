@@ -51,7 +51,7 @@ const AllPosts = () => {
               );
 
               return (
-                <div>
+                <Link to={`singleBlogPage/${post._id}`}>
                   <div
                     key={post._id}
                     className="shadow-lg bg-white rounded-md flex flex-col gap-4 p-5
@@ -114,7 +114,7 @@ const AllPosts = () => {
                       />
                     </div>
                   </div>
-                </div>
+                </Link>
               );
             })
           ) : (
