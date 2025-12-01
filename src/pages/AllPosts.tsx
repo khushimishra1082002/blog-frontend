@@ -51,7 +51,7 @@ const AllPosts = () => {
               );
 
               return (
-                <Link to={`singleBlogPage/${post._id}`}>
+                <div>
                   <div
                     key={post._id}
                     className="shadow-lg bg-white rounded-md flex flex-col gap-4 p-5
@@ -93,9 +93,9 @@ const AllPosts = () => {
                           <img
                             className=" w-full h-full rounded-full"
                             src={
-                              post.author.image
+                              post?.author?.image
                                 ? `${conf.BaseURL}${conf.ImageUploadUrl}/${post.author.image}`
-                                : ""
+                                : "https://cdn-icons-png.flaticon.com/512/9385/9385289.png"
                             }
                           />
                         </div>
@@ -114,7 +114,7 @@ const AllPosts = () => {
                       />
                     </div>
                   </div>
-                </Link>
+                </div>
               );
             })
           ) : (

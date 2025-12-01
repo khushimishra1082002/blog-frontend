@@ -75,7 +75,7 @@ const SinglePost = () => {
                   src={
                     singlePosts?.author.image
                       ? `${conf.BaseURL}${conf.ImageUploadUrl}/${singlePosts?.author.image}`
-                      : ""
+                      : "https://cdn-icons-png.flaticon.com/512/9385/9385289.png"
                   }
                   alt={singlePosts?.author.title}
                 />

@@ -116,7 +116,7 @@ const Profile = () => {
           <img
             className="w-full h-full rounded-full"
             src={
-              user?.image ? `${conf.BaseURL}${conf.ImageUploadUrl}/${user.image}` : ""
+              user?.image ? `${conf.BaseURL}${conf.ImageUploadUrl}/${user.image}` : "https://cdn-icons-png.flaticon.com/512/9385/9385289.png"
             }
             alt={user?.name}
           />
@@ -159,7 +159,7 @@ const Profile = () => {
             </div>
           </div>
 
-          <div className="col-span-2 space-y-5 md:py-7">
+          <div className="col-span-2 space-y-5 md:py-7 ">
             <div className=" flex flex-col sm:flex-row md:flex-row sm:items-center  justify-between md:items-center space-y-6 ">
               <div className="flex gap-4">
                 <div>
@@ -196,58 +196,73 @@ const Profile = () => {
               </div>
             </div>
             <div className="w-full h-[1px] bg-gray-200"></div>
-            <div
-              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-7 gap-y-8
-            h-60 overflow-y-auto"
-            >
-              {userPosts.map((post) => (
-                <div key={post._id} className="space-y-4">
-                  <div className="w-full h-60 rounded-md">
-                    <img
-                      className="w-full h-full shadow-lg object-cover
-                       transition-transform duration-300 ease-in-out rounded"
-                      src={`${conf.BaseURL}${conf.ImageUploadUrl}/${post.image}`}
-                      alt={post.title}
-                    />
-                    
-                  </div>
-                <div>
-                    <p>{post.title}</p>
-                  <p className="text-xs line-clamp-2 font-Poppins font-light">{post.content}</p>
-                  </div>
+        <div
+  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-7 gap-y-8
+  h-60 overflow-y-auto"
+>
+  {userPosts.length > 0 ? (
+    userPosts.map((post) => (
+      <div key={post._id} className="space-y-4">
+        <div className="w-full h-60 rounded-md">
+          <img
+            className="w-full h-full shadow-lg object-cover
+              transition-transform duration-300 ease-in-out rounded"
+            src={`${conf.BaseURL}${conf.ImageUploadUrl}/${post.image}`}
+            alt={post.title}
+          />
+        </div>
 
-                  <div className="grid grid-cols-2 justify-between">
-                    <div className="flex gap-2 items-center">
-                      <div className="w-6 h-6 rounded-full">
-                        <img
-                          className="w-full h-full rounded-full"
-                          src={`${conf.BaseURL}${conf.ImageUploadUrl}/${post.author.image}`}
-                          alt={post.author.name}
-                        />
-                      </div>
-                      <span className="font-Roboto text-sm">
-                        {post.author.name}
-                      </span>
-                    </div>
-                    <div className="flex justify-end gap-4 text-gray-500 text-sm items-center">
-                      <span className="flex items-center gap-1">
-                        <FaRegThumbsUp /> {post.likes?.length || 0}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <LuMessageCircleMore /> {post.comments?.length || 0}
-                      </span>
-                      <button
-                        className="bg-red-500 text-white px-2 py-2
-                                  rounded hover:bg-red-800 text-[12px]"
-                        onClick={() => handleDeletePost(post._id)}
-                      >
-                        <FaTrash />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
+        <div>
+          <p>{post.title}</p>
+          <p className="text-xs line-clamp-2 font-Poppins font-light">
+            {post.content}
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 justify-between">
+          <div className="flex gap-2 items-center">
+            <div className="w-6 h-6 rounded-full">
+              <img
+                className="w-full h-full rounded-full"
+                 src={
+      post?.author?.image
+        ? `${conf.BaseURL}${conf.ImageUploadUrl}/${post.author.image}`
+        : "https://cdn-icons-png.flaticon.com/512/9385/9385289.png" // <-- default image stored in /public folder
+    }
+                alt={post.author.name}
+              />
             </div>
+            <span className="font-Roboto text-sm">
+              {post.author.name}
+            </span>
+          </div>
+
+          <div className="flex justify-end gap-4 text-gray-500 text-sm items-center">
+            <span className="flex items-center gap-1">
+              <FaRegThumbsUp /> {post.likes?.length || 0}
+            </span>
+            <span className="flex items-center gap-1">
+              <LuMessageCircleMore /> {post.comments?.length || 0}
+            </span>
+            <button
+              className="bg-red-500 text-white px-2 py-2
+                rounded hover:bg-red-800 text-[12px]"
+              onClick={() => handleDeletePost(post._id)}
+            >
+              <FaTrash />
+            </button>
+          </div>
+        </div>
+      </div>
+    ))
+  ) : (
+    <div className="col-span-full flex justify-center items-center 
+    h-full text-gray-500 font-medium font-Roboto">
+      No posts yet 
+    </div>
+  )}
+</div>
+
           </div>
         </div>
       </div>

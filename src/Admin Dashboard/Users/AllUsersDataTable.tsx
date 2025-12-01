@@ -82,7 +82,7 @@ const AllUsersDataTable = () => {
         src={
           row.image
             ? `${conf.BaseURL}${conf.ImageUploadUrl}/${row.image}`
-            : ""
+            : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQF02Jj8T2t7PdkytAw42HDuuSz7yXguKn8Lg&s"
         }
         alt={row.name}
         className="w-8 object-cover rounded-md"

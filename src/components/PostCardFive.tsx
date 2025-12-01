@@ -36,9 +36,9 @@ const PostCardFive = ({ post }) => {
                        <img
                          className=" w-full h-full rounded-full"
                          src={
-                           post.author.image
+                           post?.author?.image
                              ? `${conf.BaseURL}${conf.ImageUploadUrl}/${post.author.image}`
-                             : ""
+                             : "https://cdn-icons-png.flaticon.com/512/9385/9385289.png"
                          }
                        />
                      </div>

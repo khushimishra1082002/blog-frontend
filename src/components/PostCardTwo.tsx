@@ -33,10 +33,14 @@ const PostCardTwo = ({ post }) => {
             <div className=" ">
               <div className="flex gap-2 items-center">
                 <div className="w-6 h-6 rounded-full">
-                  <img
-                    className=" w-full h-full rounded-full"
-                    src="https://media.licdn.com/dms/image/v2/D5612AQHEghtIOHXERA/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1680751641612?e=2147483647&v=beta&t=i0q-_zjr6yU3AGnVSiz83yrZG5wRUmO2aQ8vdug1eCc"
-                  />
+                <img
+                            className=" w-full h-full rounded-full"
+                            src={
+                              post?.author?.image
+                                ? `${conf.BaseURL}${conf.ImageUploadUrl}/${post.author.image}`
+                                : "https://cdn-icons-png.flaticon.com/512/9385/9385289.png"
+                            }
+                          />
                 </div>
                 <span className=" font-Roboto text-xs">
                   {post.author?.name}

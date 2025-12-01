@@ -69,7 +69,7 @@ const TrendingPost = () => {
                   <span className="text-sm text-gray-700 font-Roboto font-medium">
                     {new Date(post.createdAt).toDateString()}
                   </span>
-                  <h2 className="text-base font-Inter font-medium hover:underline">
+                  <h2 className="text-base font-Inter font-medium hover:underline line-clamp-2">
                     {post.title}
                   </h2>
                   <p className=" font-Inter font-light text-[12px]  line-clamp-3">
