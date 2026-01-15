@@ -21,6 +21,9 @@ const Categories = () => {
     (state: RootState) => state.categoryData
   );
 
+  console.log("v",category);
+  
+
   useEffect(() => {
     dispatch(fetchAllCategory());
   }, [dispatch]);
