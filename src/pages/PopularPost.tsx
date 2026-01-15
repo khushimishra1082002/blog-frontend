@@ -5,106 +5,100 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import { FaThumbsUp, FaThumbsDown } from "react-icons/fa6";
-import { LuMessageCircleMore } from "react-icons/lu";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { getPopularPostData } from "../services/PostServices";
 import conf from "../config/Conf";
+import Loader from "../components/Loader";
+import Error from "../components/Error";
 
 const PopularPost = () => {
-  const [popularPosts, setPopularPosts] = useState<any>([]);
-
-  console.log("popularPosts", popularPosts);
+  const [popularPosts, setPopularPosts] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchPopularPosts = async () => {
       try {
-        const res = await getPopularPostData()
-        console.log(res);
+        setLoading(true);
+        setError(null);
 
+        const res = await getPopularPostData();
         setPopularPosts(res);
-      } catch (error) {
-        console.log("Error fetching popular posts:", error);
+      } catch (err: any) {
+        setError(
+          err?.response?.data?.message || "Failed to load popular posts"
+        );
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchPopularPosts();
   }, []);
 
-  return (
-    <>
-      <div className="bg-white p-5 space-y-4 ">
-        <h1 className="text-xl font-semibold font-Roboto">Popular Posts</h1>
-        <div className="bg-gray-100 p-4">
-          {popularPosts.length > 0 ? (
-            <Swiper
-              modules={[Navigation, Pagination, Scrollbar, A11y]}
-              spaceBetween={8}
-              slidesPerView={4}
-              breakpoints={{
-                320: {
-                  slidesPerView: 1,
-                },
-                640: {
-                  slidesPerView: 2,
-                },
-                768: {
-                  slidesPerView: 3,
-                },
-                1024: {
-                  slidesPerView: 4,
-                },
-              }}
-              className="bg-gray-100"
-            >
-              {popularPosts.map((post) => {
-                const formattedDate = new Date(
-                  post.createdAt
-                ).toLocaleDateString("en-GB", {
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                });
+  if (loading) return <Loader />;
 
-                return (
-                  <SwiperSlide
-                    key={post._id}
-                    className="bg-white p-4 shadow-lg"
-                  >
-                    <Link
-                      className="space-y-4"
-                      to={`singleBlogPage/${post._id}`}
-                    >
-                      <span className="text-sm text-gray-800">
-                        {formattedDate}
-                      </span>
-                      <img
-                        className="w-full h-60 object-cover
-                         transition-transform duration-300 ease-in-out rounded shadow"
-                        src={
-                          post?.image
-                            ? `${conf.BaseURL}${conf.ImageUploadUrl}/${post.image}`
-                            : ""
-                        }
-                        alt={post?.title}
-                      />
-                      <div className="flex flex-col gap-1 col-span-2 py-2 p-2">
-                        <h2 className="font-Roboto text-base hover:underline line-clamp-2">
-                          {post?.title}
-                        </h2>
-                      </div>
-                    </Link>
-                  </SwiperSlide>
-                );
-              })}
-            </Swiper>
-          ) : (
-            <p>No Popular Posts Found!</p>
-          )}
-        </div>
+  if (error) {
+    return <Error message={error} />;
+  }
+
+  if (!popularPosts || popularPosts.length === 0) {
+    return (
+      <p className="text-center text-gray-500 py-6">
+        No Popular Posts Found!
+      </p>
+    );
+  }
+
+  return (
+    <div className="bg-white p-5 space-y-4">
+      <h1 className="text-xl font-semibold font-Roboto">Popular Posts</h1>
+
+      <div className="bg-gray-100 p-4">
+        <Swiper
+          modules={[Navigation, Pagination, Scrollbar, A11y]}
+          spaceBetween={8}
+          slidesPerView={4}
+          breakpoints={{
+            320: { slidesPerView: 1 },
+            640: { slidesPerView: 2 },
+            768: { slidesPerView: 3 },
+            1024: { slidesPerView: 4 },
+          }}
+        >
+          {popularPosts.map((post) => {
+            const formattedDate = new Date(post.createdAt).toLocaleDateString(
+              "en-GB",
+              { day: "numeric", month: "long", year: "numeric" }
+            );
+
+            return (
+              <SwiperSlide key={post._id} className="bg-white p-4 shadow-lg">
+                <Link to={`/singleBlogPage/${post._id}`} className="space-y-4">
+                  <span className="text-sm text-gray-800">
+                    {formattedDate}
+                  </span>
+
+                  <img
+                    className="w-full h-60 object-cover rounded shadow hover:scale-105 duration-300"
+                    src={
+                      post?.image
+                        ? `${conf.BaseURL}${conf.ImageUploadUrl}/${post.image}`
+                        : ""
+                    }
+                    alt={post?.title}
+                  />
+
+                  <h2 className="font-Roboto text-base hover:underline line-clamp-2">
+                    {post?.title}
+                  </h2>
+                </Link>
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -20,6 +20,7 @@ import { RootState } from "../Redux Toolkit/Store";
 import { UseSelector } from "react-redux";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllCategory } from "../Redux Toolkit/slice/CategorySlice";
+import { useNavigate } from "react-router-dom";
 
 interface PostValues {
   title: string;
@@ -35,6 +36,7 @@ interface PostValues {
 
 const AddPostByUser: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate()
 
   const { category, loading, error } = useSelector(
     (state: RootState) => state.categoryData
@@ -85,6 +87,8 @@ const AddPostByUser: React.FC = () => {
     try {
       await addNewPostData(formData);
       alert("Post added Successfully");
+      dispatch(fetchAllPosts());
+      navigate("/");
       formikHelpers.resetForm();
     } catch (error: any) {
       const errorMessage =

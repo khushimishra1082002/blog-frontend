@@ -9,6 +9,8 @@ import Categories from "./Categories";
 import Comment from "../pages/Comment";
 import conf from "../config/Conf";
 import { getSinglePostData } from "../services/PostServices";
+import Loader from "../components/Loader";
+import Error from "../components/Error";
 
 const SinglePost = () => {
   const { id } = useParams() as { id: string };
@@ -16,20 +18,30 @@ const SinglePost = () => {
   console.log("id", id);
 
   const [singlePosts, setSinglePosts] = useState<any>(null);
-
-  console.log("ss", singlePosts);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
   useEffect(() => {
     const fetchSinglePosts = async () => {
       try {
+        setLoading(true);
+        setError("");
+
         const data = await getSinglePostData(id);
         setSinglePosts(data);
-      } catch (error) {
-        console.log("Error fetching single post:", error);
+      } catch (err) {
+        setError("Failed to load post data");
+      } finally {
+        setLoading(false);
       }
     };
-    fetchSinglePosts();
+
+    if (id) fetchSinglePosts();
   }, [id]);
+
+  if (loading) return <Loader />;
+  if (error) return <Error message={error} />;
+  if (!singlePosts) return null;
 
   return (
     <>

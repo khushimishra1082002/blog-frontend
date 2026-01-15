@@ -10,6 +10,7 @@ import axios from "axios";
 import { likePostData, unlikePostData } from "../services/LikeUnlikePostService";
 import { disLikePost } from "../../../Backend/controllers/dislikeController";
 import { dislikePostData, undislikePostData } from "../services/dislikeUndislikeService";
+import { Link } from "react-router-dom";
 
 const LikeDislikeComment = ({
   postId,
@@ -139,10 +140,10 @@ const LikeDislikeComment = ({
         </div>
 
         {/* Comment */}
-        <div className="flex items-center gap-1 text-gray-500 text-[15px] cursor-pointer">
+        <Link to={`singleBlogPage/${postId}`} className="flex items-center gap-1 text-gray-500 text-[15px] cursor-pointer">
           <LuMessageCircleMore />
           <span>{comments.length}</span>
-        </div>
+        </Link>
       </div>
     </>
   );

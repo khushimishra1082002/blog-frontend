@@ -54,15 +54,15 @@ export const addNewUserData = async (formData: FormData) => {
     }
   };
 
-  export const editUserData = async (id: string, values) => {
-    try {
-      const response = await api.put(`${conf.UpdateUserUrl}/${id}`, values, {
-      });
-      return response.data;
-    } catch (error: any) {
-      console.error("Edit user error:", error.response?.data || error.message);
-      throw error;
-    }
-  };
+ export const editUserData = async (id: string, formData: FormData) => {
+  try {
+    const response = await api.put(`${conf.UpdateUserUrl}/${id}`, formData);
+    return response.data;
+  } catch (error: any) {
+    console.error("Edit user error:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
   
   

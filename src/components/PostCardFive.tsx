@@ -10,7 +10,11 @@ const PostCardFive = ({ post }) => {
         <img
           className="w-full h-full shadow-lg object-cover
                         transition-transform duration-300 ease-in-out hover:scale-110 rounded"
-          src={post.image ? `${conf.BaseURL}${conf.ImageUploadUrl}/${post.image}` : ""}
+          src={
+            post.image
+              ? `${conf.BaseURL}${conf.ImageUploadUrl}/${post.image}`
+              : ""
+          }
           alt={post.title}
         />
       </div>
@@ -30,27 +34,21 @@ const PostCardFive = ({ post }) => {
 
         <div className="grid grid-cols-2 justify-between pt-2">
           <div className="flex gap-2 items-center">
-          <div className="flex gap-2 items-center">
-                 
-                 <div className="w-6 h-6 rounded-full">
-                       <img
-                         className=" w-full h-full rounded-full"
-                         src={
-                           post?.author?.image
-                             ? `${conf.BaseURL}${conf.ImageUploadUrl}/${post.author.image}`
-                             : "https://cdn-icons-png.flaticon.com/512/9385/9385289.png"
-                         }
-                       />
-                     </div>
-               
-                 <span className="font-Roboto text-sm">
-                   {post.author?.name}
-                 </span>
-               </div>
+            <div className="flex gap-2 items-center">
+              <div className="w-6 h-6 rounded-full">
+                <img
+                  className=" w-full h-full rounded-full"
+                  src={
+                    post?.author?.image
+                      ? `${conf.BaseURL}${conf.ImageUploadUrl}/${post.author.image}`
+                      : "https://cdn-icons-png.flaticon.com/512/9385/9385289.png"
+                  }
+                />
+              </div>
 
+              <span className="font-Roboto text-sm">{post.author.name}</span>
+            </div>
           </div>
-
-    
         </div>
       </div>
     </div>

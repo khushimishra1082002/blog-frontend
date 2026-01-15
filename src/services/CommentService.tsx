@@ -28,3 +28,48 @@ export const addCommentData = async (values) => {
       throw error;
     }
   };
+export const likeCommentData = async (commentId: string) => {
+  try {
+    const response = await api.post(
+      `${conf.likeCommentUrl}/${commentId}`,
+      {},
+      {
+        headers: {
+          requiresAuth: true,
+        },
+      }
+    );
+
+    return response.data; // { message, comment }
+  } catch (error: any) {
+    console.error(
+      "Like comment error:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+
+export const dislikeCommentData = async (commentId: string) => {
+  try {
+    const response = await api.post(
+      `${conf.dislikeCommentUrl}/${commentId}`,
+      {},
+      {
+        headers: {
+          requiresAuth: true,
+        },
+      }
+    );
+
+    return response.data; // { message, comment }
+  } catch (error: any) {
+    console.error(
+      "Like comment error:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+
+

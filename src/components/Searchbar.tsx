@@ -5,28 +5,11 @@ import axios from "axios";
 import SearchResults from "../pages/SearchResults";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../Redux Toolkit/Store";
-import { setQuery,setResults } from "../Redux Toolkit/slice/SearchSlice";
-
-interface Post {
-  _id: string;
-  title: string;
-  content: string;
-  tags: string[];
-  image: string;
-  author: {
-    _id: string;
-    name: string;
-    image?: string;
-  };
-  published: boolean;
-  createdAt: string;
-  likes?: string[];
-  views?: number;
-  comments: string;
-}
+import { setQuery, setResults } from "../Redux Toolkit/slice/SearchSlice";
+import { fetchAllPosts } from "../Redux Toolkit/slice/PostSlice";
 
 const Searchbar = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const query = useSelector((state: RootState) => state.search.query);
 
   const handleSearch = (value: string) => {
@@ -35,32 +18,21 @@ const Searchbar = () => {
 
   useEffect(() => {
     if (query.trim() === "") {
-      dispatch(setResults([]));
-      return;
+      dispatch(fetchAllPosts()); 
+    } else {
+      axios
+        .get(`http://localhost:5000/api/search/searchPost?q=${query}`)
+        .then((res) => dispatch(setResults(res.data)))
+        .catch(console.error);
     }
+  }, [query, dispatch]);
 
-    const fetchSearch = async () => {
-      try {
-        const res = await axios.get(
-          `http://localhost:5000/api/search/searchPost?q=${query}`
-        );
-        dispatch(setResults(res.data));
-      } catch (error) {
-        console.error("Error fetching search results:", error);
-      }
-    };
-
-    fetchSearch();
-  }, [query]);
   const navigate = useNavigate();
 
   const hanldenavigation = () => {
-    if (query.trim() !== "") {
-      navigate("/searchResults");
-      
-    }
+    navigate("/searchResults");
   };
-  
+
   return (
     <>
       <div className="flex justify-center items-center">
@@ -70,6 +42,11 @@ const Searchbar = () => {
             placeholder="Find a post you're looking for..."
             value={query}
             onChange={(e) => handleSearch(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                hanldenavigation();
+              }
+            }}
             className="w-full border border-black/15
            pl-12 pr-4 py-2 text-sm focus:outline-none focus:ring-1
             focus:ring-orange-500 transition-all duration-300 rounded-l-sm"
@@ -95,4 +72,3 @@ const Searchbar = () => {
 };
 
 export default Searchbar;
-
