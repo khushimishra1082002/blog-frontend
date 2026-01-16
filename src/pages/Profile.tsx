@@ -12,8 +12,6 @@ import { FaTrash } from "react-icons/fa6";
 import conf from "../config/Conf";
 import { FaCamera } from "react-icons/fa";
 import { useState } from "react";
-import { editUserData } from "../services/UserServices";
-import { fetchProfile, logout } from "../Redux Toolkit/slice/ProfileSlice";
 import EditProfileModel from "../model/EditProfileModel";
 
 interface DecodedTokenType {
@@ -108,7 +106,7 @@ const Profile = () => {
       } else {
         alert("Failed to delete post. Please try again.");
       }
-    } catch (error) {
+    } catch (error:any) {
       console.error("Error deleting post:", error);
       if (error.response) {
         console.error("Error response status:", error.response.status);
