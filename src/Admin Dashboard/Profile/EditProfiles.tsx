@@ -122,7 +122,7 @@ const EditProfiles: React.FC<EditProfilesProps> = ({setOpenEditModal}) => {
               </div>
             </div>
 
-            {/* Name & Email */}
+            {/* Name & Emails */}
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-1 col-span-2 text-left">
                 <label htmlFor="name" className="text-left font-medium">
