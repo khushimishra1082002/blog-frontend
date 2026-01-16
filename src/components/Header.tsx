@@ -33,6 +33,8 @@ const Header = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    console.log(token);
+    
     // const storedUser = localStorage.getItem("user");
     // const user = storedUser ? JSON.parse(storedUser) : null;
     const storedUser = localStorage.getItem("user");

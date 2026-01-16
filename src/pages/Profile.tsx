@@ -22,7 +22,6 @@ interface DecodedTokenType {
 }
 
 const Profile = () => {
-  
   const dispatch = useDispatch<AppDispatch>();
 
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -122,48 +121,42 @@ const Profile = () => {
       setPreview(URL.createObjectURL(file));
     }
   };
-const handleUploadImage = async () => {
-  if (!selectedImage || !currentUser?._id) {
-    alert("No image selected or user not loaded");
-    return;
-  }
+  const handleUploadImage = async () => {
+    if (!selectedImage || !currentUser?._id) {
+      alert("No image selected or user not loaded");
+      return;
+    }
 
-  const formData = new FormData();
-  formData.append("image", selectedImage); // MUST match multer field name
-  formData.append("name", currentUser.name);
-  formData.append("email", currentUser.email);
-  formData.append("role", currentUser.role);
+    const formData = new FormData();
+    formData.append("image", selectedImage); // MUST match multer field name
+    formData.append("name", currentUser.name);
+    formData.append("email", currentUser.email);
+    formData.append("role", currentUser.role);
 
-  try {
-    const res = await axios.put(
-      `http://localhost:5000/api/users/updateUser/${currentUser._id}`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data", // 🔑 important
-        },
-      }
-    );
+    try {
+      const res = await axios.put(
+        `http://localhost:5000/api/users/updateUser/${currentUser._id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", // 🔑 important
+          },
+        }
+      );
 
-    console.log("response:", res.data);
+      console.log("response:", res.data);
 
-    alert("Image updated successfully ✅");
-    localStorage.setItem("user", JSON.stringify(res.data.user));
-     window.dispatchEvent(new Event("userUpdated"));
-    setCurrentUser(res.data.user);
-    setPreview(null);
-    setSelectedImage(null);
-  } catch (error: any) {
-    console.error("Error uploading image:", error.response || error.message);
-    alert("Image upload failed ❌");
-  }
-};
-
-
-
-
-
-
+      alert("Image updated successfully ✅");
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      window.dispatchEvent(new Event("userUpdated"));
+      setCurrentUser(res.data.user);
+      setPreview(null);
+      setSelectedImage(null);
+    } catch (error: any) {
+      console.error("Error uploading image:", error.response || error.message);
+      alert("Image upload failed ❌");
+    }
+  };
 
   return (
     <>
@@ -186,17 +179,17 @@ const handleUploadImage = async () => {
         </div> */}
 
         <div className="w-20 h-20 rounded-full absolute -bottom-7 left-14 group">
-         <img
-  src={
-    preview
-      ? preview
-      : currentUser?.image
-      ? `${conf.BaseURL}${conf.ImageUploadUrl}/${currentUser.image}?t=${Date.now()}`
-      : "https://cdn-icons-png.flaticon.com/512/9385/9385289.png"
-  }
-/>
-
-
+          <img
+            src={
+              preview
+                ? preview
+                : currentUser?.image
+                ? `${conf.BaseURL}${conf.ImageUploadUrl}/${
+                    currentUser.image
+                  }?t=${Date.now()}`
+                : "https://cdn-icons-png.flaticon.com/512/9385/9385289.png"
+            }
+          />
 
           {/* Camera Icon */}
           <label
