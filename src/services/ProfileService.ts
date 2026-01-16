@@ -1,4 +1,3 @@
-// ProfileService.ts
 import api from "../utils/api";
 import conf from "../config/Conf";
 
