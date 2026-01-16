@@ -84,7 +84,7 @@ const EditProfiles: React.FC<EditProfilesProps> = ({setOpenEditModal}) => {
         enableReinitialize
       >
         {({ setFieldValue, values }) => (
-          <Form className=" p-8 rounded-xl space-y-6">
+          <Form className=" p-8 rounded-xl space-y-8">
             {/* Profile Image */}
             <div className="flex gap-4 items-center">
               <div className="relative w-32 h-32 rounded-full overflow-hidden border">
