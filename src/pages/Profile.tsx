@@ -13,6 +13,8 @@ import conf from "../config/Conf";
 import { FaCamera } from "react-icons/fa";
 import { useState } from "react";
 import { editUserData } from "../services/UserServices";
+import { fetchProfile, logout } from "../Redux Toolkit/slice/ProfileSlice";
+import EditProfileModel from "../model/EditProfileModel";
 
 interface DecodedTokenType {
   id: string;
@@ -23,6 +25,8 @@ interface DecodedTokenType {
 
 const Profile = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const { user } = useSelector((state: RootState) => state.profile);
+  const [openEditModal, setOpenEditModal] = useState(false);
 
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   console.log("selectedImage", selectedImage);
@@ -33,7 +37,7 @@ const Profile = () => {
   const storedUser = localStorage.getItem("user");
   console.log("storedUser", storedUser);
 
-  const user = storedUser ? JSON.parse(storedUser) : null;
+  // const user = storedUser ? JSON.parse(storedUser) : null;
   const [currentUser, setCurrentUser] = useState(user);
 
   console.log("currentUser:", currentUser);
@@ -179,20 +183,10 @@ const Profile = () => {
         </div> */}
 
         <div className="w-20 h-20 rounded-full absolute -bottom-7 left-14 group">
-          <img
-            src={
-              preview
-                ? preview
-                : currentUser?.image
-                ? `${conf.BaseURL}${conf.ImageUploadUrl}/${
-                    currentUser.image
-                  }?t=${Date.now()}`
-                : "https://cdn-icons-png.flaticon.com/512/9385/9385289.png"
-            }
-          />
+          <img className="w-full h-full rounded-full" src={user?.image} />
 
           {/* Camera Icon */}
-          <label
+          {/* <label
             className="absolute bottom-0 right-0 bg-black text-white p-1 rounded-full
                     cursor-pointer opacity-0 group-hover:opacity-100 transition"
           >
@@ -203,7 +197,7 @@ const Profile = () => {
               hidden
               onChange={(e) => handleImageChange(e)}
             />
-          </label>
+          </label> */}
         </div>
 
         {selectedImage && (
@@ -222,6 +216,14 @@ const Profile = () => {
             <span className="font-Poppins font-semibold text-[14px] text-cyan-500">
               {user?.email}
             </span>
+
+            <button
+              className="mt-3 w-fit bg-gray-900 text-white text-sm px-4 py-2 rounded
+               hover:bg-gray-700 transition"
+              onClick={() => setOpenEditModal(true)}
+            >
+              Edit Profile
+            </button>
 
             <div className="grid grid-cols-2 border border-black/10 my-4">
               <div className="border border-black/10 flex flex-col justify-center p-6">
@@ -361,6 +363,12 @@ const Profile = () => {
           </div>
         </div>
       </div>
+      {openEditModal && (
+        <EditProfileModel
+          openEditModal={openEditModal}
+          setOpenEditModal={setOpenEditModal}
+        />
+      )}
     </>
   );
 };

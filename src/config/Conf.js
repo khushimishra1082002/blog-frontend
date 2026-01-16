@@ -37,7 +37,9 @@ const conf = {
   disLikePostUrl:"/dislikes/disLikePost",
   unDislikePostUrl:"/dislikes/unDislikePost",
   likeCommentUrl:"/comments/likeComment",
-  dislikeCommentUrl:"/comments/dislikeComment"
+  dislikeCommentUrl:"/comments/dislikeComment",
+  getProfileUrl:"/profile/me",
+  updateProfileUrl:"/profile/updateProfile"
 };
 
 export default conf;

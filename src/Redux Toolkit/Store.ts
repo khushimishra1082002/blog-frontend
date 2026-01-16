@@ -3,6 +3,7 @@ import postsReducer from "./slice/PostSlice";
 import userReducer from "./slice/UserSlice";
 import categoryReducer from "./slice/CategorySlice";
 import searchReducer from "./slice/SearchSlice";
+import profileReducer from "./slice/ProfileSlice"
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     usersData: userReducer,
     categoryData: categoryReducer,
     search: searchReducer,
+    profile:profileReducer
   },
 });
 

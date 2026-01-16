@@ -3,17 +3,26 @@ import { IoSearchSharp } from "react-icons/io5";
 import { FaRegBell } from "react-icons/fa";
 import { Menu, X } from "lucide-react";
 import conf from "../config/Conf";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, AppDispatch } from "../Redux Toolkit/Store";
 
 const DashboardHeader = ({ open,setOpen }) => {
+    const dispatch = useDispatch<AppDispatch>();
+
+     const { user } = useSelector(
+        (state: RootState) => state.profile
+      );
+      console.log("l",user);
+  
   const [query,setQuery] = useState("")
 
   const storedUser = localStorage.getItem("user");
 
   console.log("storedUser", storedUser);
 
-  const user = storedUser ? JSON.parse(storedUser) : null;
+  // const user = storedUser ? JSON.parse(storedUser) : null;
 
-  console.log("user", user);
+  // console.log("user", user);
 
   return (
     <>
