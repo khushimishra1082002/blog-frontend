@@ -4,6 +4,7 @@ import EditProfile from "./EditProfile";
 import ChangePassword from "./ChangePassword";
 import { Link } from "react-router-dom";
 import conf from "../../config/Conf";
+import { getImageUrl } from "../../utils/getImageUrls";
 
 const ProfileDetails = () => {
   const storedUser = localStorage.getItem("user");
@@ -23,7 +24,7 @@ const ProfileDetails = () => {
             <img
               className="w-full h-full object-cover"
               src={
-                user.image ? `${conf.BaseURL}${conf.ImageUploadUrl}/${user.image}` : ""
+                 getImageUrl(user?.image)
               }
             />
           </div>

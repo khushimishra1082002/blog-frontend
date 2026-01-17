@@ -35,7 +35,7 @@ const Register: React.FC<RegisterProps> = ({ setIsLoggedIn }) => {
 
   const onSubmit = async (
     values: RegisterValues,
-    onSubmitProps: FormikHelpers<RegisterValues>
+    onSubmitProps: FormikHelpers<RegisterValues>,
   ) => {
     try {
       const formData = new FormData();
@@ -162,23 +162,6 @@ const Register: React.FC<RegisterProps> = ({ setIsLoggedIn }) => {
                     )}
                   </div>
                   <ErrorMessage name="password" component={ErrorMessages} />
-                </motion.div>
-
-                {/* Role Field */}
-                <motion.div className=" bg-gray-50 flex flex-col gap-1">
-                  <Field
-                    as="select"
-                    name="role"
-                    className="py-3 rounded-md border-none text-sm font-RobotoFlex bg-gray-50"
-                  >
-                    <option value="" disabled className=" text-gray-500">
-                      Select Your Role
-                    </option>
-                    <option value="user">User</option>
-                    <option value="admin">Admin</option>
-                    <option value="editor">Editor</option>
-                  </Field>
-                  <ErrorMessage name="role" component={ErrorMessages} />
                 </motion.div>
 
                 {/* Submit Button */}
