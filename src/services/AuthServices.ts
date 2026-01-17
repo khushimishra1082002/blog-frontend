@@ -1,32 +1,8 @@
 import api from "../utils/api";
 import conf from "../config/Conf";
 
-
-export interface User {
-  _id?: string;
-  name: string;
-  email: string;
-  image?: string;
-  role?: string;
-}
-
-export interface AuthSuccessResponse {
-  success: true;
-  user: User;
-  token: string;
-}
-
-export interface AuthErrorResponse {
-  success: false;
-  message: string;
-}
-
-export type AuthResponse = AuthSuccessResponse | AuthErrorResponse;
-
-
-export const registerUser = async (
-  formData: FormData
-): Promise<AuthResponse> => {
+// Register User
+export const registerUser = async (formData: FormData) => {
   try {
     const response = await api.post(conf.RegisterUrl, formData, {
       headers: {
@@ -34,8 +10,8 @@ export const registerUser = async (
       },
     });
 
-    const token: string | undefined = response.data.token;
-    const user: User = response.data.user ?? response.data;
+    const token = response.data.token;
+    const user = response.data.user || response.data;
 
     if (token) {
       localStorage.setItem("token", token);
@@ -50,56 +26,42 @@ export const registerUser = async (
       );
     }
 
-    return {
-      success: true,
-      user,
-      token: token!,
-    };
+    return { success: true, user, token };
   } catch (error: any) {
     console.error("Registration Error:", error);
-
     return {
       success: false,
-      message:
-        error.response?.data?.message || "Registration failed.",
+      message: error.response?.data?.message || "Registration failed.",
     };
   }
 };
 
-
-interface LoginPayload {
-  email: string;
-  password: string;
-}
-
-export const loginUser = async (
-  values: LoginPayload
-): Promise<AuthResponse> => {
+// Login User
+export const loginUser = async (values: Record<string, any>) => {
   try {
     const response = await api.post(conf.LoginUrl, values);
 
-    if (response.data?.token) {
-      const { token, user } = response.data;
+    if (response.data && response.data.token) {
+      const { token, role, user } = response.data;
 
       localStorage.setItem("token", token);
+      localStorage.setItem("role", role);
       localStorage.setItem("user", JSON.stringify(user));
 
       return {
         success: true,
+        message: "Login successful!",
         user,
         token,
       };
+    } else {
+      throw new Error("Invalid response from server");
     }
-
-    throw new Error("Invalid response from server");
   } catch (error: any) {
     console.error("Login Error:", error);
-
     return {
       success: false,
-      message:
-        error.response?.data?.message ||
-        "Login failed. Please try again.",
+      message: error.response?.data?.message || "Login failed. Please try again.",
     };
   }
 };

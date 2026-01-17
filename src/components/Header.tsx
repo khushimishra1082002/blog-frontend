@@ -127,22 +127,49 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-white shadow-md p-4">
-            <Link to="/" onClick={() => setMobileMenuOpen(false)}>
+          <div className="md:hidden bg-white shadow-md p-4 flex flex-col md:flex-row">
+            <Link
+              to="/"
+              onClick={() => setMobileMenuOpen(false)}
+              className="hover:bg-orange-600 hover:text-white p-2 rounded]
+            hover:shadow-lg transition duration-300 font-Roboto"
+            >
               Home
             </Link>
-            <Link to="/contact" onClick={() => setMobileMenuOpen(false)}>
+            <hr />
+            <Link
+              to="/contact"
+              onClick={() => setMobileMenuOpen(false)}
+              className="hover:bg-orange-600 hover:text-white p-2 rounded]
+            hover:shadow-lg transition duration-300 font-Roboto"
+            >
               Contact
             </Link>
 
+            <hr />
+
             {!isLoggedIn ? (
               <>
-                <Link to="/LoggedInPage?type=register">Register</Link>
-                <Link to="/LoggedInPage?type=login">Login</Link>
+                <Link
+                  to="/LoggedInPage?type=register"
+                  className="hover:bg-orange-600 hover:text-white p-2 rounded]
+            hover:shadow-lg transition duration-300 font-Roboto"
+                >
+                  Register
+                </Link>
+                <hr/>
+                <Link to="/LoggedInPage?type=login" className="hover:bg-orange-600 hover:text-white p-2 rounded]
+            hover:shadow-lg transition duration-300 font-Roboto">Login</Link>
               </>
             ) : (
               <>
-                <Link to="/profilePage">Profile</Link>
+                <Link
+                  to="/profilePage"
+                  className="hover:bg-orange-600 hover:text-white p-2 rounded]
+            hover:shadow-lg transition duration-300 font-Roboto"
+                >
+                  Profile
+                </Link>
                 <button onClick={handleLogout}>Logout</button>
               </>
             )}
