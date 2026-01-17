@@ -9,6 +9,7 @@ import {
   likeCommentData,
 } from "../services/CommentService";
 import conf from "../config/Conf";
+import { getImageUrl } from "../utils/getImageUrls";
 const Comment = ({ postId, singlePosts }) => {
   const [comment, setComment] = useState("");
   const [allComment, setAllComments] = useState<any[]>([]);
@@ -69,7 +70,7 @@ const Comment = ({ postId, singlePosts }) => {
     } catch (error) {
       console.error(
         "Error adding comment:",
-        error.response?.data || error.message
+        error.response?.data || error.message,
       );
     }
   };
@@ -159,7 +160,7 @@ const Comment = ({ postId, singlePosts }) => {
       const updatedComment = res.comment;
 
       setAllComments((prev) =>
-        prev.map((c) => (c._id === updatedComment._id ? updatedComment : c))
+        prev.map((c) => (c._id === updatedComment._id ? updatedComment : c)),
       );
     } catch (error: any) {
       console.error(error.response?.data?.message || error.message);
@@ -201,7 +202,7 @@ const Comment = ({ postId, singlePosts }) => {
       const updatedComment = res.comment;
 
       setAllComments((prev) =>
-        prev.map((c) => (c._id === updatedComment._id ? updatedComment : c))
+        prev.map((c) => (c._id === updatedComment._id ? updatedComment : c)),
       );
     } catch (error: any) {
       console.error(error.response?.data?.message || error.message);
@@ -235,7 +236,7 @@ const Comment = ({ postId, singlePosts }) => {
                   type="submit"
                   className="bg-orange-500 text-white font-Inter hover:scale-105 duration-500 text-sm px-4 py-2 rounded-md font-medium"
                 >
-                  Submit
+                  Add Comment
                 </button>
               </div>
             </form>
@@ -263,7 +264,7 @@ const Comment = ({ postId, singlePosts }) => {
                   {comment?.user?.image ? (
                     <img
                       className="w-10 h-10 rounded-full"
-                      src={`${conf.BaseURL}${conf.ImageUploadUrl}/${comment.user.image}`}
+                      src={getImageUrl(comment.user.image)}
                       alt={comment?.user?.name}
                     />
                   ) : (
@@ -282,8 +283,8 @@ const Comment = ({ postId, singlePosts }) => {
                   <p className="text-gray-700 text-[12px] font-Inter">
                     {comment.content}
                   </p>
-                  <div className="flex items-center gap-3">
-                    {/* LIKE */}
+                  {/* <div className="flex items-center gap-3">
+                 
                     <div
                       className={`text-[12px] flex gap-1 items-center cursor-pointer transition ${
                         comment.likesComment?.some(
@@ -304,7 +305,6 @@ const Comment = ({ postId, singlePosts }) => {
                       <span>{comment.likesComment?.length || 0}</span>
                     </div>
 
-                    {/* DISLIKE */}
                     <div
                       className={`text-[12px] flex gap-1 items-center cursor-pointer transition ${
                         comment.dislikescomment?.some(
@@ -324,7 +324,40 @@ const Comment = ({ postId, singlePosts }) => {
                       <FaRegThumbsDown />
                       <span>{comment.dislikescomment?.length || 0}</span>
                     </div>
-                  </div>
+                  </div> */}
+                  {comment.user?._id !== userId && (
+                    <div className="flex items-center gap-3">
+                      {/* LIKE */}
+                      <div
+                        className={`text-[12px] flex gap-1 items-center cursor-pointer transition ${
+                          comment.likesComment?.some(
+                            (u) => u === userId || u?._id === userId,
+                          )
+                            ? "text-blue-500"
+                            : "text-gray-500"
+                        }`}
+                        onClick={() => handleLike(comment._id)}
+                      >
+                        <FaRegThumbsUp />
+                        <span>{comment.likesComment?.length || 0}</span>
+                      </div>
+
+                      {/* DISLIKE */}
+                      <div
+                        className={`text-[12px] flex gap-1 items-center cursor-pointer transition ${
+                          comment.dislikescomment?.some(
+                            (u) => u === userId || u?._id === userId,
+                          )
+                            ? "text-red-500"
+                            : "text-gray-500"
+                        }`}
+                        onClick={() => handleDislike(comment._id)}
+                      >
+                        <FaRegThumbsDown />
+                        <span>{comment.dislikescomment?.length || 0}</span>
+                      </div>
+                    </div>
+                  )}
 
                   {/* <div className="flex items-center gap-1">
                       <FaReplyAll className="text-gray-500" />

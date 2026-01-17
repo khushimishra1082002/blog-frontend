@@ -7,9 +7,15 @@ import {
 } from "react-icons/ai";
 import { LuMessageCircleMore } from "react-icons/lu";
 import axios from "axios";
-import { likePostData, unlikePostData } from "../services/LikeUnlikePostService";
+import {
+  likePostData,
+  unlikePostData,
+} from "../services/LikeUnlikePostService";
 import { disLikePost } from "../../../Backend/controllers/dislikeController";
-import { dislikePostData, undislikePostData } from "../services/dislikeUndislikeService";
+import {
+  dislikePostData,
+  undislikePostData,
+} from "../services/dislikeUndislikeService";
 import { Link } from "react-router-dom";
 
 const LikeDislikeComment = ({
@@ -57,10 +63,10 @@ const LikeDislikeComment = ({
         alert("Post unlike succefull");
       } else {
         const data = {
-           post: postId,
+          post: postId,
           author: currentUserId,
-        }
-        await likePostData(data)
+        };
+        await likePostData(data);
         setLikeStatus("like");
         setTotalLikes((prev) => prev + 1);
         alert("Post like succefull");
@@ -73,7 +79,7 @@ const LikeDislikeComment = ({
   const handleDislike = async () => {
     try {
       if (likeStatus === "dislike") {
-         await undislikePostData(postId, {
+        await undislikePostData(postId, {
           author: currentUserId,
         });
 
@@ -83,17 +89,17 @@ const LikeDislikeComment = ({
       } else {
         // if already liked, remove like first
         if (likeStatus === "like") {
-         await unlikePostData(postId, {
-          author: currentUserId,
-        });
+          await unlikePostData(postId, {
+            author: currentUserId,
+          });
           setTotalLikes((prev) => prev - 1);
         }
 
         const data = {
-           post: postId,
+          post: postId,
           author: currentUserId,
-        }
-        await dislikePostData(data)
+        };
+        await dislikePostData(data);
 
         setLikeStatus("dislike");
         setTotalDislikes((prev) => prev + 1);
@@ -109,7 +115,10 @@ const LikeDislikeComment = ({
       <div className="flex gap-3 justify-end">
         {/* Like */}
         <div
-          onClick={handleLike}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleLike();
+          }}
           className={`${
             likeStatus === "like" ? "text-red-500" : "text-gray-500"
           }`}
@@ -124,7 +133,10 @@ const LikeDislikeComment = ({
 
         {/* Dislike */}
         <div
-          onClick={handleDislike}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleDislike();
+          }}
           className={`cursor-pointer ${
             likeStatus === "dislike" ? "text-blue-500" : "text-gray-500"
           }`}
@@ -140,7 +152,10 @@ const LikeDislikeComment = ({
         </div>
 
         {/* Comment */}
-        <Link to={`singleBlogPage/${postId}`} className="flex items-center gap-1 text-gray-500 text-[15px] cursor-pointer">
+        <Link
+          to={`singleBlogPage/${postId}`}
+          className="flex items-center gap-1 text-gray-500 text-[15px] cursor-pointer"
+        >
           <LuMessageCircleMore />
           <span>{comments.length}</span>
         </Link>

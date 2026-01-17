@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import conf from "../config/Conf";
 import Loader from "../components/Loader";
 import Error from "../components/Error";
+import { getImageUrl } from "../utils/getImageUrls";
 
 const CategoryResults = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -44,10 +45,7 @@ const CategoryResults = () => {
               <div className="w-full h-56 overflow-hidden">
                 <img
                   className="w-full h-full shadow-lg object-cover transition-transform duration-300 ease-in-out hover:scale-110 rounded"
-                  src={
-                    post.image
-                      ? `${conf.BaseURL}${conf.ImageUploadUrl}/${post.image}`
-                      : ""
+                  src={getImageUrl(post?.image)
                   }
                   alt={post.title}
                 />

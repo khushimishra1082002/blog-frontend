@@ -13,6 +13,7 @@ import conf from "../config/Conf";
 import { FaCamera } from "react-icons/fa";
 import { useState } from "react";
 import EditProfileModel from "../model/EditProfileModel";
+import { getImageUrl } from "../utils/getImageUrls";
 
 interface DecodedTokenType {
   id: string;
@@ -181,7 +182,7 @@ const Profile = () => {
         </div> */}
 
         <div className="w-20 h-20 rounded-full absolute -bottom-7 left-14 group">
-          <img className="w-full h-full rounded-full" src={user?.image} />
+          <img className="w-full h-full rounded-full" src={getImageUrl(user?.image)} />
 
           {/* Camera Icon */}
           {/* <label
@@ -301,7 +302,7 @@ const Profile = () => {
                       <img
                         className="w-full h-full shadow-lg object-cover
               transition-transform duration-300 ease-in-out rounded"
-                        src={`${conf.BaseURL}${conf.ImageUploadUrl}/${post.image}`}
+                        src={getImageUrl(post.image)}
                         alt={post.title}
                       />
                     </div>
@@ -320,7 +321,7 @@ const Profile = () => {
                             className="w-full h-full rounded-full"
                             src={
                               post?.author?.image
-                                ? `${conf.BaseURL}${conf.ImageUploadUrl}/${post.author.image}`
+                                ? getImageUrl(post.author.image)
                                 : "https://cdn-icons-png.flaticon.com/512/9385/9385289.png" // <-- default image stored in /public folder
                             }
                             alt={post.author.name}

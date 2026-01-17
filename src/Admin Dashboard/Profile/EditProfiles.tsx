@@ -11,6 +11,7 @@ import {
   fetchProfile,
   updateProfile,
 } from "../../Redux Toolkit/slice/ProfileSlice";
+import { getImageUrl } from "../../utils/getImageUrls";
 
 interface FormValues {
   name: string;
@@ -92,7 +93,7 @@ const EditProfiles: React.FC<EditProfilesProps> = ({setOpenEditModal}) => {
                   src={
                     previewImage
                       ? URL.createObjectURL(previewImage)
-                      : user?.image
+                      : getImageUrl(user.image)
                   }
                   className="w-full h-full object-cover"
                 />
