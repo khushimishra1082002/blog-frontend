@@ -17,6 +17,11 @@ const Header = () => {
 
   const isLoggedIn = !!user;
 
+    const token = localStorage.getItem("token");
+    console.log(token);
+    
+
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
