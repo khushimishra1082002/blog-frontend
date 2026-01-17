@@ -10,6 +10,7 @@ import { getPopularPostData } from "../services/PostServices";
 import conf from "../config/Conf";
 import Loader from "../components/Loader";
 import Error from "../components/Error";
+import { getImageUrl } from "../utils/getImageUrls";
 
 const PopularPost = () => {
   const [popularPosts, setPopularPosts] = useState<any[]>([]);
@@ -26,7 +27,7 @@ const PopularPost = () => {
         setPopularPosts(res);
       } catch (err: any) {
         setError(
-          err?.response?.data?.message || "Failed to load popular posts"
+          err?.response?.data?.message || "Failed to load popular posts",
         );
       } finally {
         setLoading(false);
@@ -44,9 +45,7 @@ const PopularPost = () => {
 
   if (!popularPosts || popularPosts.length === 0) {
     return (
-      <p className="text-center text-gray-500 py-6">
-        No Popular Posts Found!
-      </p>
+      <p className="text-center text-gray-500 py-6">No Popular Posts Found!</p>
     );
   }
 
@@ -69,23 +68,17 @@ const PopularPost = () => {
           {popularPosts.map((post) => {
             const formattedDate = new Date(post.createdAt).toLocaleDateString(
               "en-GB",
-              { day: "numeric", month: "long", year: "numeric" }
+              { day: "numeric", month: "long", year: "numeric" },
             );
 
             return (
               <SwiperSlide key={post._id} className="bg-white p-4 shadow-lg">
                 <Link to={`/singleBlogPage/${post._id}`} className="space-y-4">
-                  <span className="text-sm text-gray-800">
-                    {formattedDate}
-                  </span>
+                  <span className="text-sm text-gray-800">{formattedDate}</span>
 
                   <img
                     className="w-full h-60 object-cover rounded shadow hover:scale-105 duration-300"
-                    src={
-                      post?.image
-                        ? `${conf.BaseURL}${conf.ImageUploadUrl}/${post.image}`
-                        : ""
-                    }
+                    src={getImageUrl(post.image)}
                     alt={post?.title}
                   />
 

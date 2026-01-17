@@ -11,6 +11,7 @@ import conf from "../config/Conf";
 import { getSinglePostData } from "../services/PostServices";
 import Loader from "../components/Loader";
 import Error from "../components/Error";
+import { getImageUrl } from "../utils/getImageUrls";
 
 const SinglePost = () => {
   const { id } = useParams() as { id: string };
@@ -50,11 +51,7 @@ const SinglePost = () => {
           <img
             className="w-full h-full shadow-lg object-cover
                         transition-transform duration-300 ease-in-out hover:scale-110 rounded"
-            src={
-              singlePosts?.image
-                ? `${conf.BaseURL}${conf.ImageUploadUrl}/${singlePosts.image}`
-                : ""
-            }
+           src={getImageUrl(singlePosts?.image)}
             alt={singlePosts?.title}
           />
         </div>
@@ -86,7 +83,7 @@ const SinglePost = () => {
                         transition-transform duration-300 ease-in-out hover:scale-110 rounded"
                   src={
                     singlePosts?.author.image
-                      ? `${conf.BaseURL}${conf.ImageUploadUrl}/${singlePosts?.author.image}`
+                      ? getImageUrl(singlePosts?.author.image)
                       : "https://cdn-icons-png.flaticon.com/512/9385/9385289.png"
                   }
                   alt={singlePosts?.author.title}

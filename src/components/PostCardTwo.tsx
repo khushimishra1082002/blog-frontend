@@ -1,5 +1,6 @@
 import React from "react";
 import conf from "../config/Conf";
+import { getImageUrl } from "../utils/getImageUrls";
 
 const PostCardTwo = ({ post }) => {
   return (
@@ -10,9 +11,7 @@ const PostCardTwo = ({ post }) => {
             <img
               className="w-full h-full shadow-lg object-cover
                         transition-transform duration-300 ease-in-out hover:scale-110 rounded"
-              src={
-                post.image ? `${conf.BaseURL}${conf.ImageUploadUrl}/${post.image}` : ""
-              }
+              src={getImageUrl(post.image)}
               alt={post.title}
             />
           </div>
@@ -33,14 +32,14 @@ const PostCardTwo = ({ post }) => {
             <div className=" ">
               <div className="flex gap-2 items-center">
                 <div className="w-6 h-6 rounded-full">
-                <img
-                            className=" w-full h-full rounded-full"
-                            src={
-                              post?.author?.image
-                                ? `${conf.BaseURL}${conf.ImageUploadUrl}/${post.author.image}`
-                                : "https://cdn-icons-png.flaticon.com/512/9385/9385289.png"
-                            }
-                          />
+                  <img
+                    className=" w-full h-full rounded-full"
+                    src={
+                      post?.author?.image
+                        ? getImageUrl(post.author.image)
+                        : "https://cdn-icons-png.flaticon.com/512/9385/9385289.png"
+                    }
+                  />
                 </div>
                 <span className=" font-Roboto text-xs">
                   {post.author?.name}

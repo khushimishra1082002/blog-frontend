@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import conf from "../config/Conf";
 import { getFeaturedPostData } from "../services/PostServices";
 import Loader from "../components/Loader";
-import Error from "../components/Error"
+import Error from "../components/Error";
+import { getImageUrl } from "../utils/getImageUrls";
 
 const FeaturedPosts = () => {
   const [featuredPost, setFeaturedPost] = useState<any[]>([]);
@@ -20,7 +21,7 @@ const FeaturedPosts = () => {
         setFeaturedPost(res);
       } catch (err: any) {
         setError(
-          err?.response?.data?.message || "Failed to load featured posts"
+          err?.response?.data?.message || "Failed to load featured posts",
         );
       } finally {
         setLoading(false);
@@ -30,7 +31,6 @@ const FeaturedPosts = () => {
     fetchFeaturedPosts();
   }, []);
 
-  
   if (loading) return <Loader />;
 
   if (error) {
@@ -39,17 +39,13 @@ const FeaturedPosts = () => {
 
   if (!featuredPost || featuredPost.length === 0) {
     return (
-      <p className="text-center text-gray-500 py-10">
-        No Featured Posts Found
-      </p>
+      <p className="text-center text-gray-500 py-10">No Featured Posts Found</p>
     );
   }
 
   return (
     <div className="bg-white p-5 space-y-4">
-      <h1 className="text-xl font-semibold font-Roboto">
-        Featured Posts
-      </h1>
+      <h1 className="text-xl font-semibold font-Roboto">Featured Posts</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 min-h-[70vh]">
         {/* Big Post */}
@@ -61,9 +57,7 @@ const FeaturedPosts = () => {
             <img
               className="w-full h-full object-cover mix-blend-overlay"
               src={
-                featuredPost[0]?.image
-                  ? `${conf.BaseURL}${conf.ImageUploadUrl}/${featuredPost[0].image}`
-                  : ""
+                featuredPost[0]?.image ? getImageUrl(featuredPost[0].image) : ""
               }
               alt={featuredPost[0].title}
             />
@@ -88,11 +82,7 @@ const FeaturedPosts = () => {
             >
               <img
                 className="w-full h-full object-cover mix-blend-overlay"
-                src={
-                  post?.image
-                    ? `${conf.BaseURL}${conf.ImageUploadUrl}/${post.image}`
-                    : ""
-                }
+                src={getImageUrl(post.image)}
                 alt={post.title}
               />
               <div className="absolute bottom-2 text-white p-2">

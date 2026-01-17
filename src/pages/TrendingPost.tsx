@@ -10,6 +10,7 @@ import conf from "../config/Conf";
 import { getTreandingPostData } from "../services/PostServices";
 import Loader from "../components/Loader";
 import Error from "../components/Error";
+import { getImageUrl } from "../utils/getImageUrls";
 
 const TrendingPost = () => {
   const [trendingPosts, setTrendingPosts] = useState<any[]>([]);
@@ -26,8 +27,7 @@ const TrendingPost = () => {
         setTrendingPosts(res);
       } catch (err: any) {
         setError(
-          err?.response?.data?.message ||
-            "Failed to load trending posts"
+          err?.response?.data?.message || "Failed to load trending posts",
         );
       } finally {
         setLoading(false);
@@ -37,7 +37,6 @@ const TrendingPost = () => {
     fetchTrendingPosts();
   }, []);
 
-  
   if (loading) return <Loader />;
 
   if (error) {
@@ -46,17 +45,13 @@ const TrendingPost = () => {
 
   if (!trendingPosts || trendingPosts.length === 0) {
     return (
-      <p className="text-center text-gray-500 py-8">
-        No Trending Posts Found
-      </p>
+      <p className="text-center text-gray-500 py-8">No Trending Posts Found</p>
     );
   }
 
   return (
     <div className="bg-white p-5 space-y-4">
-      <h1 className="text-xl font-semibold font-Roboto">
-        Trending Posts
-      </h1>
+      <h1 className="text-xl font-semibold font-Roboto">Trending Posts</h1>
 
       <div className="bg-gray-100 p-5">
         <Swiper
@@ -71,20 +66,13 @@ const TrendingPost = () => {
           }}
         >
           {trendingPosts.map((post) => (
-            <SwiperSlide
-              key={post._id}
-              className="bg-white p-4 shadow"
-            >
+            <SwiperSlide key={post._id} className="bg-white p-4 shadow">
               <Link to={`/singleBlogPage/${post._id}`}>
                 <div className="space-y-2">
                   <div className="w-full h-56 overflow-hidden">
                     <img
                       className="w-full h-full object-cover hover:scale-110 duration-300 rounded"
-                      src={
-                        post.image
-                          ? `${conf.BaseURL}${conf.ImageUploadUrl}/${post.image}`
-                          : ""
-                      }
+                      src={getImageUrl(post.image)}
                       alt={post.title}
                     />
                   </div>

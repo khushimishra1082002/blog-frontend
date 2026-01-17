@@ -333,6 +333,7 @@ import SocialIcon from "./SocialIcon";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../Redux Toolkit/Store";
 import { fetchProfile, logout } from "../Redux Toolkit/slice/ProfileSlice";
+import { getImageUrl } from "../utils/getImageUrls";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -454,7 +455,7 @@ const Header = () => {
             ) : (
               <div className="relative group cursor-pointer">
                 <div className="flex items-center gap-2">
-                  <img src={user.image} className="w-9 h-9 rounded-full" />
+                  <img  src={getImageUrl(user.image)} className="w-9 h-9 rounded-full" />
                   <span className="text-sm">{user.name}</span>
                 </div>
 

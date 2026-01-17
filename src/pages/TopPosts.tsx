@@ -8,6 +8,7 @@ import conf from "../config/Conf";
 import { getTopPostData } from "../services/PostServices";
 import Loader from "../components/Loader";
 import Error from "../components/Error";
+import { getImageUrl } from "../utils/getImageUrls";
 
 const TopPosts = () => {
   const [topPost, setTopPost] = useState<any[]>([]);
@@ -76,7 +77,7 @@ const TopPosts = () => {
                         className="w-full h-full rounded-full"
                         src={
                           item.author?.image
-                            ? `${conf.BaseURL}${conf.ImageUploadUrl}/${item.author.image}`
+                            ? getImageUrl(item.author.image)
                             : ""
                         }
                         alt={item.author?.name}
@@ -96,7 +97,7 @@ const TopPosts = () => {
                     className="w-full h-52 object-cover"
                     src={
                       item?.image
-                        ? `${conf.BaseURL}${conf.ImageUploadUrl}/${item.image}`
+                        ? getImageUrl(item.image)
                         : ""
                     }
                     alt={item.title}

@@ -22,7 +22,7 @@ const conf = {
   SearchUserUrl:"/search/searchUser",
   ChangePasswordUrl:"/users/changePassword",
   SubsribeUrl:"/subscribe/subscribeEmail",
-  ImageUploadUrl:"/uploads",
+  ImageUploadUrl:"uploads",
   getPopularPostUrl:"/blog-posts/popular-posts",
   getfetaturedPostsUrl:"/blog-posts/fetaturedPosts",
   gettopPostsUrl:"/blog-posts/topPosts",

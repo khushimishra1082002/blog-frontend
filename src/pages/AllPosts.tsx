@@ -7,7 +7,8 @@ import LikeDislikeComment from "./LikeDislikeComment";
 import { getDecodedToken } from "../utils/tokenUtils";
 import conf from "../config/Conf";
 import Loader from "../components/Loader";
-import Error from "../components/Error"
+import Error from "../components/Error";
+import { getImageUrl } from "../utils/getImageUrls";
 
 const AllPosts = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -16,7 +17,7 @@ const AllPosts = () => {
   const [visibleCount, setVisibleCount] = useState(8);
 
   const { posts, loading, error } = useSelector(
-    (state: RootState) => state.postsData
+    (state: RootState) => state.postsData,
   );
 
   useEffect(() => {
@@ -37,11 +38,7 @@ const AllPosts = () => {
   };
 
   if (!posts || posts.length === 0) {
-    return (
-      <p className="text-center text-gray-500 py-10">
-        No Posts Found
-      </p>
-    );
+    return <p className="text-center text-gray-500 py-10">No Posts Found</p>;
   }
 
   return (
@@ -52,7 +49,7 @@ const AllPosts = () => {
         {posts.slice(0, visibleCount).map((post: any) => {
           const formattedDate = new Date(post.createdAt).toLocaleDateString(
             "en-GB",
-            { day: "numeric", month: "long", year: "numeric" }
+            { day: "numeric", month: "long", year: "numeric" },
           );
 
           return (
@@ -79,12 +76,8 @@ const AllPosts = () => {
               <div className="w-full h-56 overflow-hidden">
                 <img
                   className="w-full h-full object-cover hover:scale-110 duration-300 rounded"
-                  src={
-                    post.image
-                      ? `${conf.BaseURL}${conf.ImageUploadUrl}/${post.image}`
-                      : ""
-                  }
-                  alt={post.title}
+                  src={getImageUrl(post.image)}
+                  alt={post.title || "post image"}
                 />
               </div>
 
@@ -92,11 +85,7 @@ const AllPosts = () => {
                 <div className="flex gap-2 items-center">
                   <img
                     className="w-6 h-6 rounded-full"
-                    src={
-                      post?.author?.image
-                        ? `${conf.BaseURL}${conf.ImageUploadUrl}/${post.author.image}`
-                        : "https://cdn-icons-png.flaticon.com/512/9385/9385289.png"
-                    }
+                    src={getImageUrl(post?.author?.image)}
                   />
                   <span className="font-Roboto text-sm">
                     {post.author?.name}
