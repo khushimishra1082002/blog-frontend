@@ -22,8 +22,8 @@ export const fetchAllCategory = createAsyncThunk<Category[]>(
   "category/fetchAllCategory",
   async () => {
     const res = await getAllCategoryData();
-    return res
-  }
+    return res;
+  },
 );
 
 const categorySlice = createSlice({
@@ -41,7 +41,7 @@ const categorySlice = createSlice({
           state.loading = false;
           state.category = action.payload;
           state.error = null;
-        }
+        },
       )
       .addCase(fetchAllCategory.rejected, (state, action) => {
         state.loading = false;

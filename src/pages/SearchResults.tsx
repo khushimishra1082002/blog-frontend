@@ -3,8 +3,9 @@ import Categories from "./Categories";
 import Header from "../components/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../Redux Toolkit/Store";
-import PostCardFive from "../components/PostCardFive";
+import PostCardFive from "../components/PostCardOne";
 import { Link } from "react-router-dom";
+import PostCardOne from "../components/PostCardOne";
 
 const SearchResults = () => {
   const query = useSelector((state: RootState) => state.search.query);
@@ -23,7 +24,7 @@ const SearchResults = () => {
         >
           {results.map((post) => (
             <Link key={post._id} to={`singleBlogPage/${post._id}`}>
-              <PostCardFive post={post} />
+              <PostCardOne post={post} />
             </Link>
           ))}
         </div>

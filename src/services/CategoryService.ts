@@ -1,12 +1,17 @@
 import api from "../utils/api";
 import conf from "../config/Conf"
 
+interface Category {
+  _id: string;
+  name: string;
+}
+
 export const getAllCategoryData = async () => {
   try {
     const response = await api.get(conf.GetAllCategoryUrl); 
     console.log("API Response:", response.data);
     return response.data;
-  } catch (error) {
+  } catch (error:any) {
     console.error(
       "Error fetching category",
       error.response?.data || error.message
@@ -25,7 +30,7 @@ export const getSingleCategoryData = async (id: string) => {
   }
 };
 
-export const addNewCategoryData = async (values) => {
+export const addNewCategoryData = async (values:Category) => {
     try {
       const response = await api.post(conf.CreateNewCategoryUrl, values, {
         headers: {
@@ -53,7 +58,7 @@ export const addNewCategoryData = async (values) => {
     }
   };
 
-  export const editCategoryData = async (id: string, formData) => {
+  export const editCategoryData = async (id: string, formData:Category) => {
     try {
       const response = await api.put(`${conf.UpdateCategoryUrl}/${id}`, formData, {
         headers: {

@@ -11,9 +11,10 @@ import { getTreandingPostData } from "../services/PostServices";
 import Loader from "../components/Loader";
 import Error from "../components/Error";
 import { getImageUrl } from "../utils/getImageUrls";
+import { Post } from "../types/postType";
 
 const TrendingPost = () => {
-  const [trendingPosts, setTrendingPosts] = useState<any[]>([]);
+  const [trendingPosts, setTrendingPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -77,8 +78,10 @@ const TrendingPost = () => {
                     />
                   </div>
 
-                  <span className="text-sm text-gray-700 font-Roboto font-medium">
-                    {new Date(post.createdAt).toDateString()}
+                  <span className="font-Roboto text-gray-600 text-sm">
+                    {post.createdAt
+                      ? new Date(post.createdAt).toDateString()
+                      : "Date not available"}
                   </span>
 
                   <h2 className="text-base font-Inter font-medium hover:underline line-clamp-2">

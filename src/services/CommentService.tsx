@@ -1,12 +1,12 @@
 import api from "../utils/api";
 import conf from "../config/Conf"
 
-export const getCommentByPostData = async (postId) => {
+export const getCommentByPostData = async (postId:string) => {
   try {
     const response = await api.get(`${conf.getCommentByPostUrl}/${postId}`); 
     console.log("API Response:", response.data);
     return response.data;
-  } catch (error) {
+  } catch (error:any) {
     console.error(
       "Error ",
       error.response?.data || error.message
@@ -15,7 +15,7 @@ export const getCommentByPostData = async (postId) => {
   }
 };
 
-export const addCommentData = async (values) => {
+export const addCommentData = async (values:FormData) => {
     try {
       const response = await api.post(conf.addCommentUrl, values, {
         headers: {

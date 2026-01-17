@@ -9,9 +9,10 @@ import { getTopPostData } from "../services/PostServices";
 import Loader from "../components/Loader";
 import Error from "../components/Error";
 import { getImageUrl } from "../utils/getImageUrls";
+import {Post} from "../types/postType"
 
 const TopPosts = () => {
-  const [topPost, setTopPost] = useState<any[]>([]);
+  const [topPost, setTopPost] = useState<Post[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 

@@ -1,12 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { getImageUrl } from "../utils/getImageUrls";
+import { Post } from "../types/postType";
 
-const PostCardFive = ({ post }) => {
+interface PostCardOneProps {
+  post: Post;
+}
+
+const PostCardOne: React.FC<PostCardOneProps> = ({ post }) => {
   return (
     <Link to={`/singleBlogPage/${post._id}`} className="block">
       <div className="bg-white p-4 shadow-lg rounded space-y-3 cursor-pointer">
-        
         {/* Image */}
         <div className="w-full h-56 overflow-hidden">
           <img
@@ -19,7 +23,9 @@ const PostCardFive = ({ post }) => {
         {/* Content */}
         <div className="space-y-2">
           <span className="font-Roboto text-gray-600 text-sm">
-            {new Date(post.createdAt).toDateString()}
+            {post.createdAt
+              ? new Date(post.createdAt).toDateString()
+              : "Date not available"}
           </span>
 
           <h2 className="text-base font-Inter font-medium hover:underline line-clamp-2">
@@ -50,4 +56,4 @@ const PostCardFive = ({ post }) => {
   );
 };
 
-export default PostCardFive;
+export default PostCardOne;

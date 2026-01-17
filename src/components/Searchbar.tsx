@@ -1,73 +1,71 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, ChangeEvent, KeyboardEvent } from "react";
 import { Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import SearchResults from "../pages/SearchResults";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../Redux Toolkit/Store";
-import { setQuery, setResults } from "../Redux Toolkit/slice/SearchSlice";
+import {
+  setQuery,
+  clearResults,
+  searchPosts,
+} from "../Redux Toolkit/slice/SearchSlice";
 import { fetchAllPosts } from "../Redux Toolkit/slice/PostSlice";
 
-const Searchbar = () => {
+const Searchbar: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const query = useSelector((state: RootState) => state.search.query);
-
-  const handleSearch = (value: string) => {
-    dispatch(setQuery(value));
-  };
-
-  useEffect(() => {
-    if (query.trim() === "") {
-      dispatch(fetchAllPosts()); 
-    } else {
-      axios
-        .get(`http://localhost:5000/api/search/searchPost?q=${query}`)
-        .then((res) => dispatch(setResults(res.data)))
-        .catch(console.error);
-    }
-  }, [query, dispatch]);
-
   const navigate = useNavigate();
 
-  const hanldenavigation = () => {
+  const query = useSelector((state: RootState) => state.search.query);
+
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setQuery(e.target.value));
+  };
+
+  const handleNavigation = () => {
     navigate("/searchResults");
   };
 
+  useEffect(() => {
+    if (!query.trim()) {
+      dispatch(clearResults());
+      dispatch(fetchAllPosts());
+    } else {
+      dispatch(searchPosts(query));
+    }
+  }, [query, dispatch]);
+
   return (
-    <>
-      <div className="flex justify-center items-center">
-        <div className="relative w-[40vw]">
-          <input
-            type="text"
-            placeholder="Find a post you're looking for..."
-            value={query}
-            onChange={(e) => handleSearch(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                hanldenavigation();
-              }
-            }}
-            className="w-full border border-black/15
-           pl-12 pr-4 py-2 text-sm focus:outline-none focus:ring-1
-            focus:ring-orange-500 transition-all duration-300 rounded-l-sm"
-          />
-          <Search
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
-            size={18}
-          />
-        </div>
-        <div>
-          <button
-            onClick={hanldenavigation}
-            className="bg-cyan-500 flex items-center gap-1 text-white py-2 px-2 text-[15px]
-             rounded-r-sm font-semibold font-Inter"
-          >
-            <Search className=" text-white" size={18} />
-            Search
-          </button>
-        </div>
+    <div className="flex justify-center items-center">
+      <div className="relative w-[40vw]">
+        <input
+          type="text"
+          placeholder="Find a post you're looking for..."
+          value={query}
+          onChange={handleSearchChange}
+          onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === "Enter") {
+              handleNavigation();
+            }
+          }}
+          className="w-full border border-black/15
+          pl-12 pr-4 py-2 text-sm focus:outline-none focus:ring-1
+          focus:ring-orange-500 transition-all duration-300 rounded-l-sm"
+        />
+
+        <Search
+          className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+          size={18}
+        />
       </div>
-    </>
+
+      <button
+        onClick={handleNavigation}
+        className="bg-cyan-500 flex items-center gap-1 text-white py-2 px-2 text-[15px]
+        rounded-r-sm font-semibold font-Inter"
+      >
+        <Search size={18} />
+        Search
+      </button>
+    </div>
   );
 };
 

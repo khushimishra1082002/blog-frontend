@@ -17,7 +17,7 @@ const SubscriptionForm = () => {
       } else {
         setMessage("Something went wrong.");
       }
-    } catch (error) {
+    } catch (error:any) {
       if (error.response?.status === 409) {
         setMessage("You are already subscribed.");
       } else {

@@ -4,10 +4,9 @@ import * as Yup from "yup";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { motion } from "framer-motion";
 import ErrorMessages from "./ErrorMessages";
-import axios from "axios";
-import conf from "../config/Conf";
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "../services/AuthServices";
+import { loginUser } from "../services/AuthServices"
+
 interface LoginValues {
   email: string;
   password: string;
@@ -27,7 +26,7 @@ const Login: React.FC<LoginProps> = ({ setIsLoggedIn }) => {
 
   const onSubmit = async (
     values: LoginValues,
-    onSubmitProps: FormikHelpers<LoginValues>
+    onSubmitProps: FormikHelpers<LoginValues>,
   ) => {
     try {
       const response = await loginUser(values);
@@ -164,7 +163,7 @@ const Login: React.FC<LoginProps> = ({ setIsLoggedIn }) => {
                     Don't have an account?
                   </span>
                   <motion.button
-                    onClick={() => navigate("/LoggedInPage?type=register")} // ✅ Navigate instead of setIsLoggedIn
+                    onClick={() => navigate("/LoggedInPage?type=register")}
                     className="hover:underline text-[15px] font-RobotoFlex text-cyan-500 font-medium"
                     whileHover={{ scale: 1.05, color: "#06b6d4" }}
                   >

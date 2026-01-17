@@ -1,13 +1,20 @@
-// ProtectedRoute.jsx
-import React from "react";
+import React, { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 
-const ProtectedRoute = ({ isAllowed, children }) => {
+interface ProtectedRouteProps {
+  isAllowed: boolean;
+  children: ReactNode;
+}
+
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+  isAllowed,
+  children,
+}) => {
   if (!isAllowed) {
     return <Navigate to="/" replace />;
   }
 
-  return children;
+  return <>{children}</>;
 };
 
 export default ProtectedRoute;

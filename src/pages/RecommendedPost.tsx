@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import PostCardFive from "../components/PostCardFive";
+import PostCardFive from "../components/PostCardOne";
 import { Link } from "react-router-dom";
 import { getRecommendedPostData } from "../services/PostServices";
 import Loader from "../components/Loader";
 import Error from "../components/Error";
+import {Post} from "../types/postType"
+import PostCardOne from "../components/PostCardOne";
 
 const RecommendedPost = () => {
-  const [recommendedPost, setRecommendedPost] = useState<any[]>([]);
+  const [recommendedPost, setRecommendedPost] = useState<Post[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -54,7 +56,7 @@ const RecommendedPost = () => {
       >
         {recommendedPost.map((post) => (
           <Link key={post._id} to={`/singleBlogPage/${post._id}`}>
-            <PostCardFive post={post} />
+            <PostCardOne post={post} />
           </Link>
         ))}
       </div>

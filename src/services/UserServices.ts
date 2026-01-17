@@ -6,7 +6,7 @@ export const getAllUsersData = async () => {
     const response = await api.get(conf.GetAllUsersUrl); 
     console.log("API Response:", response.data);
     return response.data;
-  } catch (error) {
+  } catch (error:any) {
     console.error(
       "Error fetching users",
       error.response?.data || error.message

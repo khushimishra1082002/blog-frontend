@@ -1,5 +1,4 @@
-import React,{useEffect} from "react";
-import Header from "../components/Header";
+import React, { useEffect } from "react";
 import Footer from "../components/Footer";
 import Categories from "./Categories";
 import AllPosts from "./AllPosts";
@@ -8,33 +7,23 @@ import TopPosts from "./TopPosts";
 import FeaturedPosts from "./FeaturedPosts";
 import RecommendedPost from "./RecommendedPost";
 import TrendingPost from "./TrendingPost";
-import SimilorPost from "./SimilorPost";
 import RecentPost from "./RecentPost";
 import HeroSection from "../components/HeroSection";
-import { IoLogoFacebook } from "react-icons/io";
-import { FaInstagram } from "react-icons/fa6";
-import { FaTwitterSquare } from "react-icons/fa";
-import { FaYoutubeSquare } from "react-icons/fa";
-import SocialIcon from "../components/SocialIcon";
-import { getDecodedToken } from "../utils/tokenUtils";
-import { setQuery, setResults } from "../Redux Toolkit/slice/SearchSlice";
 import { useDispatch } from "react-redux";
+import { AppDispatch } from "../Redux Toolkit/Store";
+import { setQuery, clearResults } from "../Redux Toolkit/slice/SearchSlice";
 
-const Homepage = () => {
+const Homepage: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
 
-  const dispatch = useDispatch();
-
-
-    useEffect(() => {
+  useEffect(() => {
     dispatch(setQuery(""));
-    dispatch(setResults([]));
-  }, []);
-  
+    dispatch(clearResults());
+  }, [dispatch]);
+
   return (
     <>
-      <div className="">
-        <Categories />
-      </div>
+      <Categories />
       <HeroSection />
       <AllPosts />
       <PopularPost />

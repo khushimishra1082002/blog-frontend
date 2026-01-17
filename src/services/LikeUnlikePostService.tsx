@@ -16,7 +16,7 @@ export const unlikePostData = async (postId: string, body: object) => {
     }
   };
 
-  export const likePostData = async (data) => {
+  export const likePostData = async (data:FormData) => {
     try {
       const response = await api.post(conf.likePostUrl, data , {
         headers: {

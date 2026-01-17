@@ -17,7 +17,7 @@ export const undislikePostData = async (postId: string, body: object) => {
   };
 
 
-  export const dislikePostData = async (data) => {
+  export const dislikePostData = async (data:FormData) => {
       try {
         const response = await api.post(conf.disLikePostUrl, data , {
           headers: {

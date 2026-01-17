@@ -31,7 +31,7 @@ const Contact: React.FC<valueProps> = ({ setIsLoggedIn }) => {
     onSubmitProps: FormikHelpers<values>
   ) => {
     console.log(values);
-    alert("Details fill successfully")
+    alert("Form Submitted successfully")
     navigate("/")
   };
 

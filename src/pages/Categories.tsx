@@ -21,7 +21,7 @@ const Categories = () => {
     (state: RootState) => state.categoryData
   );
 
-  console.log("v",category);
+  console.log("category",category);
   
 
   useEffect(() => {
