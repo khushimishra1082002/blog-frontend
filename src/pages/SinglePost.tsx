@@ -60,7 +60,7 @@ const SinglePost: React.FC = () => {
 
         {/* Content */}
         <div className="space-y-5">
-          <h2 className="text-2xl font-medium">{singlePosts.title}</h2>
+          <h2 className="text-2xl font-medium font-Inter">{singlePosts.title}</h2>
 
           {singlePosts.createdAt && (
             <span className="text-gray-500">
@@ -72,7 +72,7 @@ const SinglePost: React.FC = () => {
             </span>
           )}
 
-          <p className="text-sm">{singlePosts.content}</p>
+          <p className="text-sm font-Poppins">{singlePosts.content}</p>
 
           {/* Author */}
           <div className="flex justify-between items-center">
