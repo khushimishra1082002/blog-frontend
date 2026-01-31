@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
-import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { motion } from "framer-motion";
-import axios from "axios";
 import ErrorMessages from "../../pages/ErrorMessages";
 import { LuUser } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
@@ -13,8 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { editUserData, getSingleUserData } from "../../services/UserServices";
-import { getDecodedToken } from "../../utils/tokenUtils";
-import { getImageUrl } from "../../utils/getImageUrls";
+
 
 interface UserValues {
   name: string;
@@ -61,50 +58,6 @@ const EditUser: React.FC = () => {
     role: singleUser.role || "",
     image: singleUser.image || null,
   };
-
-  // const onSubmit = async (
-  //   values: UserValues,
-  //   onSubmitProps: FormikHelpers<UserValues>,
-  // ) => {
-  //   console.log("yu",values);
-
-  //   const formData = new FormData();
-  //   formData.append("name", values.name);
-  //   formData.append("email", values.email);
-  //   formData.append("password", values.password);
-  //   formData.append("role", values.role);
-  //   if (values.image instanceof File) {
-  //     formData.append("image", values.image);
-  //   }
-
-  //   formData.append("author", id);
-  //   formData.append("createdAt", new Date().toISOString());
-
-  //   try {
-  //     const res = await editUserData(id, formData); // res.user has updated user
-
-  //     alert("User edited successfully");
-
-  //     // ✅ Step 1: update Formik values so preview shows new image
-  //     onSubmitProps.setValues({
-  //       ...values,
-  //       image: res.user.image, // new image URL from backend
-  //     });
-
-  //     // ✅ Step 2: update singleUser state
-  //     setSingleUser(res.user);
-
-  //     // ✅ Step 3: optionally navigate if needed
-  //     navigate("/dashboard/user");
-  //   } catch (error: any) {
-  //     console.error("Error:", error);
-  //     const errorMessage =
-  //       error.response?.data?.message || "Failed. Please try again.";
-  //     alert(errorMessage);
-  //   } finally {
-  //     onSubmitProps.setSubmitting(false);
-  //   }
-  // };
 
   const onSubmit = async (
     values: UserValues,
@@ -188,7 +141,7 @@ const EditUser: React.FC = () => {
                     />
                   ) : formik.values.image ? (
                     <img
-                      src={formik.values.image} // now uses Formik value updated from backend
+                      src={formik.values.image} 
                       alt="Profile Preview"
                       className="w-20 h-20 object-cover mt-2 rounded"
                     />

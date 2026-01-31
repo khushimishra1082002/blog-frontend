@@ -63,41 +63,6 @@ const AddNewPost: React.FC = () => {
     isFeatured: false,
   };
 
-  // const onSubmit = async (
-  //   values: PostValues,
-  //   formikHelpers: FormikHelpers<PostValues>
-  // ) => {
-  //   const decoded = getDecodedToken();
-  //   const userId = decoded?.id || "";
-
-  //   const formData = new FormData();
-  //   formData.append("title", values.title);
-  //   formData.append("content", values.content);
-  //   formData.append("category", values.category);
-  //   formData.append("tags", values.tags);
-  //   formData.append("author", userId);
-  //   formData.append("published", values.published.toString());
-  //   formData.append("createdAt", new Date().toISOString());
-  //   formData.append("isFeatured", values.isFeatured.toString());
-
-  //   if (values.image) {
-  //     formData.append("image", values.image);
-  //   }
-
-  //   try {
-  //     await addNewPostData(formData);
-  //     alert("Post added Successfully");
-  //     navigate("/")
-  //     formikHelpers.resetForm();
-  //   } catch (error: any) {
-  //     const errorMessage =
-  //       error.response?.data?.message || "Failed. Please try again.";
-  //     alert(errorMessage);
-  //   } finally {
-  //     formikHelpers.setSubmitting(false);
-  //   }
-  // };
-
   const onSubmit = async (
   values: PostValues,
   formikHelpers: FormikHelpers<PostValues>
@@ -122,12 +87,10 @@ const AddNewPost: React.FC = () => {
   try {
     await addNewPostData(formData);
     alert("Post added Successfully");
-
-    // ✅ ROLE BASED REDIRECT
     if (role === "admin") {
-      navigate("/dashboard/post"); // admin dashboard
+      navigate("/dashboard/post"); 
     } else {
-      navigate("/"); // normal user UI
+      navigate("/");
     }
 
     formikHelpers.resetForm();
@@ -236,7 +199,6 @@ const AddNewPost: React.FC = () => {
                   {category.map((category: any) => (
                     <option key={category._id} value={category._id}>
                       {" "}
-                      {/* Send _id here */}
                       {category.name}
                     </option>
                   ))}

@@ -7,7 +7,6 @@ const LoggedInPage = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const location = useLocation();
 
-  // Read type from URL query
   const queryParams = new URLSearchParams(location.search);
   const formType = queryParams.get("type");
 

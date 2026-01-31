@@ -165,7 +165,7 @@ const Comment: React.FC<CommentProps> = ({ postId }) => {
         ) : (
           <p className="text-gray-600 text-sm font-Inter">
             Please{" "}
-            <a href="/login" className="text-orange-500 underline">
+            <a href="/LoggedInPage?type=login" className="text-orange-500 underline">
               login
             </a>{" "}
             to add a comment.

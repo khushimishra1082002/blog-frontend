@@ -2,16 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { motion } from "framer-motion";
-import axios from "axios";
 import { AiOutlineEdit } from "react-icons/ai";
 import { useDispatch,useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import ErrorMessages from "../../pages/ErrorMessages";
 import { RootState, AppDispatch } from "../../Redux Toolkit/Store";
 import { editPostData, getSinglePostData } from "../../services/PostServices";
-import { getDecodedToken } from "../../utils/tokenUtils";
 import { fetchAllCategory } from "../../Redux Toolkit/slice/CategorySlice";
-import conf from "../../config/Conf";
 import { getImageUrl } from "../../utils/getImageUrls";
 
 interface EditPostFormValues {

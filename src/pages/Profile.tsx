@@ -15,6 +15,8 @@ import { useState } from "react";
 import EditProfileModel from "../model/EditProfileModel";
 import { getImageUrl } from "../utils/getImageUrls";
 import EditPasswordModel from "../model/EditPasswordModel";
+import { updateMyProfile } from "../services/ProfileService";
+import { deletePostData } from "../services/PostServices";
 
 interface DecodedTokenType {
   id: string;
@@ -29,7 +31,6 @@ const Profile = () => {
   const [openEditProfileModal, setOpenEditProfileModal] = useState(false);
   const [openEditPasswordModal, setOpenEditPasswordModal] = useState(false);
 
-
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   console.log("selectedImage", selectedImage);
 
@@ -38,8 +39,6 @@ const Profile = () => {
   const token = localStorage.getItem("token");
   const storedUser = localStorage.getItem("user");
   console.log("storedUser", storedUser);
-
-  // const user = storedUser ? JSON.parse(storedUser) : null;
   const [currentUser, setCurrentUser] = useState(user);
 
   console.log("currentUser:", currentUser);
@@ -53,7 +52,7 @@ const Profile = () => {
   }
 
   const { posts, loading, error } = useSelector(
-    (state: RootState) => state.postsData
+    (state: RootState) => state.postsData,
   );
 
   useEffect(() => {
@@ -69,98 +68,57 @@ const Profile = () => {
 
   const totalLikes = userPosts.reduce(
     (acc, post) => acc + (post.likes?.length || 0),
-    0
+    0,
   );
 
   const totalViews = userPosts.reduce(
     (acc, post) => acc + (post.views || 0),
-    0
+    0,
   );
 
   const totalComments = userPosts.reduce(
     (acc, post) => acc + (post.comments?.length || 0),
-    0
+    0,
   );
 
-  const handleDeletePost = async (postId: string) => {
-    console.log("postId", postId);
-    const token = localStorage.getItem("token");
-    console.log("token", token);
 
-    if (!token) {
-      alert("You are not authenticated. Please log in.");
-      return;
-    }
 
-    try {
-      const response = await axios.delete(
-        `http://localhost:5000/api/blog-posts/deletePost/${postId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      console.log("response", response);
-
-      if (response.status === 200) {
-        alert("Post deleted successfully!");
-        dispatch(fetchAllPosts());
-      } else {
-        alert("Failed to delete post. Please try again.");
-      }
-    } catch (error:any) {
-      console.error("Error deleting post:", error);
-      if (error.response) {
-        console.error("Error response status:", error.response.status);
-        console.error("Error response data:", error.response.data);
-      }
-      alert("An error occurred while deleting the post. Please try again.");
-    }
-  };
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      setSelectedImage(file);
-      setPreview(URL.createObjectURL(file));
-    }
-  };
   const handleUploadImage = async () => {
-    if (!selectedImage || !currentUser?._id) {
-      alert("No image selected or user not loaded");
-      return;
-    }
+  if (!selectedImage) {
+    alert("Select an image first");
+    return;
+  }
 
-    const formData = new FormData();
-    formData.append("image", selectedImage); // MUST match multer field name
-    formData.append("name", currentUser.name);
-    formData.append("email", currentUser.email);
-    formData.append("role", currentUser.role);
+  const formData = new FormData();
+  formData.append("image", selectedImage);
+  formData.append("name", user?.name || "");
+  formData.append("email", user?.email || "");
 
+  try {
+    const updatedUser = await updateMyProfile(formData);
+
+    alert("Profile updated successfully ");
+
+    localStorage.setItem("user", JSON.stringify(updatedUser));
+    window.dispatchEvent(new Event("userUpdated"));
+
+    setSelectedImage(null);
+    setPreview(null);
+  } catch (error) {
+    alert("Profile update failed ");
+  }
+};
+
+const handleDeletePost = async (postId: string) => {
     try {
-      const res = await axios.put(
-        `http://localhost:5000/api/users/updateUser/${currentUser._id}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data", // 🔑 important
-          },
-        }
-      );
-
-      console.log("response:", res.data);
-
-      alert("Image updated successfully ✅");
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-      window.dispatchEvent(new Event("userUpdated"));
-      setCurrentUser(res.data.user);
-      setPreview(null);
-      setSelectedImage(null);
+      await deletePostData(postId);
+      alert("Post deleted successfully!")
+      dispatch(fetchAllPosts());
     } catch (error: any) {
-      console.error("Error uploading image:", error.response || error.message);
-      alert("Image upload failed ❌");
+      alert(
+        error.response?.data?.message ||
+          "An error occurred while deleting the post.",
+      );
     }
   };
 
@@ -172,34 +130,12 @@ const Profile = () => {
           src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D"
           alt="Profile background"
         />
-        {/* <div className="w-20 h-20 rounded-full absolute -bottom-7 left-14">
-          <img
-            className="w-full h-full rounded-full"
-            src={
-              user?.image ? `${conf.BaseURL}${conf.ImageUploadUrl}/${user.image}` : "https://cdn-icons-png.flaticon.com/512/9385/9385289.png"
-            }
-            alt={user?.name}
-          />
-
-
-        </div> */}
 
         <div className="w-20 h-20 rounded-full absolute -bottom-7 left-14 group">
-          <img className="w-full h-full rounded-full" src={getImageUrl(user?.image)} />
-
-          {/* Camera Icon */}
-          {/* <label
-            className="absolute bottom-0 right-0 bg-black text-white p-1 rounded-full
-                    cursor-pointer opacity-0 group-hover:opacity-100 transition"
-          >
-            <FaCamera size={12} />
-            <input
-              type="file"
-              accept="image/*"
-              hidden
-              onChange={(e) => handleImageChange(e)}
-            />
-          </label> */}
+          <img
+            className="w-full h-full rounded-full"
+            src={getImageUrl(user?.image)}
+          />
         </div>
 
         {selectedImage && (
@@ -219,22 +155,22 @@ const Profile = () => {
               {user?.email}
             </span>
 
-           <div className="flex gap-2">
-             <button
-              className="mt-3 w-fit bg-gray-900 text-white text-sm px-4 py-2 rounded
+            <div className="flex gap-2">
+              <button
+                className="mt-3 w-fit bg-gray-900 text-white text-sm px-4 py-2 rounded
                hover:bg-gray-700 transition"
-              onClick={() => setOpenEditProfileModal(true)}
-            >
-              Edit Profile
-            </button>
-             <button
-              className="mt-3 w-fit bg-gray-900 text-white text-sm px-4 py-2 rounded
+                onClick={() => setOpenEditProfileModal(true)}
+              >
+                Edit Profile
+              </button>
+              <button
+                className="mt-3 w-fit bg-gray-900 text-white text-sm px-4 py-2 rounded
                hover:bg-gray-700 transition"
-              onClick={() => setOpenEditPasswordModal(true)}
-            >
-             Change Password
-            </button>
-           </div>
+                onClick={() => setOpenEditPasswordModal(true)}
+              >
+                Change Password
+              </button>
+            </div>
 
             <div className="grid grid-cols-2 border border-black/10 my-4">
               <div className="border border-black/10 flex flex-col justify-center p-6">
@@ -381,15 +317,12 @@ const Profile = () => {
         />
       )}
 
-      {
-        openEditPasswordModal && (
-          <EditPasswordModel 
-            openEditPasswordModal={openEditPasswordModal}
-            setOpenEditPasswordModal={setOpenEditPasswordModal}
-          />
-        )
-      }
-     
+      {openEditPasswordModal && (
+        <EditPasswordModel
+          openEditPasswordModal={openEditPasswordModal}
+          setOpenEditPasswordModal={setOpenEditPasswordModal}
+        />
+      )}
     </>
   );
 };

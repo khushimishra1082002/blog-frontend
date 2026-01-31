@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { IoSearchSharp } from "react-icons/io5";
-import { FaRegBell } from "react-icons/fa";
 import { Menu, X } from "lucide-react";
-import conf from "../config/Conf";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../Redux Toolkit/Store";
 import { getImageUrl } from "../utils/getImageUrls";

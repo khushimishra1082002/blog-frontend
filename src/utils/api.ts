@@ -83,11 +83,6 @@ const api = axios.create({
   },
 });
 
-/* =====================================================
-   REQUEST INTERCEPTOR
-   - Sirf token inject karega
-   - KABHI redirect nahi karega
-===================================================== */
 api.interceptors.request.use(
   (config) => {
     if (config.headers?.requiresAuth) {
@@ -102,23 +97,18 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-/* =====================================================
-   RESPONSE INTERCEPTOR
-   - Token expire / invalid handle karega
-   - Logout flow ko interfere nahi karega
-===================================================== */
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     const status = error.response?.status;
     const url = error.config?.url || "";
 
-    // 🔥 Login APIs ko redirect se bachaao
+   
     const isLoginApi =
       url.includes("/api/admin/login") ||
       url.includes("/api/auth/login");
 
-    // 🔥 Manual logout ke time redirect mat karo
+
     const isLoggingOut = localStorage.getItem("loggingOut");
 
     if (isLoginApi || isLoggingOut) {

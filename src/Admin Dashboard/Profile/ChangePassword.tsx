@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../Redux Toolkit/Store";
-import { jwtDecode } from "jwt-decode";
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { motion } from "framer-motion";
-import axios from "axios";
 import ErrorMessages from "../../pages/ErrorMessages";
 import { TbLockPassword } from "react-icons/tb";
 import conf from "../../config/Conf";
@@ -29,9 +27,6 @@ const ChangePassword: React.FC<EditPasswordProps> = ({
   const [hideOld, setHideOld] = useState(true);
   const [hideNew, setHideNew] = useState(true);
   const [hideConfirm, setHideConfirm] = useState(true);
-
-  const token = localStorage.getItem("token");
-  const dispatch = useDispatch<AppDispatch>();
 
   const decoded = getDecodedToken();
   console.log(decoded);
@@ -168,7 +163,7 @@ const ChangePassword: React.FC<EditPasswordProps> = ({
                 Confirm Password
               </label>
 
-              {/* Input + Eye Icon */}
+            
               <div className="relative">
                 <Field
                   name="confirmPassword"
@@ -188,7 +183,7 @@ const ChangePassword: React.FC<EditPasswordProps> = ({
                 </span>
               </div>
 
-              {/* Error Message */}
+             
               <div className="error">
                 <ErrorMessage
                   name="confirmPassword"

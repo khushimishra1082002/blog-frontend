@@ -4,7 +4,6 @@ import { FaFileAlt } from "react-icons/fa";
 import { FiUser } from "react-icons/fi";
 import { LuUserRoundCog } from "react-icons/lu";
 import { LuLogOut } from "react-icons/lu";
-import { IoIosSettings } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { LuNotebookText } from "react-icons/lu";
 import { TbLockPassword } from "react-icons/tb";

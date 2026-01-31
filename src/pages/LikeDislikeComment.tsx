@@ -56,15 +56,20 @@ const LikeDislikeComment: React.FC<LikeDislikeCommentProps> = ({
 
   const handleLike = async () => {
     try {
+      if (!currentUserId) return;
+
       if (likeStatus === "like") {
         await unlikePostData(postId, { author: currentUserId });
 
         setLikeStatus(null);
         setTotalLikes((prev) => prev - 1);
       } else {
-        await likePostData({ post: postId, author: currentUserId });
+        const formData = new FormData();
+        formData.append("post", postId);
+        formData.append("author", currentUserId);
 
-        // remove dislike if exists
+        await likePostData(formData);
+
         if (likeStatus === "dislike") {
           setTotalDislikes((prev) => prev - 1);
         }
@@ -79,6 +84,8 @@ const LikeDislikeComment: React.FC<LikeDislikeCommentProps> = ({
 
   const handleDislike = async () => {
     try {
+      if (!currentUserId) return;
+
       if (likeStatus === "dislike") {
         await undislikePostData(postId, { author: currentUserId });
 
@@ -90,7 +97,11 @@ const LikeDislikeComment: React.FC<LikeDislikeCommentProps> = ({
           setTotalLikes((prev) => prev - 1);
         }
 
-        await dislikePostData({ post: postId, author: currentUserId });
+        const formData = new FormData();
+        formData.append("post", postId);
+        formData.append("author", currentUserId);
+
+        await dislikePostData(formData);
 
         setLikeStatus("dislike");
         setTotalDislikes((prev) => prev + 1);

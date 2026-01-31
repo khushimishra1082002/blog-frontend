@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
-import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { motion } from "framer-motion";
-import axios from "axios";
 import ErrorMessages from "../../pages/ErrorMessages";
-import { LuUser } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import { RootState, AppDispatch } from "../../Redux Toolkit/Store";
-import { fetchAllUsers } from "../../Redux Toolkit/slice/UserSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllCategory } from "../../Redux Toolkit/slice/CategorySlice";
 import { FaPlus } from "react-icons/fa";

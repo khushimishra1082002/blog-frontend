@@ -25,8 +25,6 @@ import ScrollTop from "./components/ScrollTop";
 import AddPostByUser from "./pages/AddPostByUser";
 import SearchResults from "./pages/SearchResults";
 import Contact from "./pages/Contact";
-import Login from "./pages/Login";
-// import EditProfile from "./Admin Dashboard/Profile/EditProfile";
 import AllPosts from "./pages/AllPosts";
 import Header from "./components/Header";
 import SocialIcon from "./components/SocialIcon";
@@ -78,7 +76,7 @@ const App = () => {
           <Route path="dashboardData" element={<DashboardData />} />
           <Route index element={<DashboardData />} />
           <Route path="post" element={<AllPostPageTable />} />        
-          <Route path="user" element={<AllUsersDataTable />} />
+          <Route path="user" element={<AllUsersDataTable />} />     
           <Route path="addNewPost" element={<AddNewPost />} />
           <Route path="addNewPostByUser" element={<AddPostByUser />} />
           <Route path="addNewUser" element={<AddNewUser />} />
@@ -89,7 +87,6 @@ const App = () => {
           <Route path="category" element={<AllCategoryDataTable />} />
           <Route path="addNewCategory" element={<AddNewCategory />} />
           <Route path="editCategory/:id" element={<EditCategory />} />
-          {/* <Route path="editProfile" element={<EditProfile />} /> */}
         </Route>
       </Routes>
     </>

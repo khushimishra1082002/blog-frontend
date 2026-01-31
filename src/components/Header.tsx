@@ -15,17 +15,14 @@ const Header = () => {
 
   const { user } = useSelector((state: RootState) => state.profile);
 
-  const isLoggedIn = !!user;
-
   const token = localStorage.getItem("token");
-  console.log(token);
+  const isLoggedIn = Boolean(token);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
     if (token) {
       dispatch(fetchProfile());
     }
-  }, [dispatch]);
+  }, [dispatch, token]);
 
   const handleUserLogout = () => {
     localStorage.setItem("loggingOut", "true");
@@ -104,11 +101,15 @@ const Header = () => {
             ) : (
               <div className="relative group cursor-pointer">
                 <div className="flex items-center gap-2">
-                  <img
-                    src={getImageUrl(user.image)}
-                    className="w-9 h-9 rounded-full"
-                  />
-                  <span className="text-sm">{user.name}</span>
+                  {user && (
+                    <>
+                      <img
+                        src={getImageUrl(user.image)}
+                        className="w-9 h-9 rounded-full"
+                      />
+                      <span className="text-sm">{user.name}</span>
+                    </>
+                  )}
                 </div>
 
                 <div className="absolute right-0 mt-2 w-32 bg-white border rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition">

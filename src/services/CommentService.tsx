@@ -40,7 +40,7 @@ export const likeCommentData = async (commentId: string) => {
       }
     );
 
-    return response.data; // { message, comment }
+    return response.data; 
   } catch (error: any) {
     console.error(
       "Like comment error:",

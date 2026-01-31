@@ -19,7 +19,7 @@ export interface Post {
   category?: string | Category;
   author?: Author;
 
-  // ✅ FIX IS HERE
+ 
   likes?: string[] | number;
   comments?: string[] | string;
 }

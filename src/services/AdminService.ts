@@ -11,8 +11,8 @@ export const LonginAdmin = async (values: Record<string, any>) => {
       const { token, admin } = response.data;
 
       localStorage.setItem("token", token);
-      localStorage.setItem("role", admin.role); // ✅ FIX
-      localStorage.setItem("user", JSON.stringify(admin)); // ✅ FIX
+      localStorage.setItem("role", admin.role); 
+      localStorage.setItem("user", JSON.stringify(admin)); 
 
       return {
         success: true,

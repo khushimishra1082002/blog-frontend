@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
-import EditProfile from "../Admin Dashboard/Profile/EditProfile";
 import EditProfiles from "../Admin Dashboard/Profile/EditProfiles";
 
 interface EditTaskModelProps {

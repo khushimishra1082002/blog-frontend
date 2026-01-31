@@ -6,7 +6,6 @@ import ErrorMessages from "../../pages/ErrorMessages";
 import { LuUser } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import { RootState, AppDispatch } from "../../Redux Toolkit/Store";
-import { fetchAllUsers } from "../../Redux Toolkit/slice/UserSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchAllCategory } from "../../Redux Toolkit/slice/CategorySlice";

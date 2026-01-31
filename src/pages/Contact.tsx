@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
-import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { motion } from "framer-motion";
 import ErrorMessages from "./ErrorMessages";
-import axios from "axios";
-import conf from "../config/Conf";
 import { useNavigate } from "react-router-dom";
 
 interface values {

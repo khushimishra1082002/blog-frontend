@@ -8,7 +8,6 @@ import { FaTrash } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../Redux Toolkit/Store";
 import { fetchAllUsers } from "../../Redux Toolkit/slice/UserSlice";
-import axios from "axios";
 import { deleteUserData } from "../../services/UserServices";
 import { searchUserData } from "../../services/SearchDataService";
 import { getImageUrl } from "../../utils/getImageUrls";

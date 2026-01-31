@@ -1,8 +1,4 @@
 import React from "react";
-import { LuFileSpreadsheet } from "react-icons/lu";
-import { FaThumbsUp, FaThumbsDown } from "react-icons/fa6";
-import { LuMessageCircleMore } from "react-icons/lu";
-import conf from "../config/Conf";
 import { getImageUrl } from "../utils/getImageUrls";
 import { Post } from "../types/postType";
 

@@ -71,7 +71,6 @@ const EditProfiles: React.FC<EditProfilesProps> = ({ setOpenEditProfileModal }) 
       navigate("/profilePage");
     } catch (error: any) {
       console.error(error);
-      toast.error("Failed to update profile");
       actions.setSubmitting(false);
     }
   };
@@ -168,7 +167,7 @@ const EditProfiles: React.FC<EditProfilesProps> = ({ setOpenEditProfileModal }) 
               <button
                 type="submit"
                 className="bg-gradient-to-r from-green-500 to-teal-500 text-white 
-      p-2 rounded font-semibold text-base"
+                p-2 rounded font-semibold text-base"
               >
                 Update Profile
               </button>

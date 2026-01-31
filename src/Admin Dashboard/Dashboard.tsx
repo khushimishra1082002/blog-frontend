@@ -4,7 +4,9 @@ import DashboardHeader from "./DashboardHeader";
 import { Outlet } from "react-router-dom";
 
 const Dashboard = () => {
+
   const [open, setOpen] = useState(false);
+  
   return (
     <div className=" flex w-full h-screen overflow-hidden">
       <div
