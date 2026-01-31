@@ -14,6 +14,7 @@ import { FaCamera } from "react-icons/fa";
 import { useState } from "react";
 import EditProfileModel from "../model/EditProfileModel";
 import { getImageUrl } from "../utils/getImageUrls";
+import EditPasswordModel from "../model/EditPasswordModel";
 
 interface DecodedTokenType {
   id: string;
@@ -25,7 +26,9 @@ interface DecodedTokenType {
 const Profile = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.profile);
-  const [openEditModal, setOpenEditModal] = useState(false);
+  const [openEditProfileModal, setOpenEditProfileModal] = useState(false);
+  const [openEditPasswordModal, setOpenEditPasswordModal] = useState(false);
+
 
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   console.log("selectedImage", selectedImage);
@@ -216,13 +219,22 @@ const Profile = () => {
               {user?.email}
             </span>
 
-            <button
+           <div className="flex gap-2">
+             <button
               className="mt-3 w-fit bg-gray-900 text-white text-sm px-4 py-2 rounded
                hover:bg-gray-700 transition"
-              onClick={() => setOpenEditModal(true)}
+              onClick={() => setOpenEditProfileModal(true)}
             >
               Edit Profile
             </button>
+             <button
+              className="mt-3 w-fit bg-gray-900 text-white text-sm px-4 py-2 rounded
+               hover:bg-gray-700 transition"
+              onClick={() => setOpenEditPasswordModal(true)}
+            >
+             Change Password
+            </button>
+           </div>
 
             <div className="grid grid-cols-2 border border-black/10 my-4">
               <div className="border border-black/10 flex flex-col justify-center p-6">
@@ -362,12 +374,22 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      {openEditModal && (
+      {openEditProfileModal && (
         <EditProfileModel
-          openEditModal={openEditModal}
-          setOpenEditModal={setOpenEditModal}
+          openEditProfileModal={openEditProfileModal}
+          setOpenEditProfileModal={setOpenEditProfileModal}
         />
       )}
+
+      {
+        openEditPasswordModal && (
+          <EditPasswordModel 
+            openEditPasswordModal={openEditPasswordModal}
+            setOpenEditPasswordModal={setOpenEditPasswordModal}
+          />
+        )
+      }
+     
     </>
   );
 };

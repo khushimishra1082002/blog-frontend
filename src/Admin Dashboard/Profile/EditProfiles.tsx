@@ -19,10 +19,10 @@ interface FormValues {
   image: File | null;
 }
 interface EditProfilesProps {
-  setOpenEditModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenEditProfileModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const EditProfiles: React.FC<EditProfilesProps> = ({setOpenEditModal}) => {
+const EditProfiles: React.FC<EditProfilesProps> = ({ setOpenEditProfileModal }) => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.profile.user);
@@ -54,7 +54,7 @@ const EditProfiles: React.FC<EditProfilesProps> = ({setOpenEditModal}) => {
 
   const onSubmit = async (
     values: FormValues,
-    actions: FormikHelpers<FormValues>
+    actions: FormikHelpers<FormValues>,
   ) => {
     try {
       const formData = new FormData();
@@ -67,7 +67,7 @@ const EditProfiles: React.FC<EditProfilesProps> = ({setOpenEditModal}) => {
 
       alert("Profile updated successfully");
       actions.setSubmitting(false);
-       setOpenEditModal(false)
+      setOpenEditProfileModal(false);
       navigate("/profilePage");
     } catch (error: any) {
       console.error(error);
@@ -116,8 +116,13 @@ const EditProfiles: React.FC<EditProfilesProps> = ({setOpenEditModal}) => {
               </div>
 
               <div>
-                <h4 className="text-2xl font-medium">{user.name}</h4>
-                <span className="capitalize bg-cyan-500 text-white px-3 py-1 rounded-full text-sm">
+                <h4 className="text-2xl font-medium font-RobotoFlex">
+                  {user.name}
+                </h4>
+                <span
+                  className="capitalize bg-cyan-500 text-white px-3 py-1  
+                rounded-full text-sm font-Roboto"
+                >
                   {user.role}
                 </span>
               </div>
@@ -126,40 +131,49 @@ const EditProfiles: React.FC<EditProfilesProps> = ({setOpenEditModal}) => {
             {/* Name & Emails */}
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-1 col-span-2 text-left">
-                <label htmlFor="name" className="text-left font-medium">
+                <label
+                  htmlFor="name"
+                  className="text-left font-medium font-RobotoFlex"
+                >
                   Name
                 </label>
                 <Field
                   type="text"
                   name="name"
                   placeholder="Name"
-                  className="p-[10px] border border-black/20 rounded-md text-sm"
+                  className="p-[10px] border border-black/20 rounded-md text-sm font-RobotoFlex"
                 />
                 <ErrorMessage name="name" component={ErrorMessagess} />
               </div>
 
               <div className="flex flex-col gap-1 col-span-2 text-left">
-                <label htmlFor="email" className="text-left font-medium">
+                <label
+                  htmlFor="email"
+                  className="text-left font-medium font-RobotoFlex"
+                >
                   Email
                 </label>
                 <Field
                   type="text"
                   name="email"
                   placeholder="Email"
-                  className="p-[10px] border border-black/20 rounded-md text-sm"
+                  className="p-[10px] border border-black/20 rounded-md text-sm font-RobotoFlex"
                 />
                 <ErrorMessage name="email" component={ErrorMessagess} />
               </div>
             </div>
 
-            {/* Submit */}
-            <div className="flex">
+            <div className="flex gap-3">
+              {/* Submit */}
               <button
                 type="submit"
-                className="bg-gradient-to-r from-green-500 to-teal-500 text-white p-2 rounded"
+                className="bg-gradient-to-r from-green-500 to-teal-500 text-white 
+      p-2 rounded font-semibold text-base"
               >
                 Update Profile
               </button>
+
+             
             </div>
           </Form>
         )}

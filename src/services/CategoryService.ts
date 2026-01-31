@@ -2,7 +2,6 @@ import api from "../utils/api";
 import conf from "../config/Conf"
 
 interface Category {
-  _id: string;
   name: string;
 }
 

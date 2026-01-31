@@ -56,7 +56,12 @@ export const addNewUserData = async (formData: FormData) => {
 
  export const editUserData = async (id: string, formData: FormData) => {
   try {
-    const response = await api.put(`${conf.UpdateUserUrl}/${id}`, formData);
+    const response = await api.put(`${conf.UpdateUserUrl}/${id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        requiresAuth: true,
+      },
+    });
     return response.data;
   } catch (error: any) {
     console.error("Edit user error:", error.response?.data || error.message);

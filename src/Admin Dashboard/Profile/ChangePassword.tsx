@@ -19,21 +19,26 @@ interface FormValues {
   confirmPassword: string;
 }
 
-const ChangePassword: React.FC = () => {
+interface EditPasswordProps {
+  setOpenEditPasswordModal: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const ChangePassword: React.FC<EditPasswordProps> = ({
+  setOpenEditPasswordModal,
+}) => {
   const [hideOld, setHideOld] = useState(true);
-const [hideNew, setHideNew] = useState(true);
-const [hideConfirm, setHideConfirm] = useState(true);
+  const [hideNew, setHideNew] = useState(true);
+  const [hideConfirm, setHideConfirm] = useState(true);
 
   const token = localStorage.getItem("token");
   const dispatch = useDispatch<AppDispatch>();
 
   const decoded = getDecodedToken();
   console.log(decoded);
-  
+
   const userId = decoded?.id ?? "";
 
-  console.log("userId",userId);
-  
+  console.log("userId", userId);
 
   const initialValues: FormValues = {
     oldPassword: "",
@@ -41,28 +46,27 @@ const [hideConfirm, setHideConfirm] = useState(true);
     confirmPassword: "",
   };
 
-  const onSubmit = async (values,onSubmitProps) => {
-   console.log(values);
-   try{
-    const token = localStorage.getItem("token");
-    const res = await api.put(`${conf.ChangePasswordUrl}/${userId}`,values,
-      {
+  const onSubmit = async (
+    values: FormValues,
+    onSubmitProps: FormikHelpers<FormValues>,
+  ) => {
+    console.log(values);
+    try {
+      const token = localStorage.getItem("token");
+      const res = await api.put(`${conf.ChangePasswordUrl}/${userId}`, values, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }
-    )
-    alert("Password Changed successfully");
-    onSubmitProps.resetForm();
-   }
-   
-   catch(error){
-    console.error("Error:", error);
-    const errorMessage =
-      error.response?.data?.message || "Failed. Please try again.";
-    alert(errorMessage);
-   }
-    
+      });
+      alert("Password Changed successfully");
+      setOpenEditPasswordModal(false);
+      onSubmitProps.resetForm();
+    } catch (error: any) {
+      console.error("Error:", error);
+      const errorMessage =
+        error.response?.data?.message || "Failed. Please try again.";
+      alert(errorMessage);
+    }
   };
 
   const validationSchema = Yup.object({
@@ -79,8 +83,8 @@ const [hideConfirm, setHideConfirm] = useState(true);
         validationSchema={validationSchema}
       >
         {(formik) => (
-          <Form className="grid gap-7 border border-black/10 p-12 rounded ">
-            <div className=" flex  flex-col gap-1 items-center justify-center">
+          <Form className="grid gap-3 border border-black/10 p-12 rounded shadow-lg ">
+            <div className=" flex  gap-1 items-center justify-center">
               <TbLockPassword className=" text-sky-500 text-2xl" />
               <h2
                 className="text-lg font-Inter font-medium text-center
@@ -94,30 +98,26 @@ const [hideConfirm, setHideConfirm] = useState(true);
               className="relative flex flex-col gap-1"
               transition={{ duration: 0.2 }}
             >
-              <div className="relative space-y-2">
-                <label className=" font-Inter text-sm font-medium">
-                  Old Password
-                </label>
+              <label className="text-left font-Inter text-sm font-medium">
+                Old Password
+              </label>
+              <div className="relative">
                 <Field
                   name="oldPassword"
-                  placeholder="Enter Your oldPassword"
-                  type={hideOld ? "oldPassword" : "text"}
-                  className="w-full pr-10 py-3 rounded-md  text-sm font-RobotoFlex
-                   border border-black/15 px-3"
+                  placeholder="Enter your old password"
+                  type={hideOld ? "password" : "text"}
+                  className="w-full pr-10 py-3 rounded-md text-sm font-RobotoFlex border border-black/15 px-3"
                 />
-                {hideOld ? (
-                  <AiFillEyeInvisible
-                    onClick={() => setHideOld(!hideOld)}
-                    className="absolute top-1/2 right-3 -translate-y-1/2 text-xl cursor-pointer
-                    text-gray-500"
-                  />
-                ) : (
-                  <AiFillEye
-                    onClick={() => setHideOld(!hideOld)}
-                    className="absolute top-1/2 right-3 -translate-y-1/2 text-xl cursor-pointer
-                    text-gray-500"
-                  />
-                )}
+                <span
+                  onClick={() => setHideOld(!hideOld)}
+                  className="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-500"
+                >
+                  {hideOld ? (
+                    <AiFillEyeInvisible className="text-xl" />
+                  ) : (
+                    <AiFillEye className="text-xl" />
+                  )}
+                </span>
               </div>
               <div className="error">
                 <ErrorMessage name="oldPassword" component={ErrorMessages} />
@@ -125,68 +125,70 @@ const [hideConfirm, setHideConfirm] = useState(true);
             </motion.div>
 
             <motion.div
-              className="relative flex flex-col gap-1"
+              className="flex flex-col gap-1"
               transition={{ duration: 0.2 }}
             >
-              <div className="relative space-y-2">
-                <label className=" font-Inter text-sm font-medium">
-                  New Password
-                </label>
+              {/* Label */}
+              <label className="text-left font-Inter text-sm font-medium">
+                New Password
+              </label>
+
+              {/* Input + Eye Icon */}
+              <div className="relative">
                 <Field
                   name="newPassword"
-                  placeholder="Enter Your newPassword"
-                  type={hideNew ? "newPassword" : "text"}
-                  className="w-full pr-10 py-3 rounded-md  
-                  text-sm font-RobotoFlex px-3 border border-black/15"
+                  placeholder="Enter your new password"
+                  type={hideNew ? "password" : "text"}
+                  className="w-full pr-10 py-3 rounded-md text-sm font-RobotoFlex border border-black/15 px-3"
                 />
-                {hideNew ? (
-                  <AiFillEyeInvisible
-                    onClick={() => setHideNew(!hideNew)}
-                    className="absolute top-1/2 right-3 -translate-y-1/2 text-xl cursor-pointer
-                    text-gray-500"
-                  />
-                ) : (
-                  <AiFillEye
-                    onClick={() => setHideNew(!hideNew)}
-                    className="absolute top-1/2 right-3 -translate-y-1/2 text-xl cursor-pointer
-                    text-gray-500"
-                  />
-                )}
+                <span
+                  onClick={() => setHideNew(!hideNew)}
+                  className="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-500"
+                >
+                  {hideNew ? (
+                    <AiFillEyeInvisible className="text-xl" />
+                  ) : (
+                    <AiFillEye className="text-xl" />
+                  )}
+                </span>
               </div>
+
+              {/* Error Message */}
               <div className="error">
                 <ErrorMessage name="newPassword" component={ErrorMessages} />
               </div>
             </motion.div>
 
             <motion.div
-              className="relative flex flex-col gap-1"
+              className="flex flex-col gap-1"
               transition={{ duration: 0.2 }}
             >
-              <div className="relative space-y-2">
-                <label className=" font-Inter text-sm font-medium">
-                  Confirm Password
-                </label>
+              {/* Label */}
+              <label className="text-left font-Inter text-sm font-medium">
+                Confirm Password
+              </label>
+
+              {/* Input + Eye Icon */}
+              <div className="relative">
                 <Field
                   name="confirmPassword"
-                  placeholder="Enter Your confirmPassword"
-                  type={hideConfirm ? "oldPassword" : "text"}
-                  className="w-full pr-10 py-3 rounded-md  text-sm font-RobotoFlex
-                   border border-black/15 px-3"
+                  placeholder="Enter your confirm password"
+                  type={hideConfirm ? "password" : "text"}
+                  className="w-full pr-10 py-3 rounded-md text-sm font-RobotoFlex border border-black/15 px-3"
                 />
-                {hideConfirm ? (
-                  <AiFillEyeInvisible
-                    onClick={() => setHideConfirm(!hideConfirm)}
-                    className="absolute top-1/2 right-3 -translate-y-1/2 text-xl cursor-pointer
-                    text-gray-500"
-                  />
-                ) : (
-                  <AiFillEye
-                    onClick={() => setHideConfirm(!hideConfirm)}
-                    className="absolute top-1/2 right-3 -translate-y-1/2 text-xl cursor-pointer
-                    text-gray-500"
-                  />
-                )}
+                <span
+                  onClick={() => setHideConfirm(!hideConfirm)}
+                  className="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-500"
+                >
+                  {hideConfirm ? (
+                    <AiFillEyeInvisible className="text-xl" />
+                  ) : (
+                    <AiFillEye className="text-xl" />
+                  )}
+                </span>
               </div>
+
+              {/* Error Message */}
               <div className="error">
                 <ErrorMessage
                   name="confirmPassword"

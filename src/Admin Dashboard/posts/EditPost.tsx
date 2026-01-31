@@ -12,6 +12,7 @@ import { editPostData, getSinglePostData } from "../../services/PostServices";
 import { getDecodedToken } from "../../utils/tokenUtils";
 import { fetchAllCategory } from "../../Redux Toolkit/slice/CategorySlice";
 import conf from "../../config/Conf";
+import { getImageUrl } from "../../utils/getImageUrls";
 
 interface EditPostFormValues {
   title: string;
@@ -144,7 +145,7 @@ const EditPost: React.FC = () => {
                 />
                 {singlePosts.image && typeof singlePosts.image === "string" && (
                   <img
-                    src={`${conf.BaseURL}/${conf.ImageUploadUrl}/${singlePosts.image}`}
+                    src={getImageUrl(singlePosts.image)}
                     alt="Preview"
                     className="w-20 h-20 object-cover mt-2 rounded"
                   />

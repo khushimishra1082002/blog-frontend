@@ -39,7 +39,8 @@ const conf = {
   likeCommentUrl:"/comments/likeComment",
   dislikeCommentUrl:"/comments/dislikeComment",
   getProfileUrl:"/profile/me",
-  updateProfileUrl:"/profile/updateProfile"
+  updateProfileUrl:"/profile/updateProfile",
+  adminLoginUrl:"/admin/login"
 };
 
 export default conf;

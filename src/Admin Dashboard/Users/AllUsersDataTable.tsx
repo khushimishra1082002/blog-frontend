@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaPlus } from "react-icons/fa6";
@@ -11,46 +11,45 @@ import { fetchAllUsers } from "../../Redux Toolkit/slice/UserSlice";
 import axios from "axios";
 import { deleteUserData } from "../../services/UserServices";
 import { searchUserData } from "../../services/SearchDataService";
-import conf from "../../config/Conf";
 import { getImageUrl } from "../../utils/getImageUrls";
+import { TableColumn } from "react-data-table-component";
 
 interface User {
   _id: string;
-  name:string,
-  email:string,
-  password:string,
-  role:string,
-  image:string
+  name: string;
+  email: string;
+  password: string;
+  role: string;
+  image: string;
 }
 
 const AllUsersDataTable = () => {
   const dispatch = useDispatch<AppDispatch>();
 
-   const [query, setQuery] = useState("");
-    const [searchResult, setSearchResult] = useState<User[]>([]);
-    console.log("searchResult", searchResult);
-  
-    useEffect(() => {
-      if (query.trim() === "") {
-        setSearchResult([]);
-        return;
+  const [query, setQuery] = useState("");
+  const [searchResult, setSearchResult] = useState<User[]>([]);
+  console.log("searchResult", searchResult);
+
+  useEffect(() => {
+    if (query.trim() === "") {
+      setSearchResult([]);
+      return;
+    }
+
+    const fetchSearchUsers = async () => {
+      try {
+        const res = await searchUserData(query);
+        setSearchResult(res);
+      } catch (error) {
+        console.error("Error fetching search results:", error);
       }
-  
-      const fetchSearchUsers = async () => {
-        try {
-          const res = await searchUserData(query)
-          setSearchResult(res);
-        } catch (error) {
-          console.error("Error fetching search results:", error);
-        }
-      };
-  
-      fetchSearchUsers();
-    }, [query]);
-  
+    };
+
+    fetchSearchUsers();
+  }, [query]);
 
   const { users, loading, error } = useSelector(
-    (state: RootState) => state.usersData
+    (state: RootState) => state.usersData,
   );
   console.log(users);
 
@@ -62,72 +61,69 @@ const AllUsersDataTable = () => {
   if (error) return <h2>Error: {error}</h2>;
 
   const handleDeleteUser = async (userId: string) => {
-      try {
-        await deleteUserData(userId);
-        alert("User deleted successfully!");
-        dispatch(fetchAllUsers());
-      } catch (error: any) {
-        alert(
-          error.response?.data?.message ||
-            "An error occurred while deleting the user."
-        );
-      }
-    };
+    try {
+      await deleteUserData(userId);
+      alert("User deleted successfully!");
+      dispatch(fetchAllUsers());
+    } catch (error: any) {
+      alert(
+        error.response?.data?.message ||
+          "An error occurred while deleting the user.",
+      );
+    }
+  };
 
-  const columns = [
+  const columns: TableColumn<User>[] = [
     {
       name: "Image",
-      selector: (row) => row.image,
-      cell: (row) => (
+      selector: (row: User) => row.image,
+      cell: (row: User) => (
         <img
-        src={
-          row.image
-            ? getImageUrl(row.image)
-            : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQF02Jj8T2t7PdkytAw42HDuuSz7yXguKn8Lg&s"
-        }
-        alt={row.name}
-        className="w-8 object-cover rounded-md"
-      />
-      
+          src={
+            row.image
+              ? getImageUrl(row?.image)
+              : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQF02Jj8T2t7PdkytAw42HDuuSz7yXguKn8Lg&s"
+          }
+          alt={row.name}
+          className="w-8 object-cover rounded-md"
+        />
       ),
       width: "140px",
     },
 
     {
       name: "Name",
-      selector: (row) => row.name,
+      selector: (row: User) => row.name,
       sortable: true,
-      grow: 2,
       width: "180px",
     },
+
     {
       name: "Email",
-      selector: (row) => row.email,
+      selector: (row: User) => row.email,
       sortable: true,
       width: "290px",
     },
 
     {
       name: "Role",
-      cell: (row) => <div className="capitalize">{row.role}</div>,
+      cell: (row: User) => <div className="capitalize">{row.role}</div>,
       sortable: true,
       width: "170px",
     },
 
     {
       name: "Actions",
-      cell: (row) => (
+      cell: (row: User) => (
         <div className="flex gap-2">
           <Link
             to={`/dashboard/editUser/${row._id}`}
-            className="bg-blue-500 text-white px-2 py-2
-             rounded hover:bg-blue-800 text-sm"
+            className="bg-blue-500 text-white px-2 py-2 rounded hover:bg-blue-800 text-sm"
           >
             <FaEdit />
           </Link>
           <button
-            className="bg-red-500 text-white px-2 py-2
-            rounded hover:bg-red-800 text-[12px]"
+            className="bg-red-500 text-white px-2 py-2 rounded hover:bg-red-800 text-[12px]"
             onClick={() => handleDeleteUser(row._id)}
           >
             <FaTrash />
@@ -136,7 +132,6 @@ const AllUsersDataTable = () => {
       ),
       width: "60px",
       ignoreRowClick: true,
-      allowOverflow: true,
       button: true,
     },
   ];

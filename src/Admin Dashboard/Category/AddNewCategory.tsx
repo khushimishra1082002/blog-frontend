@@ -19,7 +19,7 @@ interface CategoryValues {
 }
 
 const AddNewCategory: React.FC = () => {
-  const [hide, setHide] = useState<boolean>(true);
+ 
   const navigate = useNavigate();
 
   const dispatch = useDispatch<AppDispatch>();

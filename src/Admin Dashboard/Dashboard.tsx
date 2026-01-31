@@ -8,15 +8,14 @@ const Dashboard = () => {
   return (
     <div className=" flex w-full h-screen overflow-hidden">
       <div
-        className={`
-    fixed top-[10vh] left-0 h-[90vh] w-[70%] bg-white z-50 overflow-y-auto
-    transform transition-transform duration-300 ease-in-out
-    ${open ? "translate-x-0" : "-translate-x-full"} 
-    md:w-[30%] lg:w-[20%] 
-    md:translate-x-0 md:relative md:top-0 md:h-full md:block
+        className={` fixed top-[10vh] left-0 h-[90vh] w-[70%] bg-white z-50 overflow-y-auto
+        transform transition-transform duration-300 ease-in-out
+        ${open ? "translate-x-0" : "-translate-x-full"} 
+        md:w-[30%] lg:w-[20%] 
+        md:translate-x-0 md:relative md:top-0 md:h-full md:block
   `}
       >
-        <DashboardSidebar />
+        <DashboardSidebar setOpen={setOpen} />
       </div>
 
       <div className="md:w-[70%] w-[100%] lg:w-[80%] h-full flex flex-col bg-gray-100">

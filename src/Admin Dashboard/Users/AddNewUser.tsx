@@ -1,9 +1,8 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { motion } from "framer-motion";
-import axios from "axios";
 import ErrorMessages from "../../pages/ErrorMessages";
 import { LuUser } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
@@ -22,29 +21,25 @@ interface UserValues {
 
 const AddNewUser: React.FC = () => {
   const [hide, setHide] = useState<boolean>(true);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const dispatch = useDispatch<AppDispatch>();
-  
-    useEffect(() => {
-      dispatch(fetchAllUsers());
-    }, [dispatch]);
-   
+
+  useEffect(() => {
+    dispatch(fetchAllUsers());
+  }, [dispatch]);
 
   const initialValues: UserValues = {
     name: "",
     email: "",
     password: "",
     role: "user",
-   image: null,
+    image: null,
   };
-
-  
-
 
   const onSubmit = async (
     values: UserValues,
-    onSubmitProps: FormikHelpers<UserValues>
+    onSubmitProps: FormikHelpers<UserValues>,
   ) => {
     try {
       const formData = new FormData();
@@ -57,9 +52,9 @@ const AddNewUser: React.FC = () => {
       }
       await addNewUserData(formData);
       alert("User added Successfully");
-      dispatch(fetchAllUsers())
-      navigate("/dashboard/user")
-     
+      dispatch(fetchAllUsers());
+      navigate("/dashboard/user");
+
       onSubmitProps.resetForm();
     } catch (error: any) {
       const errorMessage =
@@ -83,7 +78,7 @@ const AddNewUser: React.FC = () => {
     <>
       <div className=" p-10 border border-black/15 w-[55vw] m-auto rounded-md space-y-4">
         <div className=" flex gap-1 items-center justify-center">
-          <LuUser className=" text-cyan-400 text-2xl"/>
+          <LuUser className=" text-cyan-400 text-2xl" />
           <h2 className="text-lg font-Inter font-medium text-center">
             Add New User
           </h2>
@@ -100,20 +95,20 @@ const AddNewUser: React.FC = () => {
           >
             {(formik) => (
               <Form className="grid gap-7 ">
-           <motion.div className="flex flex-col gap-1">
-                            <label className="font-RobotoFlex text-sm">
-                              Upload Profile Image
-                            </label>
-                            <input
-                              type="file"
-                              accept="image/*"
-                              onChange={(event) => {
-                                const file = event.currentTarget.files?.[0] || null;
-                                formik.setFieldValue("image", file);
-                              }}
-                              className="bg-gray-50 py-3 rounded-md text-sm font-RobotoFlex"
-                            />
-                          </motion.div>
+                <motion.div className="flex flex-col gap-1">
+                  <label className="font-RobotoFlex text-sm">
+                    Upload Profile Image
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(event) => {
+                      const file = event.currentTarget.files?.[0] || null;
+                      formik.setFieldValue("image", file);
+                    }}
+                    className="bg-gray-50 py-3 rounded-md text-sm font-RobotoFlex"
+                  />
+                </motion.div>
 
                 <motion.div className="flex flex-col gap-1">
                   <label className=" font-Inter text-sm font-medium">

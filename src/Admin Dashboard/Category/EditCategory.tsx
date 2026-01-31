@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
-import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { motion } from "framer-motion";
-import axios from "axios";
 import ErrorMessages from "../../pages/ErrorMessages";
 import { LuUser } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +9,6 @@ import { RootState, AppDispatch } from "../../Redux Toolkit/Store";
 import { fetchAllUsers } from "../../Redux Toolkit/slice/UserSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
 import { fetchAllCategory } from "../../Redux Toolkit/slice/CategorySlice";
 import { getSingleCategoryData } from "../../services/CategoryService";
 import { editCategoryData } from "../../services/CategoryService";
@@ -20,31 +17,28 @@ interface CategoryValues {
   name: string;
 }
 
-
 const EditCategory: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { id } = useParams() as { id: string };
   console.log("id", id);
   const navigate = useNavigate();
-   const [singleCategory, setSingleCategory] = useState<CategoryValues>();
-  
-    useEffect(() => {
-      const fetchSingleCategory = async () => {
-        try {
-          const data = await getSingleCategoryData(id); 
-          setSingleCategory(data);
-        } catch (error) {
-          console.log("Error fetching single post:", error);
-        }
-      };
-      fetchSingleCategory();
-    }, [id]);
+  const [singleCategory, setSingleCategory] = useState<CategoryValues>();
+
+  useEffect(() => {
+    const fetchSingleCategory = async () => {
+      try {
+        const data = await getSingleCategoryData(id);
+        setSingleCategory(data);
+      } catch (error) {
+        console.log("Error fetching single post:", error);
+      }
+    };
+    fetchSingleCategory();
+  }, [id]);
 
   useEffect(() => {
     dispatch(fetchAllCategory());
   }, [dispatch]);
-
- 
 
   if (!singleCategory) {
     return <div>Loading...</div>;
@@ -56,20 +50,20 @@ const EditCategory: React.FC = () => {
 
   const onSubmit = async (
     values: CategoryValues,
-    onSubmitProps: FormikHelpers<CategoryValues>
+    onSubmitProps: FormikHelpers<CategoryValues>,
   ) => {
-      try {
-          await editCategoryData(id, values);
-          alert("category edited successfully");
-          navigate("/dashboard/category");
-          onSubmitProps.resetForm();
-        } catch (error: any) {
-          const errorMessage =
-            error.response?.data?.message || "Failed. Please try again.";
-          alert(errorMessage);
-        } finally {
-          onSubmitProps.setSubmitting(false);
-        }
+    try {
+      await editCategoryData(id, values);
+      alert("category edited successfully");
+      navigate("/dashboard/category");
+      onSubmitProps.resetForm();
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.message || "Failed. Please try again.";
+      alert(errorMessage);
+    } finally {
+      onSubmitProps.setSubmitting(false);
+    }
   };
 
   const validationSchema = Yup.object({
@@ -98,7 +92,6 @@ const EditCategory: React.FC = () => {
           >
             {(formik) => (
               <Form className="grid gap-7 ">
-
                 <motion.div className="flex flex-col gap-1">
                   <label className=" font-Inter text-sm font-medium">
                     Name

@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaPlus } from "react-icons/fa6";
@@ -7,11 +7,10 @@ import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../Redux Toolkit/Store";
-import axios from "axios";
 import { fetchAllCategory } from "../../Redux Toolkit/slice/CategorySlice";
 import { deleteCategoryData } from "../../services/CategoryService";
-import { fetchAllPosts } from "../../Redux Toolkit/slice/PostSlice";
 import { searchCategoryData } from "../../services/SearchDataService";
+import type { TableColumn } from "react-data-table-component";
 
 interface Category {
   _id: string;
@@ -21,29 +20,29 @@ interface Category {
 const AllCategoryDataTable = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [query, setQuery] = useState("");
-    const [searchResult, setSearchResult] = useState<Category[]>([]);
-    console.log("searchResult", searchResult);
-  
-    useEffect(() => {
-      if (query.trim() === "") {
-        setSearchResult([]);
-        return;
+  const [searchResult, setSearchResult] = useState<Category[]>([]);
+  console.log("searchResult", searchResult);
+
+  useEffect(() => {
+    if (query.trim() === "") {
+      setSearchResult([]);
+      return;
+    }
+
+    const fetchSearchCategory = async () => {
+      try {
+        const res = await searchCategoryData(query);
+        setSearchResult(res);
+      } catch (error) {
+        console.error("Error fetching search results:", error);
       }
-  
-      const fetchSearchCategory = async () => {
-        try {
-         const res = await searchCategoryData(query)
-         setSearchResult(res); 
-        } catch (error) {
-          console.error("Error fetching search results:", error);
-        }
-      };
-  
-      fetchSearchCategory();
-    }, [query]);
+    };
+
+    fetchSearchCategory();
+  }, [query]);
 
   const { category, loading, error } = useSelector(
-    (state: RootState) => state.categoryData
+    (state: RootState) => state.categoryData,
   );
   console.log(category);
 
@@ -54,21 +53,20 @@ const AllCategoryDataTable = () => {
   if (loading) return <h2>Loading...</h2>;
   if (error) return <h2>Error: {error}</h2>;
 
- const handleDeletePost = async (categoryId: string) => {
-     try {
-       await deleteCategoryData(categoryId);
-       alert("Category deleted successfully!");
-       dispatch(fetchAllCategory()); 
-       
-     } catch (error: any) {
-       alert(
-         error.response?.data?.message ||
-           "An error occurred while deleting the post."
-       );
-     }
-   };
+  const handleDeletePost = async (categoryId: string) => {
+    try {
+      await deleteCategoryData(categoryId);
+      alert("Category deleted successfully!");
+      dispatch(fetchAllCategory());
+    } catch (error: any) {
+      alert(
+        error.response?.data?.message ||
+          "An error occurred while deleting the post.",
+      );
+    }
+  };
 
-  const columns = [
+  const columns: TableColumn<Category>[] = [
     {
       name: "Name",
       selector: (row) => row.name,
@@ -76,21 +74,18 @@ const AllCategoryDataTable = () => {
       grow: 2,
       width: "180px",
     },
-
     {
       name: "Actions",
       cell: (row) => (
         <div className="flex gap-2">
           <Link
             to={`/dashboard/editCategory/${row._id}`}
-            className="bg-blue-500 text-white px-2 py-2
-             rounded hover:bg-blue-800 text-sm"
+            className="bg-blue-500 text-white px-2 py-2 rounded hover:bg-blue-800 text-sm"
           >
             <FaEdit />
           </Link>
           <button
-            className="bg-red-500 text-white px-2 py-2
-            rounded hover:bg-red-800 text-[12px]"
+            className="bg-red-500 text-white px-2 py-2 rounded hover:bg-red-800 text-[12px]"
             onClick={() => handleDeletePost(row._id)}
           >
             <FaTrash />
@@ -142,8 +137,8 @@ const AllCategoryDataTable = () => {
           <Link
             to="/dashboard/addNewCategory"
             className="bg-orange-600 text-white rounded px-4
-                       py-2 font-medium flex items-center gap-1 shadow-md hover:bg-orange-700
-                        hover:scale-105 transition font-Poppins text-[15px]"
+            py-2 font-medium flex items-center gap-1 shadow-md hover:bg-orange-700
+            hover:scale-105 transition font-Poppins text-[15px]"
           >
             <FaPlus />
             Add Category
@@ -151,8 +146,8 @@ const AllCategoryDataTable = () => {
         </div>
         <DataTable
           columns={columns}
-          data={query.trim() ? searchResult : category }
-           fixedHeaderScrollHeight="300px"
+          data={query.trim() ? searchResult : category}
+          fixedHeaderScrollHeight="300px"
           pagination
           responsive
           subHeaderWrap

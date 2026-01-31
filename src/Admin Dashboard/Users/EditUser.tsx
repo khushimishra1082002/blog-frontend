@@ -14,6 +14,7 @@ import { useParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { editUserData, getSingleUserData } from "../../services/UserServices";
 import { getDecodedToken } from "../../utils/tokenUtils";
+import { getImageUrl } from "../../utils/getImageUrls";
 
 interface UserValues {
   name: string;
@@ -23,13 +24,11 @@ interface UserValues {
   image: File | null;
 }
 
-
 const EditUser: React.FC = () => {
-   const { id } = useParams() as { id: string };
+  const { id } = useParams() as { id: string };
   console.log("userid", id);
-  const [hide, setHide] = useState<boolean>(true);
   const navigate = useNavigate();
- 
+
   const token = localStorage.getItem("token");
   const dispatch = useDispatch<AppDispatch>();
 
@@ -38,18 +37,18 @@ const EditUser: React.FC = () => {
   }, [dispatch]);
 
   const [singleUser, setSingleUser] = useState<any>(null);
- 
-   useEffect(() => {
-     const fetchSingleUser = async () => {
-       try {
-         const data = await getSingleUserData(id); 
-         setSingleUser(data);
-       } catch (error) {
-         console.log("Error fetching single user:", error);
-       }
-     };
-     fetchSingleUser();
-   }, [id]);
+
+  useEffect(() => {
+    const fetchSingleUser = async () => {
+      try {
+        const data = await getSingleUserData(id);
+        setSingleUser(data);
+      } catch (error) {
+        console.log("Error fetching single user:", error);
+      }
+    };
+    fetchSingleUser();
+  }, [id]);
 
   if (!singleUser) {
     return <div>Loading...</div>;
@@ -63,37 +62,70 @@ const EditUser: React.FC = () => {
     image: singleUser.image || null,
   };
 
+  // const onSubmit = async (
+  //   values: UserValues,
+  //   onSubmitProps: FormikHelpers<UserValues>,
+  // ) => {
+  //   console.log("yu",values);
+
+  //   const formData = new FormData();
+  //   formData.append("name", values.name);
+  //   formData.append("email", values.email);
+  //   formData.append("password", values.password);
+  //   formData.append("role", values.role);
+  //   if (values.image instanceof File) {
+  //     formData.append("image", values.image);
+  //   }
+
+  //   formData.append("author", id);
+  //   formData.append("createdAt", new Date().toISOString());
+
+  //   try {
+  //     const res = await editUserData(id, formData); // res.user has updated user
+
+  //     alert("User edited successfully");
+
+  //     // ✅ Step 1: update Formik values so preview shows new image
+  //     onSubmitProps.setValues({
+  //       ...values,
+  //       image: res.user.image, // new image URL from backend
+  //     });
+
+  //     // ✅ Step 2: update singleUser state
+  //     setSingleUser(res.user);
+
+  //     // ✅ Step 3: optionally navigate if needed
+  //     navigate("/dashboard/user");
+  //   } catch (error: any) {
+  //     console.error("Error:", error);
+  //     const errorMessage =
+  //       error.response?.data?.message || "Failed. Please try again.";
+  //     alert(errorMessage);
+  //   } finally {
+  //     onSubmitProps.setSubmitting(false);
+  //   }
+  // };
+
   const onSubmit = async (
     values: UserValues,
-    onSubmitProps: FormikHelpers<UserValues>
+    onSubmitProps: FormikHelpers<UserValues>,
   ) => {
-     const decoded = getDecodedToken();
-      console.log(decoded);
-      
-      const userId = decoded?.id ?? "";
-    
-      console.log("userId",userId);
-
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("email", values.email);
     formData.append("password", values.password);
     formData.append("role", values.role);
+
     if (values.image) {
       formData.append("image", values.image);
     }
-    formData.append("author", id);
-    formData.append("createdAt", new Date().toISOString());
-    console.log("formData", formData);
 
     try {
       await editUserData(id, formData);
       alert("User edited successfully");
-      dispatch(fetchAllUsers());
       navigate("/dashboard/user");
       onSubmitProps.resetForm();
     } catch (error: any) {
-      console.error("Error:", error);
       const errorMessage =
         error.response?.data?.message || "Failed. Please try again.";
       alert(errorMessage);
@@ -133,6 +165,7 @@ const EditUser: React.FC = () => {
           >
             {(formik) => (
               <Form className="grid gap-7 ">
+                {/* Image Preview */}
                 <motion.div className="flex flex-col gap-1">
                   <label className="font-RobotoFlex text-sm">
                     Profile Image
@@ -147,14 +180,19 @@ const EditUser: React.FC = () => {
                     className="bg-gray-50 py-3 rounded-md text-sm font-RobotoFlex"
                   />
 
-                  {/* Show existing image preview if available */}
-                  {singleUser.image && typeof singleUser.image === "string" && (
+                  {formik.values.image instanceof File ? (
                     <img
-                      src={`http://localhost:5000/uploads/${singleUser.image}`}
+                      src={URL.createObjectURL(formik.values.image)}
+                      alt="Preview"
+                      className="w-20 h-20 object-cover mt-2 rounded"
+                    />
+                  ) : formik.values.image ? (
+                    <img
+                      src={formik.values.image} // now uses Formik value updated from backend
                       alt="Profile Preview"
                       className="w-20 h-20 object-cover mt-2 rounded"
                     />
-                  )}
+                  ) : null}
                 </motion.div>
 
                 <motion.div className="flex flex-col gap-1">

@@ -1,20 +1,19 @@
 import React, { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
-import EditProfile from "../Admin Dashboard/Profile/EditProfile";
-import EditProfiles from "../Admin Dashboard/Profile/EditProfiles";
+import ChangePassword from "../Admin Dashboard/Profile/ChangePassword";
 
-interface EditTaskModelProps {
-  openEditProfileModal: boolean;
-  setOpenEditProfileModal: React.Dispatch<React.SetStateAction<boolean>>;
+interface EditPasswordModelProps {
+  openEditPasswordModal: boolean;
+  setOpenEditPasswordModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const EditProfileModel: React.FC<EditTaskModelProps> = ({
-  openEditProfileModal,
-  setOpenEditProfileModal,
+const EditPasswordModel: React.FC<EditPasswordModelProps> = ({
+  openEditPasswordModal,
+  setOpenEditPasswordModal,
 }) => {
   useEffect(() => {
-    if (openEditProfileModal) {
+    if (openEditPasswordModal) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
@@ -23,10 +22,10 @@ const EditProfileModel: React.FC<EditTaskModelProps> = ({
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, [openEditProfileModal]);
+  }, [openEditPasswordModal]);
   return (
     <AnimatePresence>
-      {openEditProfileModal && (
+      {openEditPasswordModal && (
         <motion.div
           className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50"
           initial={{ opacity: 0 }}
@@ -34,7 +33,7 @@ const EditProfileModel: React.FC<EditTaskModelProps> = ({
           exit={{ opacity: 0 }}
         >
           <motion.div
-            className="bg-white rounded-md shadow-2xl p-9 w-[45vw] text-center relative"
+            className="bg-white rounded-md  w-[45vw] text-center relative"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
@@ -43,12 +42,12 @@ const EditProfileModel: React.FC<EditTaskModelProps> = ({
             {/* Close Button */}
             <button
               className="absolute top-3 right-3 text-gray-400 hover:text-red-500 transition"
-              onClick={() => setOpenEditProfileModal(false)}
+              onClick={() => setOpenEditPasswordModal(false)}
             >
               <X className="text-xl" />
             </button>
 
-            <EditProfiles setOpenEditProfileModal={setOpenEditProfileModal} />
+            <ChangePassword setOpenEditPasswordModal={setOpenEditPasswordModal}/>
           </motion.div>
         </motion.div>
       )}
@@ -56,4 +55,4 @@ const EditProfileModel: React.FC<EditTaskModelProps> = ({
   );
 };
 
-export default EditProfileModel;
+export default EditPasswordModel;

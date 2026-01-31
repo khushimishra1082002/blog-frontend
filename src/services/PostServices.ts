@@ -58,7 +58,7 @@ export const deletePostData = async (postId: string) => {
   }
 };
 
-export const editPostData = async (id: string, values:Post) => {
+export const editPostData = async (id: string, values:FormData) => {
   try {
     const response = await api.put(`${conf.UpdatePostUrl}/${id}`, values, {
       headers: {

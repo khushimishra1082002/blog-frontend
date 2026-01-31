@@ -17,10 +17,8 @@ const Header = () => {
 
   const isLoggedIn = !!user;
 
-    const token = localStorage.getItem("token");
-    console.log(token);
-    
-
+  const token = localStorage.getItem("token");
+  console.log(token);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -29,10 +27,12 @@ const Header = () => {
     }
   }, [dispatch]);
 
-  const handleLogout = () => {
+  const handleUserLogout = () => {
+    localStorage.setItem("loggingOut", "true");
     localStorage.removeItem("token");
     dispatch(logout());
-    navigate("/");
+    alert("Logout Successful");
+    navigate("/LoggedInPage", { replace: true });
   };
 
   return (
@@ -119,7 +119,7 @@ const Header = () => {
                     Profile
                   </Link>
                   <button
-                    onClick={handleLogout}
+                    onClick={handleUserLogout}
                     className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
                   >
                     Logout
@@ -162,9 +162,14 @@ const Header = () => {
                 >
                   Register
                 </Link>
-                <hr/>
-                <Link to="/LoggedInPage?type=login" className="hover:bg-orange-600 hover:text-white p-2 rounded]
-            hover:shadow-lg transition duration-300 font-Roboto">Login</Link>
+                <hr />
+                <Link
+                  to="/LoggedInPage?type=login"
+                  className="hover:bg-orange-600 hover:text-white p-2 rounded]
+            hover:shadow-lg transition duration-300 font-Roboto"
+                >
+                  Login
+                </Link>
               </>
             ) : (
               <>
@@ -175,7 +180,7 @@ const Header = () => {
                 >
                   Profile
                 </Link>
-                <button onClick={handleLogout}>Logout</button>
+                <button onClick={handleUserLogout}>Logout</button>
               </>
             )}
           </div>

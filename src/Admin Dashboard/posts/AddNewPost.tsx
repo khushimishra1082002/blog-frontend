@@ -9,7 +9,6 @@ import {
 } from "formik";
 import * as Yup from "yup";
 import { motion } from "framer-motion";
-import axios from "axios";
 import ErrorMessages from "../../pages/ErrorMessages";
 import { AiOutlineEdit } from "react-icons/ai";
 import { AppDispatch } from "../../Redux Toolkit/Store";
@@ -64,43 +63,84 @@ const AddNewPost: React.FC = () => {
     isFeatured: false,
   };
 
+  // const onSubmit = async (
+  //   values: PostValues,
+  //   formikHelpers: FormikHelpers<PostValues>
+  // ) => {
+  //   const decoded = getDecodedToken();
+  //   const userId = decoded?.id || "";
+
+  //   const formData = new FormData();
+  //   formData.append("title", values.title);
+  //   formData.append("content", values.content);
+  //   formData.append("category", values.category);
+  //   formData.append("tags", values.tags);
+  //   formData.append("author", userId);
+  //   formData.append("published", values.published.toString());
+  //   formData.append("createdAt", new Date().toISOString());
+  //   formData.append("isFeatured", values.isFeatured.toString());
+
+  //   if (values.image) {
+  //     formData.append("image", values.image);
+  //   }
+
+  //   try {
+  //     await addNewPostData(formData);
+  //     alert("Post added Successfully");
+  //     navigate("/")
+  //     formikHelpers.resetForm();
+  //   } catch (error: any) {
+  //     const errorMessage =
+  //       error.response?.data?.message || "Failed. Please try again.";
+  //     alert(errorMessage);
+  //   } finally {
+  //     formikHelpers.setSubmitting(false);
+  //   }
+  // };
+
   const onSubmit = async (
-    values: PostValues,
-    formikHelpers: FormikHelpers<PostValues>
-  ) => {
-    const decoded = getDecodedToken();
-    const userId = decoded?.id || "";
+  values: PostValues,
+  formikHelpers: FormikHelpers<PostValues>
+) => {
+  const decoded = getDecodedToken();
+  const userId = decoded?.id || "";
+  const role = decoded?.role;
 
-    const formData = new FormData();
-    formData.append("title", values.title);
-    formData.append("content", values.content);
-    formData.append("category", values.category);
-    formData.append("tags", values.tags);
-    formData.append("author", userId);
-    formData.append("published", values.published.toString());
-    formData.append("createdAt", new Date().toISOString());
-    formData.append("isFeatured", values.isFeatured.toString());
+  const formData = new FormData();
+  formData.append("title", values.title);
+  formData.append("content", values.content);
+  formData.append("category", values.category);
+  formData.append("tags", values.tags);
+  formData.append("author", userId);
+  formData.append("published", values.published.toString());
+  formData.append("isFeatured", values.isFeatured.toString());
 
-    if (values.image) {
-      formData.append("image", values.image);
+  if (values.image) {
+    formData.append("image", values.image);
+  }
+
+  try {
+    await addNewPostData(formData);
+    alert("Post added Successfully");
+
+    // ✅ ROLE BASED REDIRECT
+    if (role === "admin") {
+      navigate("/dashboard/post"); // admin dashboard
+    } else {
+      navigate("/"); // normal user UI
     }
 
-    try {
-      await addNewPostData(formData);
-      alert("Post added Successfully");
-      navigate("/")
-      formikHelpers.resetForm();
-    } catch (error: any) {
-      const errorMessage =
-        error.response?.data?.message || "Failed. Please try again.";
-      alert(errorMessage);
-    } finally {
-      formikHelpers.setSubmitting(false);
-    }
-  };
+    formikHelpers.resetForm();
+  } catch (error: any) {
+    alert(error.response?.data?.message || "Failed. Please try again.");
+  } finally {
+    formikHelpers.setSubmitting(false);
+  }
+};
 
   const validationSchema = Yup.object({
     title: Yup.string().required("Title is required"),
+    image: Yup.string().required("Image is required"),
     content: Yup.string().required("Content is required"),
     category: Yup.string().required("Category is required"),
     tags: Yup.string().required("Tags are required"),
