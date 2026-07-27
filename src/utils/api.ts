@@ -78,6 +78,9 @@ import conf from "../config/Conf";
 
 const api = axios.create({
   baseURL: conf.BaseURL,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 api.interceptors.request.use(
