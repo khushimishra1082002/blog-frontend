@@ -32,6 +32,9 @@ const Header = () => {
     navigate("/LoggedInPage", { replace: true });
   };
 
+  console.log(localStorage.getItem("token"));
+  
+
   return (
     <>
       {/* Top bar */}
