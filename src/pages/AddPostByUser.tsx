@@ -67,8 +67,8 @@ const AddPostByUser: React.FC = () => {
     values: PostValues,
     formikHelpers: FormikHelpers<PostValues>
   ) => {
-    console.log("values",values);
-    
+    console.log("values", values);
+
     const decoded = getDecodedToken();
     const userId = decoded?.id || "";
 
@@ -86,11 +86,18 @@ const AddPostByUser: React.FC = () => {
       formData.append("image", values.image);
     }
 
+    console.log("IMAGE:", values.image);
+
+    for (const pair of formData.entries()) {
+      console.log(pair[0], pair[1]);
+    }
+
+
     try {
       await addNewPostData(formData);
       alert("Post added Successfully");
       dispatch(fetchAllPosts());
-      navigate("/");
+      // navigate("/");
       formikHelpers.resetForm();
     } catch (error: any) {
       const errorMessage =
@@ -110,146 +117,145 @@ const AddPostByUser: React.FC = () => {
 
   return (
     <>
-    
-    <div className="m-8">
-    <div className="p-10 border border-black/10 w-[55vw] m-auto rounded-md space-y-4">
-        <div className="flex gap-1 items-center justify-center">
-          <AiOutlineEdit className="text-cyan-400 text-2xl" />
-          <h2 className="text-lg font-Inter font-medium text-center text-cyan-600 tracking-tight">
-            Add New Post
-          </h2>
-        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-        >
-          <Formik
-            initialValues={initialValues}
-            onSubmit={onSubmit}
-            validationSchema={validationSchema}
+      <div className="m-8">
+        <div className="p-10 border border-black/10 w-[55vw] m-auto rounded-md space-y-4">
+          <div className="flex gap-1 items-center justify-center">
+            <AiOutlineEdit className="text-cyan-400 text-2xl" />
+            <h2 className="text-lg font-Inter font-medium text-center text-cyan-600 tracking-tight">
+              Add New Post
+            </h2>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
           >
-            {(formik: FormikProps<PostValues>) => (
-              <Form className="grid gap-7">
-                {/* Image Upload */}
-                <motion.div className="flex flex-col gap-1">
-                  <label className="font-RobotoFlex text-sm">
-                    Upload Image
-                  </label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(event) => {
-                      const file = event.currentTarget.files?.[0] || null;
-                      formik.setFieldValue("image", file);
-                    }}
-                    className="bg-gray-50 py-3 rounded-md text-sm font-RobotoFlex"
-                  />
-                </motion.div>
+            <Formik
+              initialValues={initialValues}
+              onSubmit={onSubmit}
+              validationSchema={validationSchema}
+            >
+              {(formik: FormikProps<PostValues>) => (
+                <Form className="grid gap-7">
+                  {/* Image Upload */}
+                  <motion.div className="flex flex-col gap-1">
+                    <label className="font-RobotoFlex text-sm">
+                      Upload Image
+                    </label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(event) => {
+                        const file = event.currentTarget.files?.[0] || null;
+                        formik.setFieldValue("image", file);
+                      }}
+                      className="bg-gray-50 py-3 rounded-md text-sm font-RobotoFlex"
+                    />
+                  </motion.div>
 
-                {/* Title */}
-                <motion.div className="flex flex-col gap-1">
-                  <label className="font-Inter text-sm font-medium">
-                    Title
-                  </label>
+                  {/* Title */}
+                  <motion.div className="flex flex-col gap-1">
+                    <label className="font-Inter text-sm font-medium">
+                      Title
+                    </label>
+                    <Field
+                      type="text"
+                      name="title"
+                      placeholder="Enter Title"
+                      className="py-3 rounded-md border border-black/15 text-sm font-RobotoFlex"
+                    />
+                    <ErrorMessage name="title" component={ErrorMessages} />
+                  </motion.div>
+
+                  {/* Content */}
+                  <motion.div className="flex flex-col gap-1">
+                    <label className="font-Inter text-sm font-medium">
+                      Content
+                    </label>
+                    <Field
+                      as="textarea"
+                      name="content"
+                      placeholder="Enter Content"
+                      className="py-3 rounded-md border border-black/15 text-sm font-RobotoFlex"
+                    />
+                    <ErrorMessage name="content" component={ErrorMessages} />
+                  </motion.div>
+
+                  {/* Tags */}
+                  <motion.div className="flex flex-col gap-1">
+                    <label className="font-Inter text-sm font-medium">Tags</label>
+                    <Field
+                      type="text"
+                      name="tags"
+                      placeholder="Enter Tags"
+                      className="py-3 rounded-md border border-black/15 text-sm font-RobotoFlex"
+                    />
+                    <ErrorMessage name="tags" component={ErrorMessages} />
+                  </motion.div>
+
                   <Field
-                    type="text"
-                    name="title"
-                    placeholder="Enter Title"
-                    className="py-3 rounded-md border border-black/15 text-sm font-RobotoFlex"
-                  />
-                  <ErrorMessage name="title" component={ErrorMessages} />
-                </motion.div>
-
-                {/* Content */}
-                <motion.div className="flex flex-col gap-1">
-                  <label className="font-Inter text-sm font-medium">
-                    Content
-                  </label>
-                  <Field
-                    as="textarea"
-                    name="content"
-                    placeholder="Enter Content"
-                    className="py-3 rounded-md border border-black/15 text-sm font-RobotoFlex"
-                  />
-                  <ErrorMessage name="content" component={ErrorMessages} />
-                </motion.div>
-
-                {/* Tags */}
-                <motion.div className="flex flex-col gap-1">
-                  <label className="font-Inter text-sm font-medium">Tags</label>
-                  <Field
-                    type="text"
-                    name="tags"
-                    placeholder="Enter Tags"
-                    className="py-3 rounded-md border border-black/15 text-sm font-RobotoFlex"
-                  />
-                  <ErrorMessage name="tags" component={ErrorMessages} />
-                </motion.div>
-
-                <Field
-                  as="select"
-                  name="category"
-                  className="py-3 rounded-md text-sm font-RobotoFlex border border-black/15"
-                >
-                  <option value="" disabled className="text-gray-500">
-                    Select Category
-                  </option>
-
-                  {category.map((category: any) => (
-                    <option key={category._id} value={category._id}>
-                      {" "}
-                      {/* Send _id here */}
-                      {category.name}
+                    as="select"
+                    name="category"
+                    className="py-3 rounded-md text-sm font-RobotoFlex border border-black/15"
+                  >
+                    <option value="" disabled className="text-gray-500">
+                      Select Category
                     </option>
-                  ))}
-                </Field>
 
-                {/* Is Featured */}
-                <motion.div className="flex items-center gap-2">
-                  <label className="font-Inter text-sm font-medium">
-                    Is Featured
-                  </label>
-                  <Field
-                    type="checkbox"
-                    name="isFeatured"
-                    className="h-5 w-5"
-                  />
-                </motion.div>
+                    {category.map((category: any) => (
+                      <option key={category._id} value={category._id}>
+                        {" "}
+                        {/* Send _id here */}
+                        {category.name}
+                      </option>
+                    ))}
+                  </Field>
 
-                {/* Published Checkbox */}
-                <motion.div className="flex items-center gap-2">
-                  <label className="font-Inter text-sm font-medium">
-                    Published
-                  </label>
-                  <Field type="checkbox" name="published" className="h-5 w-5" />
-                </motion.div>
+                  {/* Is Featured */}
+                  <motion.div className="flex items-center gap-2">
+                    <label className="font-Inter text-sm font-medium">
+                      Is Featured
+                    </label>
+                    <Field
+                      type="checkbox"
+                      name="isFeatured"
+                      className="h-5 w-5"
+                    />
+                  </motion.div>
 
-                {/* Submit Button */}
-                <motion.button
-                  whileHover={
-                    formik.isValid && !formik.isSubmitting ? { scale: 1.1 } : {}
-                  }
-                  whileTap={
-                    formik.isValid && !formik.isSubmitting ? { scale: 0.9 } : {}
-                  }
-                  className={`bg-sky-500 text-white px-4 py-2 w-full hover:bg-sky-600 duration-500 font-Roboto rounded font-semibold shadow-lg hover:scale-105 ${
-                    !formik.isValid || formik.isSubmitting
-                      ? "opacity-50 cursor-not-allowed"
-                      : "cursor-pointer"
-                  }`}
-                  type="submit"
-                  disabled={!formik.isValid || formik.isSubmitting}
-                >
-                  Create Post
-                </motion.button>
-              </Form>
-            )}
-          </Formik>
-        </motion.div>
+                  {/* Published Checkbox */}
+                  <motion.div className="flex items-center gap-2">
+                    <label className="font-Inter text-sm font-medium">
+                      Published
+                    </label>
+                    <Field type="checkbox" name="published" className="h-5 w-5" />
+                  </motion.div>
+
+                  {/* Submit Button */}
+                  <motion.button
+                    whileHover={
+                      formik.isValid && !formik.isSubmitting ? { scale: 1.1 } : {}
+                    }
+                    whileTap={
+                      formik.isValid && !formik.isSubmitting ? { scale: 0.9 } : {}
+                    }
+                    className={`bg-sky-500 text-white px-4 py-2 w-full hover:bg-sky-600 duration-500 font-Roboto rounded font-semibold shadow-lg hover:scale-105 ${!formik.isValid || formik.isSubmitting
+                        ? "opacity-50 cursor-not-allowed"
+                        : "cursor-pointer"
+                      }`}
+                    type="submit"
+                    disabled={!formik.isValid || formik.isSubmitting}
+                  >
+                    Create Post
+                  </motion.button>
+                </Form>
+              )}
+            </Formik>
+          </motion.div>
+        </div>
       </div>
-    </div>
     </>
   );
 };
