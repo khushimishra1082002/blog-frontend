@@ -7,7 +7,7 @@ export const getAllPostsData = async () => {
     const response = await api.get(conf.GetAllPostsUrl);
     console.log("API Response:", response.data);
     return response.data;
-  } catch (error:any) {
+  } catch (error: any) {
     console.error(
       "Error fetching posts",
       error.response?.data || error.message
@@ -39,9 +39,18 @@ export const addNewPostData = async (formData: FormData) => {
     });
     return response.data;
   } catch (error: any) {
-    console.error("Add post error:", error);
+
+    console.log("STATUS:", error.response?.status);
+
+    console.log(
+      "BACKEND ERROR:",
+      error.response?.data
+    );
+
     throw error;
   }
+
+
 };
 
 export const deletePostData = async (postId: string) => {
@@ -58,7 +67,7 @@ export const deletePostData = async (postId: string) => {
   }
 };
 
-export const editPostData = async (id: string, values:FormData) => {
+export const editPostData = async (id: string, values: FormData) => {
   try {
     const response = await api.put(`${conf.UpdatePostUrl}/${id}`, values, {
       headers: {
@@ -78,7 +87,7 @@ export const getPopularPostData = async () => {
     const response = await api.get(conf.getPopularPostUrl);
     console.log("API Response:", response.data);
     return response.data;
-  } catch (error:any) {
+  } catch (error: any) {
     console.error(
       "Error fetching posts",
       error.response?.data || error.message
@@ -92,7 +101,7 @@ export const getTreandingPostData = async () => {
     const response = await api.get(conf.gettrendingPostUrl);
     console.log("API Response:", response.data);
     return response.data;
-  } catch (error:any) {
+  } catch (error: any) {
     console.error(
       "Error fetching posts",
       error.response?.data || error.message
@@ -106,7 +115,7 @@ export const getFeaturedPostData = async () => {
     const response = await api.get(conf.getfetaturedPostsUrl);
     console.log("API Response:", response.data);
     return response.data;
-  } catch (error:any) {
+  } catch (error: any) {
     console.error(
       "Error fetching posts",
       error.response?.data || error.message
@@ -120,7 +129,7 @@ export const getRecommendedPostData = async () => {
     const response = await api.get(conf.getrecommendedPostUrl);
     console.log("API Response:", response.data);
     return response.data;
-  } catch (error:any) {
+  } catch (error: any) {
     console.error(
       "Error fetching posts",
       error.response?.data || error.message
@@ -134,7 +143,7 @@ export const getTopPostData = async () => {
     const response = await api.get(conf.gettopPostsUrl);
     console.log("API Response:", response.data);
     return response.data;
-  } catch (error:any) {
+  } catch (error: any) {
     console.error(
       "Error fetching posts",
       error.response?.data || error.message
@@ -148,7 +157,7 @@ export const getRecentPostData = async () => {
     const response = await api.get(conf.recentPostUrl);
     console.log("API Response:", response.data);
     return response.data;
-  } catch (error:any) {
+  } catch (error: any) {
     console.error(
       "Error fetching posts",
       error.response?.data || error.message
