@@ -97,7 +97,7 @@ const AddPostByUser: React.FC = () => {
       await addNewPostData(formData);
       alert("Post added Successfully");
       dispatch(fetchAllPosts());
-      // navigate("/");
+      navigate("/");
       formikHelpers.resetForm();
     } catch (error: any) {
       const errorMessage =
