@@ -67,6 +67,8 @@ const AddPostByUser: React.FC = () => {
     values: PostValues,
     formikHelpers: FormikHelpers<PostValues>
   ) => {
+    console.log("values",values);
+    
     const decoded = getDecodedToken();
     const userId = decoded?.id || "";
 

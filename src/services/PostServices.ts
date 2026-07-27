@@ -33,7 +33,6 @@ export const addNewPostData = async (formData: FormData) => {
   try {
     const response = await api.post(conf.CreateNewPostUrl, formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
         requiresAuth: true,
       },
     });
