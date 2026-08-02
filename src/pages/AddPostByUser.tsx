@@ -118,8 +118,8 @@ const AddPostByUser: React.FC = () => {
   return (
     <>
 
-      <div className="m-8">
-        <div className="p-10 border border-black/10 w-[55vw] m-auto rounded-md space-y-4">
+      <div className="m-4 md:m-8">
+        <div className="p-10 border border-black/10 md:w-[55vw] m-auto rounded-md space-y-4">
           <div className="flex gap-1 items-center justify-center">
             <AiOutlineEdit className="text-cyan-400 text-2xl" />
             <h2 className="text-lg font-Inter font-medium text-center text-cyan-600 tracking-tight">

@@ -111,7 +111,7 @@ const AddNewPost: React.FC = () => {
 
   return (
     <>
-      <div className="p-10 border border-black/15 w-[55vw] m-auto rounded-md space-y-4">
+      <div className="md:p-10 border border-black/15 w-[55vw] m-auto rounded-md space-y-4">
         <div className="flex gap-1 items-center justify-center">
           <AiOutlineEdit className="text-cyan-400 text-2xl" />
           <h2 className="text-lg font-Inter font-medium text-center">

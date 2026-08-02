@@ -40,7 +40,7 @@ const Contact: React.FC<valueProps> = ({ setIsLoggedIn }) => {
   return (
     <>
       <div className="border border-black/10 md:p-10 rounded-md 
-       flex justify-center items-center">
+       flex justify-center items-center pt-16 ">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

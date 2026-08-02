@@ -177,7 +177,7 @@ const Header = () => {
               </>
             ) : (
               <>
-                <Link
+                <Link  onClick={() => setMobileMenuOpen(false)}
                   to="/profilePage"
                   className="hover:bg-orange-600 hover:text-white p-2 rounded]
             hover:shadow-lg transition duration-300 font-Roboto"

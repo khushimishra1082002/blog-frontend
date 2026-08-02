@@ -34,17 +34,17 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ setOpen }) => {
 
   return (
     <>
-      <div className=" bg-white h-full border border-black/10 shadow py-2 w-full">
+      <div className=" bg-white h-full border border-black/10 shadow py-4 w-full">
         {/* Admin Header */}
         <div>
           <Link to="/dashboard">
             <div
               className="h-[12vh] flex flex-col justify-center
-              items-center sticky top-0"
+              items-center sticky top-0 "
             >
               <img
-                className=" w-16"
-                src="https://www.newrise.in/assets/img/nrt.png"
+                className=" w-20"
+                src="https://img.magnific.com/premium-vector/blue-white-logo-with-three-men-circle-with-picture-man-circle-with-picture-man-circle-with-rainbow-center_1205884-4061.jpg?semt=ais_hybrid&w=740&q=80"
               />
               <span
                 className="font-Poppins text-lgfont-medium
@@ -56,7 +56,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ setOpen }) => {
           </Link>
         </div>
 
-        <div className="px-7 py-6">
+        <div className="px-7 py-9">
           <ul
             className=" space-y-4  font-medium
           "

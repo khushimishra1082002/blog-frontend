@@ -29,30 +29,6 @@ export const getSinglePostData = async (id: string) => {
   }
 };
 
-// export const addNewPostData = async (formData: FormData) => {
-//   try {
-//     const response = await api.post(conf.CreateNewPostUrl, formData, {
-//       headers: {
-//         "Content-Type": "multipart/form-data",
-//         requiresAuth: true,
-//       },
-//     });
-//     return response.data;
-//   } catch (error: any) {
-
-//     console.log("STATUS:", error.response?.status);
-
-//     console.log(
-//       "BACKEND ERROR:",
-//       error.response?.data
-//     );
-
-//     throw error;
-//   }
-
-
-// };
-
 export const addNewPostData = async (formData: FormData) => {
   try {
     const response = await api.post(
@@ -60,6 +36,7 @@ export const addNewPostData = async (formData: FormData) => {
       formData,
       {
         headers: {
+          "Content-Type": "multipart/form-data",
           requiresAuth: true,
         },
       }
@@ -67,7 +44,7 @@ export const addNewPostData = async (formData: FormData) => {
 
     return response.data;
 
-  } catch (error:any) {
+  } catch (error: any) {
     console.log("STATUS:", error.response?.status);
     console.log("BACKEND ERROR:", error.response?.data);
     throw error;
